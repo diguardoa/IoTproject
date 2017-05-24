@@ -8,7 +8,8 @@ To run cooja:
 	cd /contiki/tools/cooja
 	ant run
 
-Once opened start a Simulation and create a new one or open the previuos Simulation stored in the Simulation Directory
+Once opened start a Simulation and create a new one or
+open the previuos Simulation stored in the Simulation Directory
 
 
 To run the Border Router:
