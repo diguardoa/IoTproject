@@ -12,5 +12,5 @@ Once opened start a Simulation and create a new one or open the previuos Simulat
 
 
 To run the Border Router:
-	cd
-	make 
+	cd rpl-border-router
+	make make connect-router-cooja

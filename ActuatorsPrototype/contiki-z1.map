@@ -3290,9 +3290,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
  .stab          0x0002eb3c      0x654 contiki-z1.a(mac-sequence.o)
                                0x1794 (size before relaxing)
 
-.stabstr        0x00000000    0x20f33
+.stabstr        0x00000000    0x20f5d
  *(.stabstr)
- .stabstr       0x00000000    0x20f33 ledAlarm.co
+ .stabstr       0x00000000    0x20f5d ledAlarm.co
 
 .stab.excl
  *(.stab.excl)

@@ -1,14 +1,14 @@
 Archive member included because of file (symbol)
 
 contiki-z1.a(er-coap-engine.)
-                              sens-temp.co (coap_rest_implementation)
+                              sens-heartrate.co (coap_rest_implementation)
 contiki-z1.a(er-coap-transac)
                               contiki-z1.a(er-coap-engine.) (coap_register_as_transaction_handler)
 contiki-z1.a(er-coap-observe)
                               contiki-z1.a(er-coap-transac) (coap_remove_observer_by_client)
 contiki-z1.a(er-coap-res-wel)
                               contiki-z1.a(er-coap-engine.) (res_well_known_core)
-contiki-z1.a(rest-engine.o)   sens-temp.co (rest_init_engine)
+contiki-z1.a(rest-engine.o)   sens-heartrate.co (rest_init_engine)
 contiki-z1.a(contiki-z1-plat)
                               obj_z1/contiki-z1-main.o (init_platform)
 contiki-z1.a(msp430.o)        obj_z1/contiki-z1-main.o (splhigh_)
@@ -85,11 +85,11 @@ contiki-z1.a(mac-sequence.o)  contiki-z1.a(contikimac.o) (mac_sequence_is_duplic
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/libgcc.a(_divmod32.o)
                               contiki-z1.a(er-coap-observe) (__modsi3)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(atoi.o)
-                              sens-temp.co (atoi)
+                              sens-heartrate.co (atoi)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(printf.o)
                               obj_z1/contiki-z1-main.o (printf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(sprintf.o)
-                              sens-temp.co (sprintf)
+                              sens-heartrate.co (sprintf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(vuprintf.o)
                               /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(printf.o) (vuprintf)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(puts.o)
@@ -105,7 +105,7 @@ contiki-z1.a(mac-sequence.o)  contiki-z1.a(contikimac.o) (mac_sequence_is_duplic
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memcmp.o)
                               contiki-z1.a(er-coap-observe) (memcmp)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memcpy.o)
-                              sens-temp.co (memcpy)
+                              sens-heartrate.co (memcpy)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memmove.o)
                               contiki-z1.a(sicslowpan.o) (memmove)
 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memset.o)
@@ -209,9 +209,9 @@ Discarded input sections
  .data          0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/crt0ivtbl32.o
  .bss           0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/crt0ivtbl32.o
  .text.crt0     0x00000000        0x0 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/crt0ivtbl32.o
- .text          0x00000000        0x0 sens-temp.co
- .data          0x00000000        0x0 sens-temp.co
- .bss           0x00000000        0x0 sens-temp.co
+ .text          0x00000000        0x0 sens-heartrate.co
+ .data          0x00000000        0x0 sens-heartrate.co
+ .bss           0x00000000        0x0 sens-heartrate.co
  .text          0x00000000        0x0 obj_z1/contiki-z1-main.o
  .data          0x00000000        0x0 obj_z1/contiki-z1-main.o
  .bss           0x00000000        0x0 obj_z1/contiki-z1-main.o
@@ -776,7 +776,7 @@ Linker script and memory map
 LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/crt0ivtbl32.o
                 0x00000041                __P1SEL2 = 0x41
                 0x00000045                __P5SEL2 = 0x45
-LOAD sens-temp.co
+LOAD sens-heartrate.co
 LOAD obj_z1/contiki-z1-main.o
 LOAD contiki-z1.a
 LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/libgcc.a
@@ -1256,16 +1256,16 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
                 0x000046da       0x14 contiki-z1.a(i2cmaster.o)
                 0x000046da                i2c_rx_interrupt
                 0x000046da                __isr_17
- .any.text.temp_periodic_handler
-                0x000046ee        0xe sens-temp.co
- .any.text.process_thread_temperature_process
-                0x000046fc       0x38 sens-temp.co
- .any.text.temp_get_handler
-                0x00004734       0x84 sens-temp.co
-                0x00004734                temp_get_handler
- .any.text.temp_post_handler
-                0x000047b8       0x3e sens-temp.co
-                0x000047b8                temp_post_handler
+ .any.text.hr_periodic_handler
+                0x000046ee        0xe sens-heartrate.co
+ .any.text.process_thread_heartRate_process
+                0x000046fc       0x38 sens-heartrate.co
+ .any.text.hr_get_handler
+                0x00004734       0x84 sens-heartrate.co
+                0x00004734                hr_get_handler
+ .any.text.hr_post_handler
+                0x000047b8       0x3e sens-heartrate.co
+                0x000047b8                hr_post_handler
  .any.text.coap_set_service_callback
                 0x000047f6        0x6 contiki-z1.a(er-coap-engine.)
                 0x000047f6                coap_set_service_callback
@@ -2467,121 +2467,117 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
                 0x0000f1f0       0x6a contiki-z1.a(mac-sequence.o)
                 0x0000f1f0                mac_sequence_register_seqno
 
-.rodata         0x0000f25c      0x545
+.rodata         0x0000f25c      0x535
                 0x0000f25c                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata.process_thread_temperature_process
-                0x0000f25c        0xc sens-temp.co
- .rodata.temp_get_handler
-                0x0000f268        0xb sens-temp.co
- .rodata.temp_post_handler
-                0x0000f273        0x6 sens-temp.co
- *fill*         0x0000f279        0x1 00
+ .rodata.process_thread_heartRate_process
+                0x0000f25c        0xb sens-heartrate.co
+ .rodata.hr_get_handler
+                0x0000f267        0xb sens-heartrate.co
+ .rodata.hr_post_handler
+                0x0000f272        0x6 sens-heartrate.co
  .rodata.autostart_processes
-                0x0000f27a        0x4 sens-temp.co
-                0x0000f27a                autostart_processes
- .rodata        0x0000f27e       0x40 sens-temp.co
- .rodata        0x0000f2be      0x115 obj_z1/contiki-z1-main.o
+                0x0000f278        0x4 sens-heartrate.co
+                0x0000f278                autostart_processes
+ .rodata        0x0000f27c       0x35 sens-heartrate.co
+ .rodata        0x0000f2b1      0x115 obj_z1/contiki-z1-main.o
  .rodata.process_thread_coap_engine
-                0x0000f3d3       0x52 contiki-z1.a(er-coap-engine.)
- .rodata        0x0000f425       0x14 contiki-z1.a(er-coap-engine.)
- *fill*         0x0000f439        0x1 00
+                0x0000f3c6       0x52 contiki-z1.a(er-coap-engine.)
+ .rodata        0x0000f418       0x14 contiki-z1.a(er-coap-engine.)
  .rodata.coap_rest_implementation
-                0x0000f43a       0xb6 contiki-z1.a(er-coap-engine.)
-                0x0000f43a                coap_rest_implementation
+                0x0000f42c       0xb6 contiki-z1.a(er-coap-engine.)
+                0x0000f42c                coap_rest_implementation
  .rodata.coap_observe_handler
-                0x0000f4f0       0x11 contiki-z1.a(er-coap-observe)
+                0x0000f4e2       0x11 contiki-z1.a(er-coap-observe)
  .rodata.well_known_core_get_handler
-                0x0000f501       0x13 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000f514        0x6 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000f51a        0xc contiki-z1.a(rest-engine.o)
- *fill*         0x0000f526        0x2 00
+                0x0000f4f3       0x13 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000f506        0x6 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000f50c        0xc contiki-z1.a(rest-engine.o)
  .rodata.get_value
-                0x0000f528       0x38 contiki-z1.a(cc2420.o)
+                0x0000f518       0x38 contiki-z1.a(cc2420.o)
  .rodata.cc2420_driver
-                0x0000f560       0x38 contiki-z1.a(cc2420.o)
-                0x0000f560                cc2420_driver
- .rodata        0x0000f598        0xe contiki-z1.a(cc2420.o)
+                0x0000f550       0x38 contiki-z1.a(cc2420.o)
+                0x0000f550                cc2420_driver
+ .rodata        0x0000f588        0xe contiki-z1.a(cc2420.o)
  .rodata.output_power
-                0x0000f5a6       0x10 contiki-z1.a(cc2420.o)
- .rodata        0x0000f5b6        0x8 contiki-z1.a(sensors.o)
- .rodata        0x0000f5be        0x7 contiki-z1.a(button-sensor.o)
- *fill*         0x0000f5c5        0x1 00
+                0x0000f596       0x10 contiki-z1.a(cc2420.o)
+ .rodata        0x0000f5a6        0x8 contiki-z1.a(sensors.o)
+ .rodata        0x0000f5ae        0x7 contiki-z1.a(button-sensor.o)
+ *fill*         0x0000f5b5        0x1 00
  .rodata.button_sensor
-                0x0000f5c6        0xe contiki-z1.a(button-sensor.o)
-                0x0000f5c6                button_sensor
- .rodata        0x0000f5d4       0x16 contiki-z1.a(adxl345.o)
- .rodata        0x0000f5ea        0xf contiki-z1.a(ctimer.o)
- .rodata        0x0000f5f9        0xc contiki-z1.a(etimer.o)
- .rodata        0x0000f605        0xb contiki-z1.a(sicslowpan.o)
+                0x0000f5b6        0xe contiki-z1.a(button-sensor.o)
+                0x0000f5b6                button_sensor
+ .rodata        0x0000f5c4       0x16 contiki-z1.a(adxl345.o)
+ .rodata        0x0000f5da        0xf contiki-z1.a(ctimer.o)
+ .rodata        0x0000f5e9        0xc contiki-z1.a(etimer.o)
+ .rodata        0x0000f5f5        0xb contiki-z1.a(sicslowpan.o)
  .rodata.sicslowpan_driver
-                0x0000f610        0xa contiki-z1.a(sicslowpan.o)
-                0x0000f610                sicslowpan_driver
+                0x0000f600        0xa contiki-z1.a(sicslowpan.o)
+                0x0000f600                sicslowpan_driver
  .rodata.llprefix
-                0x0000f61a        0x2 contiki-z1.a(sicslowpan.o)
-                0x0000f61a                llprefix
+                0x0000f60a        0x2 contiki-z1.a(sicslowpan.o)
+                0x0000f60a                llprefix
  .rodata.unc_mxconf
-                0x0000f61c        0x4 contiki-z1.a(sicslowpan.o)
-                0x0000f61c                unc_mxconf
+                0x0000f60c        0x4 contiki-z1.a(sicslowpan.o)
+                0x0000f60c                unc_mxconf
  .rodata.unc_ctxconf
-                0x0000f620        0x4 contiki-z1.a(sicslowpan.o)
-                0x0000f620                unc_ctxconf
+                0x0000f610        0x4 contiki-z1.a(sicslowpan.o)
+                0x0000f610                unc_ctxconf
  .rodata.unc_llconf
-                0x0000f624        0x4 contiki-z1.a(sicslowpan.o)
-                0x0000f624                unc_llconf
+                0x0000f614        0x4 contiki-z1.a(sicslowpan.o)
+                0x0000f614                unc_llconf
  .rodata.ttl_values
-                0x0000f628        0x4 contiki-z1.a(sicslowpan.o)
+                0x0000f618        0x4 contiki-z1.a(sicslowpan.o)
  .rodata.uip_process
-                0x0000f62c       0x40 contiki-z1.a(uip6.o)
- .rodata        0x0000f66c        0xd contiki-z1.a(tcpip.o)
+                0x0000f61c       0x40 contiki-z1.a(uip6.o)
+ .rodata        0x0000f65c        0xd contiki-z1.a(tcpip.o)
  .rodata.uip_debug_ipaddr_print
-                0x0000f679       0x15 contiki-z1.a(uip-debug.o)
+                0x0000f669       0x15 contiki-z1.a(uip-debug.o)
  .rodata.linkaddr_null
-                0x0000f68e        0x8 contiki-z1.a(linkaddr.o)
-                0x0000f68e                linkaddr_null
- .rodata        0x0000f696        0x5 contiki-z1.a(csma.o)
- *fill*         0x0000f69b        0x1 00
+                0x0000f67e        0x8 contiki-z1.a(linkaddr.o)
+                0x0000f67e                linkaddr_null
+ .rodata        0x0000f686        0x5 contiki-z1.a(csma.o)
+ *fill*         0x0000f68b        0x1 00
  .rodata.csma_driver
-                0x0000f69c       0x1a contiki-z1.a(csma.o)
-                0x0000f69c                csma_driver
+                0x0000f68c       0x1a contiki-z1.a(csma.o)
+                0x0000f68c                csma_driver
  .rodata.framer_802154
-                0x0000f6b6       0x10 contiki-z1.a(framer-802154.o)
-                0x0000f6b6                framer_802154
- .rodata        0x0000f6c6        0xb contiki-z1.a(contikimac.o)
- *fill*         0x0000f6d1        0x1 00
+                0x0000f6a6       0x10 contiki-z1.a(framer-802154.o)
+                0x0000f6a6                framer_802154
+ .rodata        0x0000f6b6        0xb contiki-z1.a(contikimac.o)
+ *fill*         0x0000f6c1        0x1 00
  .rodata.contikimac_driver
-                0x0000f6d2       0x1e contiki-z1.a(contikimac.o)
-                0x0000f6d2                contikimac_driver
- .rodata        0x0000f6f0        0x8 contiki-z1.a(nullsec.o)
+                0x0000f6c2       0x1e contiki-z1.a(contikimac.o)
+                0x0000f6c2                contikimac_driver
+ .rodata        0x0000f6e0        0x8 contiki-z1.a(nullsec.o)
  .rodata.nullsec_driver
-                0x0000f6f8       0x16 contiki-z1.a(nullsec.o)
-                0x0000f6f8                nullsec_driver
+                0x0000f6e8       0x16 contiki-z1.a(nullsec.o)
+                0x0000f6e8                nullsec_driver
  .rodata.coap_serialize_message
-                0x0000f70e       0x2f contiki-z1.a(er-coap.o)
+                0x0000f6fe       0x2f contiki-z1.a(er-coap.o)
  .rodata.coap_parse_message
-                0x0000f73d       0x5a contiki-z1.a(er-coap.o)
- .rodata        0x0000f797        0x1 contiki-z1.a(er-coap.o)
+                0x0000f72d       0x5a contiki-z1.a(er-coap.o)
+ .rodata        0x0000f787        0x1 contiki-z1.a(er-coap.o)
  .rodata.CSWTCH.5
-                0x0000f798        0x2 contiki-z1.a(frame802154.o)
+                0x0000f788        0x2 contiki-z1.a(frame802154.o)
  .rodata.vuprintf
-                0x0000f79a        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(vuprintf.o)
+                0x0000f78a        0x7 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(vuprintf.o)
  *(.near.rodata .near.rodata.*)
-                0x0000f7a2                . = ALIGN (0x2)
-                0x0000f7a2                _etext = .
+                0x0000f792                . = ALIGN (0x2)
+                0x0000f792                _etext = .
 
-.data           0x00001100      0x1b6 load address 0x0000f7a2
+.data           0x00001100      0x1b6 load address 0x0000f792
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                __data_start = .
  *(.data .data.* .gnu.linkonce.d.*)
- .data.temperature_process
-                0x00001100        0xc sens-temp.co
-                0x00001100                temperature_process
- .data.temp_sens
-                0x0000110c       0x1c sens-temp.co
-                0x0000110c                temp_sens
- .data.periodic_temp_sens
-                0x00001128       0x18 sens-temp.co
-                0x00001128                periodic_temp_sens
+ .data.heartRate_process
+                0x00001100        0xc sens-heartrate.co
+                0x00001100                heartRate_process
+ .data.hr_sens  0x0000110c       0x1c sens-heartrate.co
+                0x0000110c                hr_sens
+ .data.periodic_hr_sens
+                0x00001128       0x18 sens-heartrate.co
+                0x00001128                periodic_hr_sens
  .data.sensors  0x00001140        0x4 obj_z1/contiki-z1-main.o
                 0x00001140                sensors
  .data.coap_engine
@@ -2681,13 +2677,13 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
  *(.near.data .near.data.*)
                 0x000012b6                . = ALIGN (0x2)
                 0x000012b6                _edata = .
-                0x0000f7a2                __data_load_start = LOADADDR (.data)
+                0x0000f792                __data_load_start = LOADADDR (.data)
                 0x000001b6                __data_size = SIZEOF (.data)
 
-.bss            0x000012b6     0x1760 load address 0x0000f958
+.bss            0x000012b6     0x1760 load address 0x0000f948
                 0x000012b6                __bss_start = .
  *(.bss .bss.*)
- .bss.value     0x000012b6        0x2 sens-temp.co
+ .bss.value     0x000012b6        0x2 sens-heartrate.co
                 0x000012b6                value
  .bss.irq_energest.4215
                 0x000012b8        0x4 obj_z1/contiki-z1-main.o
@@ -3077,7 +3073,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
                 0x00002a16                __bss_end = .
                 0x00001760                __bss_size = SIZEOF (.bss)
 
-.noinit         0x00002a16        0x2 load address 0x0000f958
+.noinit         0x00002a16        0x2 load address 0x0000f948
                 0x00002a16                . = ALIGN (0x2)
                 0x00002a16                __noinit_start = .
  *(.noinit .noinit.*)
@@ -3157,7 +3153,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
 
 .stab           0x00000000    0x2f16c
  *(.stab)
- .stab          0x00000000     0x1a58 sens-temp.co
+ .stab          0x00000000     0x1a58 sens-heartrate.co
  .stab          0x00001a58     0x10c8 obj_z1/contiki-z1-main.o
                                0x1b18 (size before relaxing)
  .stab          0x00002b20     0x1038 contiki-z1.a(er-coap-engine.)
@@ -3287,9 +3283,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
  .stab          0x0002eb18      0x654 contiki-z1.a(mac-sequence.o)
                                0x1794 (size before relaxing)
 
-.stabstr        0x00000000    0x20efd
+.stabstr        0x00000000    0x20eea
  *(.stabstr)
- .stabstr       0x00000000    0x20efd sens-temp.co
+ .stabstr       0x00000000    0x20eea sens-heartrate.co
 
 .stab.excl
  *(.stab.excl)
@@ -3305,7 +3301,7 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 sens-temp.co
+ .comment       0x00000000       0x30 sens-heartrate.co
                                  0x31 (size before relaxing)
  .comment       0x00000000       0x31 obj_z1/contiki-z1-main.o
  .comment       0x00000000       0x31 contiki-z1.a(er-coap-engine.)
@@ -3626,16 +3622,16 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
  .debug_ranges  0x00000128       0x10 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memmove.o)
  .debug_ranges  0x00000138       0x10 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/../../../../msp430/lib/mcpu-430x/mmpy-16/msr20/mc20/libc.a(memset.o)
                 0x00003100                PROVIDE (__stack, (ORIGIN (ram) + 0x2000))
-                0x0000f7a2                __data_start_rom = _etext
-                0x0000f958                __data_end_rom = (_etext + SIZEOF (.data))
-OUTPUT(sens-temp.z1 elf32-msp430)
+                0x0000f792                __data_start_rom = _etext
+                0x0000f948                __data_end_rom = (_etext + SIZEOF (.data))
+OUTPUT(sens-heartrate.z1 elf32-msp430)
 
 .gnu.attributes
                 0x00000000       0x11
  .gnu.attributes
                 0x00000000       0x11 /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/crt0ivtbl32.o
  .gnu.attributes
-                0x00000011       0x11 sens-temp.co
+                0x00000011       0x11 sens-heartrate.co
  .gnu.attributes
                 0x00000022       0x11 obj_z1/contiki-z1-main.o
  .gnu.attributes
