@@ -2490,9 +2490,9 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
  .stab          0x00029ee0      0x648 contiki-sky.a(mac-sequence.o)
                                0x1770 (size before relaxing)
 
-.stabstr        0x00000000    0x1d306
+.stabstr        0x00000000    0x1d339
  *(.stabstr)
- .stabstr       0x00000000    0x1d306 border-router.co
+ .stabstr       0x00000000    0x1d339 border-router.co
 
 .stab.excl
  *(.stab.excl)
