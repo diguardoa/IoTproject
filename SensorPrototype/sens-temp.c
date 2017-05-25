@@ -24,8 +24,13 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
 static void temp_periodic_handler();
 
 
-PERIODIC_RESOURCE(temp_sens,"title=\"Temperature Sensor\"; rt=\"Temperature\"", temp_get_handler,temp_post_handler,NULL,NULL,
+PERIODIC_RESOURCE(temp_sens,"title=\"t_ens\"; rt=\"T\"", temp_get_handler,NULL,NULL,NULL,
 	TIME_SAMPLING,temp_periodic_handler);
+
+/*
+*	Resource used only for simulations
+*/
+RESOURCE(set_temp_environment, "title=\"t_nv\"", NULL, temp_post_handler, NULL, NULL);
 
 void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -33,7 +38,7 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 	char message[20];
 	int length = 20;
 
-	sprintf(message, "TEMPERATURE:%03d", ((int) temp_k));
+	sprintf(message, "T:%03d", ((int) temp_k));
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -85,7 +90,10 @@ PROCESS_THREAD(temperature_process, ev, data)
 	rest_init_engine();
 
 	/* Activate the application-specific resources */
-	rest_activate_resource(&temp_sens, "temperature");
+	rest_activate_resource(&temp_sens, "temp");
+		
+	rest_activate_resource(&set_temp_environment, "set_t");
+
 
 	while(1) {
 		PROCESS_WAIT_EVENT();
