@@ -2,19 +2,19 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-#define MAX_VALVE 100
-#define MIN_VALVE 0
+#define MAX_TEMP 100
+#define MIN_TEMP 10
 
-static int current_status;
+static int current_temp;
 
 
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[10];
-	int length = 10;
+	char message[8];
+	int length = 8;
 
-	sprintf(message,"status:%03d",current_status);
+	sprintf(message,"temp:%03d",current_temp);
 
 	length = strlen(message);
 	memcpy(buffer, message, length);
@@ -27,16 +27,16 @@ void get_handler(void* request, void* response, uint8_t *buffer, uint16_t prefer
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 
-  int len, temp_status;
+  int len, temp_temp;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "status", &val);
+  len=REST.get_post_variable(request, "temp", &val);
      
   if( len > 0 ){
-     temp_status = atoi(val);	
-     if ((temp_status >= MIN_VALVE) && (temp_status <= MAX_VALVE))
+     temp_temp = atoi(val);	
+     if ((temp_temp >= MIN_TEMP) && (temp_temp <= MAX_TEMP))
      {
-     	current_status = temp_status;
+     	current_temp = temp_temp;
      	REST.set_response_status(response, REST.status.CREATED);
      }
      else
@@ -48,18 +48,18 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   }
 }
 
-RESOURCE(oxigenMaskValve, "title=\"Oxigen Valve\";rt=\"Percentage\";if=\"Actuator\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(airConditioner, "title=\"Oxigen Valve\";rt=\"Percentage\";if=\"Actuator\"", get_handler, post_handler, NULL, NULL);
 
-PROCESS(oxigenMaskValve_main, "Oxigen Valve Main");
+PROCESS(airConditioner_main, "Air Conditioner Main");
 
-AUTOSTART_PROCESSES(&oxigenMaskValve_main);
+AUTOSTART_PROCESSES(&airConditioner_main);
 
-PROCESS_THREAD(oxigenMaskValve_main, ev, data){
+PROCESS_THREAD(airConditioner_main, ev, data){
 	PROCESS_BEGIN();
 
 	rest_init_engine();
 
-	rest_activate_resource(&oxigenMaskValve, "Oxigen Valve");
+	rest_activate_resource(&airConditioner, "Air Conditioner");
 
 
 
