@@ -1,0 +1,544 @@
+[2017-05-26 12:16:03,964 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Starting Data Mapper
+[2017-05-26 12:16:03,965 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering XML Mapper Service..
+[2017-05-26 12:16:05,423 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+XML Mapper service registered.
+[2017-05-26 12:16:05,424 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering JSON Mapper Service..
+[2017-05-26 12:16:05,998 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+JSON Mapper service registered.
+[2017-05-26 12:16:06,014 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Register CoAP RestClientService..
+[2017-05-26 12:16:06,018 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Starting CoAP server
+[2017-05-26 12:16:06,108 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CseService opened
+[2017-05-26 12:16:06,115 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register HTTP RestClientService..
+[2017-05-26 12:16:06,138 INFO] - org.eclipse.om2m.binding.http.Activator 
+HTTP RestClientService is registered.
+[2017-05-26 12:16:06,146 INFO] - org.eclipse.om2m.binding.http.Activator 
+HttpService discovered
+[2017-05-26 12:16:06,148 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register / context
+[2017-05-26 12:16:06,148 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Starting Persistence JPA plugin...
+[2017-05-26 12:16:06,160 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Initializing Database...
+[2017-05-26 12:16:06,161 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Creating new EntityManagerFactory...
+[2017-05-26 12:16:06,299 INFO] - org.eclipse.om2m.core.Activator 
+Starting CSE...
+[2017-05-26 12:16:06,300 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/xml
+[2017-05-26 12:16:06,300 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/json
+[2017-05-26 12:16:06,306 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: coap
+[2017-05-26 12:16:06,307 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: http
+[2017-05-26 12:16:06,309 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+HttpService discovered
+[2017-05-26 12:16:06,309 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+Register /webpage http context
+[2017-05-26 12:16:08,083 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+DataBase initialized.
+[2017-05-26 12:16:08,130 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Registering Database (JPA-EL) Service
+[2017-05-26 12:16:08,131 INFO] - org.eclipse.om2m.core.Activator 
+DataBase persistence service discovered
+[2017-05-26 12:16:08,133 INFO] - org.eclipse.om2m.core.thread.CoreExecutor 
+Creating thread pool with corePoolSize=5 & maximumSize=50
+[2017-05-26 12:16:08,138 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Initializating the cseBase
+[2017-05-26 12:16:08,155 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create AccessControlPolicy resource
+[2017-05-26 12:16:08,223 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create CSEBase resource
+[2017-05-26 12:16:08,271 INFO] - org.eclipse.om2m.core.Activator 
+Registering CseService...
+[2017-05-26 12:16:08,280 INFO] - org.eclipse.om2m.binding.http.Activator 
+CseService discovered
+[2017-05-26 12:16:08,280 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CSE Service discovered
+[2017-05-26 12:16:08,281 INFO] - org.eclipse.om2m.core.Activator 
+CSE Started
+[2017-05-26 12:16:28,543 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:16:28,549 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ resultContent=5,
+ ]
+[2017-05-26 12:16:28,550 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:16:28,550 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:16:28,551 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:16:28,551 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [CSEBaseController]
+[2017-05-26 12:16:28,598 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:cb xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-in-name">
+   <ty>5</ty>
+   <ri>/DiViProject-in-cse</ri>
+   <ct>20170526T121608</ct>
+   <lt>20170526T121608</lt>
+   <acpi>/DiViProject-in-cse/acp-597230166</acpi>
+   <cst>1</cst>
+   <csi>DiViProject-in-cse</csi>
+   <srt>1 2 3 4 5 9 14 15 16 17 23</srt>
+   <poa>http://127.0.0.1:8080/</poa>
+   <ch rn="acp_admin" ty="1">/DiViProject-in-cse/acp-597230166</ch>
+</m2m:cb>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:18:51,957 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Starting Data Mapper
+[2017-05-26 12:18:51,958 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering XML Mapper Service..
+[2017-05-26 12:18:53,411 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+XML Mapper service registered.
+[2017-05-26 12:18:53,412 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering JSON Mapper Service..
+[2017-05-26 12:18:54,097 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+JSON Mapper service registered.
+[2017-05-26 12:18:54,106 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Register CoAP RestClientService..
+[2017-05-26 12:18:54,107 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Starting CoAP server
+[2017-05-26 12:18:54,166 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CseService opened
+[2017-05-26 12:18:54,168 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register HTTP RestClientService..
+[2017-05-26 12:18:54,175 INFO] - org.eclipse.om2m.binding.http.Activator 
+HTTP RestClientService is registered.
+[2017-05-26 12:18:54,178 INFO] - org.eclipse.om2m.binding.http.Activator 
+HttpService discovered
+[2017-05-26 12:18:54,179 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Starting Persistence JPA plugin...
+[2017-05-26 12:18:54,181 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register / context
+[2017-05-26 12:18:54,189 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Initializing Database...
+[2017-05-26 12:18:54,190 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Creating new EntityManagerFactory...
+[2017-05-26 12:18:54,328 INFO] - org.eclipse.om2m.core.Activator 
+Starting CSE...
+[2017-05-26 12:18:54,328 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/xml
+[2017-05-26 12:18:54,329 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/json
+[2017-05-26 12:18:54,330 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: coap
+[2017-05-26 12:18:54,331 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: http
+[2017-05-26 12:18:54,353 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+HttpService discovered
+[2017-05-26 12:18:54,359 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+Register /webpage http context
+[2017-05-26 12:18:56,355 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+DataBase initialized.
+[2017-05-26 12:18:56,383 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Registering Database (JPA-EL) Service
+[2017-05-26 12:18:56,385 INFO] - org.eclipse.om2m.core.Activator 
+DataBase persistence service discovered
+[2017-05-26 12:18:56,387 INFO] - org.eclipse.om2m.core.thread.CoreExecutor 
+Creating thread pool with corePoolSize=5 & maximumSize=50
+[2017-05-26 12:18:56,389 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Initializating the cseBase
+[2017-05-26 12:18:56,407 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create AccessControlPolicy resource
+[2017-05-26 12:18:56,466 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create CSEBase resource
+[2017-05-26 12:18:56,505 INFO] - org.eclipse.om2m.core.Activator 
+Registering CseService...
+[2017-05-26 12:18:56,515 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CSE Service discovered
+[2017-05-26 12:18:56,515 INFO] - org.eclipse.om2m.binding.http.Activator 
+CseService discovered
+[2017-05-26 12:18:56,515 INFO] - org.eclipse.om2m.core.Activator 
+CSE Started
+[2017-05-26 12:19:08,243 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:19:08,248 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ resultContent=5,
+ ]
+[2017-05-26 12:19:08,252 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:19:08,252 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:19:08,253 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:19:08,253 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [CSEBaseController]
+[2017-05-26 12:19:08,304 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:cb xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-in-name">
+   <ty>5</ty>
+   <ri>/DiViProject-in-cse</ri>
+   <ct>20170526T121856</ct>
+   <lt>20170526T121856</lt>
+   <acpi>/DiViProject-in-cse/acp-984764520</acpi>
+   <cst>1</cst>
+   <csi>DiViProject-in-cse</csi>
+   <srt>1 2 3 4 5 9 14 15 16 17 23</srt>
+   <poa>http://127.0.0.1:8080/</poa>
+   <ch rn="acp_admin" ty="1">/DiViProject-in-cse/acp-984764520</ch>
+</m2m:cb>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:21:38,370 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Starting Data Mapper
+[2017-05-26 12:21:38,372 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering XML Mapper Service..
+[2017-05-26 12:21:39,914 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+XML Mapper service registered.
+[2017-05-26 12:21:39,915 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+Registering JSON Mapper Service..
+[2017-05-26 12:21:40,565 INFO] - org.eclipse.om2m.datamapping.jaxb.Activator 
+JSON Mapper service registered.
+[2017-05-26 12:21:40,573 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Register CoAP RestClientService..
+[2017-05-26 12:21:40,581 INFO] - org.eclipse.om2m.binding.coap.Activator 
+Starting CoAP server
+[2017-05-26 12:21:40,655 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CseService opened
+[2017-05-26 12:21:40,659 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register HTTP RestClientService..
+[2017-05-26 12:21:40,685 INFO] - org.eclipse.om2m.binding.http.Activator 
+HTTP RestClientService is registered.
+[2017-05-26 12:21:40,688 INFO] - org.eclipse.om2m.binding.http.Activator 
+HttpService discovered
+[2017-05-26 12:21:40,697 INFO] - org.eclipse.om2m.binding.http.Activator 
+Register / context
+[2017-05-26 12:21:40,700 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Starting Persistence JPA plugin...
+[2017-05-26 12:21:40,702 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Initializing Database...
+[2017-05-26 12:21:40,717 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+Creating new EntityManagerFactory...
+[2017-05-26 12:21:40,844 INFO] - org.eclipse.om2m.core.Activator 
+Starting CSE...
+[2017-05-26 12:21:40,853 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/xml
+[2017-05-26 12:21:40,854 INFO] - org.eclipse.om2m.core.Activator 
+Added Data Mapper Service: application/json
+[2017-05-26 12:21:40,855 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: coap
+[2017-05-26 12:21:40,855 INFO] - org.eclipse.om2m.core.Activator 
+Rest client service discovered. Protocol: http
+[2017-05-26 12:21:40,876 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+HttpService discovered
+[2017-05-26 12:21:40,880 INFO] - org.eclipse.om2m.webapp.resourcesbrowser.xml.Activator 
+Register /webpage http context
+[2017-05-26 12:21:43,288 INFO] - org.eclipse.om2m.persistence.eclipselink.internal.DBServiceJPAImpl 
+DataBase initialized.
+[2017-05-26 12:21:43,384 INFO] - org.eclipse.om2m.persistence.eclipselink.Activator 
+Registering Database (JPA-EL) Service
+[2017-05-26 12:21:43,388 INFO] - org.eclipse.om2m.core.Activator 
+DataBase persistence service discovered
+[2017-05-26 12:21:43,390 INFO] - org.eclipse.om2m.core.thread.CoreExecutor 
+Creating thread pool with corePoolSize=5 & maximumSize=50
+[2017-05-26 12:21:43,402 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Initializating the cseBase
+[2017-05-26 12:21:43,477 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create AccessControlPolicy resource
+[2017-05-26 12:21:43,601 INFO] - org.eclipse.om2m.core.CSEInitializer 
+Create CSEBase resource
+[2017-05-26 12:21:43,647 INFO] - org.eclipse.om2m.core.Activator 
+Registering CseService...
+[2017-05-26 12:21:43,657 INFO] - org.eclipse.om2m.binding.coap.Activator 
+CSE Service discovered
+[2017-05-26 12:21:43,658 INFO] - org.eclipse.om2m.binding.http.Activator 
+CseService discovered
+[2017-05-26 12:21:43,658 INFO] - org.eclipse.om2m.core.Activator 
+CSE Started
+[2017-05-26 12:21:53,820 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:21:53,825 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ resultContent=5,
+ ]
+[2017-05-26 12:21:53,826 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:21:53,827 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:21:53,828 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:21:53,829 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [CSEBaseController]
+[2017-05-26 12:21:53,873 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:cb xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-in-name">
+   <ty>5</ty>
+   <ri>/DiViProject-in-cse</ri>
+   <ct>20170526T122143</ct>
+   <lt>20170526T122143</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <cst>1</cst>
+   <csi>DiViProject-in-cse</csi>
+   <srt>1 2 3 4 5 9 14 15 16 17 23</srt>
+   <poa>http://127.0.0.1:8080/</poa>
+   <ch rn="acp_admin" ty="1">/DiViProject-in-cse/acp-318474796</ch>
+</m2m:cb>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:22:29,318 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:22:29,319 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:csr xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-mn-cse">
+   <poa>http://127.0.0.1:8282/</poa>
+   <cb>//om2m.org/DiViProject-mn-cse</cb>
+   <csi>/DiViProject-mn-cse</csi>
+   <rr>true</rr>
+</m2m:csr>
+,
+ ]
+[2017-05-26 12:22:29,319 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Content type headers: application/xml;ty=16
+[2017-05-26 12:22:29,319 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Header value: application/xml
+[2017-05-26 12:22:29,319 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Header value: ty=16
+[2017-05-26 12:22:29,320 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: 
+[2017-05-26 12:22:29,320 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=1,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ requestIdentifier=001,
+ resourceType=16,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:csr xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-mn-cse">
+   <poa>http://127.0.0.1:8282/</poa>
+   <cb>//om2m.org/DiViProject-mn-cse</cb>
+   <csi>/DiViProject-mn-cse</csi>
+   <rr>true</rr>
+</m2m:csr>
+,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={}]
+[2017-05-26 12:22:29,320 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:22:29,321 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [RemoteCSEController]
+[2017-05-26 12:22:29,438 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2001,
+ requestIdentifier=001,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:csr xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-mn-cse">
+   <ty>16</ty>
+   <ri>/DiViProject-in-cse/csr-541535106</ri>
+   <pi>/DiViProject-in-cse</pi>
+   <ct>20170526T122229</ct>
+   <lt>20170526T122229</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <poa>http://127.0.0.1:8282/</poa>
+   <cb>//om2m.org/DiViProject-mn-cse</cb>
+   <csi>/DiViProject-mn-cse</csi>
+   <rr>true</rr>
+</m2m:csr>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ location=/DiViProject-in-cse/csr-541535106,
+ contentType=application/xml,
+]
+[2017-05-26 12:22:45,297 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:22:45,298 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ resultContent=5,
+ ]
+[2017-05-26 12:22:45,298 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:22:45,298 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:22:45,298 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:22:45,298 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [CSEBaseController]
+[2017-05-26 12:22:45,303 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:cb xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-in-name">
+   <ty>5</ty>
+   <ri>/DiViProject-in-cse</ri>
+   <ct>20170526T122143</ct>
+   <lt>20170526T122143</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <cst>1</cst>
+   <csi>DiViProject-in-cse</csi>
+   <srt>1 2 3 4 5 9 14 15 16 17 23</srt>
+   <poa>http://127.0.0.1:8080/</poa>
+   <ch rn="acp_admin" ty="1">/DiViProject-in-cse/acp-318474796</ch>
+   <ch rn="DiViProject-mn-cse" ty="16">/DiViProject-in-cse/csr-541535106</ch>
+</m2m:cb>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:22:47,305 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:22:47,306 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse/csr-541535106,
+ resultContent=5,
+ ]
+[2017-05-26 12:22:47,306 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:22:47,306 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse/csr-541535106,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:22:47,306 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse/csr-541535106
+[2017-05-26 12:22:47,306 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [RemoteCSEController]
+[2017-05-26 12:22:47,310 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:csr xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-mn-cse">
+   <ty>16</ty>
+   <ri>/DiViProject-in-cse/csr-541535106</ri>
+   <pi>/DiViProject-in-cse</pi>
+   <ct>20170526T122229</ct>
+   <lt>20170526T122229</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <poa>http://127.0.0.1:8282/</poa>
+   <cb>//om2m.org/DiViProject-mn-cse</cb>
+   <csi>/DiViProject-mn-cse</csi>
+   <rr>true</rr>
+</m2m:csr>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:22:49,362 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:22:49,363 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse,
+ resultContent=5,
+ ]
+[2017-05-26 12:22:49,363 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:22:49,364 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:22:49,364 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse
+[2017-05-26 12:22:49,364 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [CSEBaseController]
+[2017-05-26 12:22:49,371 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:cb xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-in-name">
+   <ty>5</ty>
+   <ri>/DiViProject-in-cse</ri>
+   <ct>20170526T122143</ct>
+   <lt>20170526T122143</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <cst>1</cst>
+   <csi>DiViProject-in-cse</csi>
+   <srt>1 2 3 4 5 9 14 15 16 17 23</srt>
+   <poa>http://127.0.0.1:8080/</poa>
+   <ch rn="acp_admin" ty="1">/DiViProject-in-cse/acp-318474796</ch>
+   <ch rn="DiViProject-mn-cse" ty="16">/DiViProject-in-cse/csr-541535106</ch>
+</m2m:cb>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
+[2017-05-26 12:22:50,062 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+----------------------------------------------------------------------------------------------
+[2017-05-26 12:22:50,062 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Built RequestPrimitive: RequestPrimitive [to=/DiViProject-in-cse/csr-541535106,
+ resultContent=5,
+ ]
+[2017-05-26 12:22:50,062 INFO] - org.eclipse.om2m.binding.http.RestHttpServlet 
+Accept header: application/xml
+[2017-05-26 12:22:50,063 INFO] - org.eclipse.om2m.core.router.Router 
+Received request in Router: RequestPrimitive [operation=2,
+ to=/DiViProject-in-cse/csr-541535106,
+ from=admin:admin,
+ resultContent=5,
+ returnContentType=application/xml,
+ requestContentType=application/xml,
+ queryStrings={rcn=[5]}]
+[2017-05-26 12:22:50,063 INFO] - org.eclipse.om2m.core.router.Router 
+Request handling in the current CSE: /DiViProject-in-cse/csr-541535106
+[2017-05-26 12:22:50,063 INFO] - org.eclipse.om2m.core.router.Router 
+ResourceController to be used [RemoteCSEController]
+[2017-05-26 12:22:50,065 INFO] - org.eclipse.om2m.core.router.Router 
+Response in Router= ResponsePrimitive [responseStatusCode=2000,
+ content=<?xml version="1.0" encoding="UTF-8"?>
+<m2m:csr xmlns:m2m="http://www.onem2m.org/xml/protocols" rn="DiViProject-mn-cse">
+   <ty>16</ty>
+   <ri>/DiViProject-in-cse/csr-541535106</ri>
+   <pi>/DiViProject-in-cse</pi>
+   <ct>20170526T122229</ct>
+   <lt>20170526T122229</lt>
+   <acpi>/DiViProject-in-cse/acp-318474796</acpi>
+   <poa>http://127.0.0.1:8282/</poa>
+   <cb>//om2m.org/DiViProject-mn-cse</cb>
+   <csi>/DiViProject-mn-cse</csi>
+   <rr>true</rr>
+</m2m:csr>
+,
+ to=admin:admin,
+ from=/DiViProject-in-cse,
+ contentType=application/xml,
+]
