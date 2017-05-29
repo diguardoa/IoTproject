@@ -16,8 +16,12 @@ public class ProxyClient {
 		BorderRouter br = new BorderRouter("http://[aaaa::212:7401:1:101]");
 		motes_add = br.getNode();
 		Mote m1;
-		for (String r: motes_add)
+		int i = 0;
+		for (String r: motes_add){
+			++i;
+			//System.out.println(i);
 			 m1 = new Mote(r);
+		}
 			//System.out.println(r);
 		
 		

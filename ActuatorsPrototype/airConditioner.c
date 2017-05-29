@@ -48,7 +48,7 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   }
 }
 
-RESOURCE(airConditioner, "title=\"Oxigen Valve\";rt=\"Percentage\";if=\"Actuator\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(airConditioner, "title=\"OV\"", get_handler, post_handler, NULL, NULL);
 
 PROCESS(airConditioner_main, "Air Conditioner Main");
 

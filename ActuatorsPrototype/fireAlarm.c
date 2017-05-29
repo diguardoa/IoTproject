@@ -63,7 +63,7 @@ post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_
   }
 }
 
-RESOURCE(fireAlarm, "title=\"Fire Alarm\";rt=\"Text\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(fireAlarm, "title=\"FA\"", get_handler, post_handler, NULL, NULL);
 
 PROCESS(fireAlarm_main, "Led Alarm Main");
 

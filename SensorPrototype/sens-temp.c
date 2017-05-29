@@ -4,6 +4,7 @@
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
+//#include "project-conf.h"
 
 
 #define TIME_SAMPLING 100
@@ -24,13 +25,13 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
 static void temp_periodic_handler();
 
 
-PERIODIC_RESOURCE(temp_sens,"title=\"t_ens\"; rt=\"T\"", temp_get_handler,NULL,NULL,NULL,
+PERIODIC_RESOURCE(temp_sens,"title=\"TSE\"", temp_get_handler,NULL,NULL,NULL,
 	TIME_SAMPLING,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
 */
-RESOURCE(set_temp_environment, "title=\"t_nv\"", NULL, temp_post_handler, NULL, NULL);
+RESOURCE(set_temp_environment, "title=\"TE\"", NULL, temp_post_handler, NULL, NULL);
 
 void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {

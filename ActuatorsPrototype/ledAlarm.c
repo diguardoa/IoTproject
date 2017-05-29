@@ -63,7 +63,7 @@ post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_
   }
 }
 
-RESOURCE(ledAlarm, "title=\"Led Alarm\";rt=\"Text\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(ledAlarm, "title=\"LA\"", get_handler, post_handler, NULL, NULL);
 
 PROCESS(ledAlarm_main, "Led Alarm");
 

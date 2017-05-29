@@ -11,7 +11,7 @@ void oxy_get_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void oxy_periodic_handler();
 
-PERIODIC_RESOURCE(oxy_sens, "title=\"Oxygen Sensor\"; rt=\"Percentage\"", oxy_get_handler, oxy_post_handler, NULL, NULL, 5*CLOCK_SECOND, oxy_periodic_handler);
+PERIODIC_RESOURCE(oxy_sens, "title=\"OS\"; rt=\"p\";i=\"1\"", oxy_get_handler, oxy_post_handler, NULL, NULL, 5*CLOCK_SECOND, oxy_periodic_handler);
 
 void oxy_get_handler(void* request, void* response, uint8_t* buffer, uint16_t preferred_size, int32_t* offset)
 {

@@ -19,9 +19,34 @@ public class Mote {
 			e1.printStackTrace();
 		}	
 		mote_c = new CoapClient(uri);
-		Set<WebLink> response = mote_c.discover();
-		if (response != null)
-			System.out.println(response.toString());
+		Set<WebLink> links = mote_c.discover();
+		
+		if(links!=null){
+			for (WebLink link : links) {
+				final String resUri = link.getURI();
+				String l = link.toString();
+				System.out.println(link.getAttributes().getAttributeValues("i"));
+				if (!resUri.equalsIgnoreCase("/.well-known/core")) {
+					final String resID = link.getURI().replaceFirst("/", "");
+						//System.out.println("New Resource: " + resID + " (" + resUri + ")");
+						/*ui.access(new Runnable() {
+							public void run() {
+								// Add mote
+								Mote mote = getMote(moteID, proxyUri + resUri);
+								if (mote != null) {
+									ui.getMotes().addBean(mote);
+									ui.getGrid().markAsDirtyRecursive();
+									new Observer(moteID, proxyUri + resUri, ui);
+									ui.getGoogleMap().addMarker(mote.getMarker());
+									ui.push();
+								} else {
+									System.err.println("Error retriving mote information");
+								}
+							}
+						});*/
+				
+				}
+			}
 		//CoapResponse response= mote_c.get();
     	
     	//System.out.println(new String(response.getPayload()));
@@ -31,5 +56,5 @@ public class Mote {
 
 
 
-
+	}
 }
