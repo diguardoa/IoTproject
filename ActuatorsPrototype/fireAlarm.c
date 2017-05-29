@@ -74,7 +74,7 @@ PROCESS_THREAD(fireAlarm_main, ev, data){
 
 	rest_init_engine();
 
-	rest_activate_resource(&fireAlarm, "Fire Alarm");
+	rest_activate_resource(&fireAlarm, "FireAlarm");
 
 	etimer_set(&led_timer, 2*CLOCK_SECOND);
 

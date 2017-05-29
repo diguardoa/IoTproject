@@ -15,14 +15,11 @@ public class ProxyClient {
 		
 		BorderRouter br = new BorderRouter("http://[aaaa::212:7401:1:101]");
 		motes_add = br.getNode();
-		Mote m1;
-		int i = 0;
-		for (String r: motes_add){
-			++i;
-			//System.out.println(i);
+		Mote m1 = null;
+		for (String r: motes_add)
 			 m1 = new Mote(r);
-		}
-			//System.out.println(r);
+		
+		System.out.println("Fine");
 		
 		
 

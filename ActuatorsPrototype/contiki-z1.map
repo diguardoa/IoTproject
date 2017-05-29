@@ -2476,30 +2476,30 @@ LOAD /usr/local/msp430/bin/../lib/gcc/msp430/4.7.0/mcpu-430x/mmpy-16/msr20/mc20/
                 0x0000f290                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.process_thread_fireAlarm_main
-                0x0000f290        0xb fireAlarm.co
+                0x0000f290        0xa fireAlarm.co
  .rodata.get_handler
-                0x0000f29b       0x13 fireAlarm.co
+                0x0000f29a       0x13 fireAlarm.co
  .rodata.post_handler
-                0x0000f2ae        0x7 fireAlarm.co
- *fill*         0x0000f2b5        0x1 00
+                0x0000f2ad        0x7 fireAlarm.co
  .rodata.autostart_processes
-                0x0000f2b6        0x4 fireAlarm.co
-                0x0000f2b6                autostart_processes
- .rodata        0x0000f2ba       0x1a fireAlarm.co
- .rodata        0x0000f2d4      0x115 obj_z1/contiki-z1-main.o
+                0x0000f2b4        0x4 fireAlarm.co
+                0x0000f2b4                autostart_processes
+ .rodata        0x0000f2b8       0x1a fireAlarm.co
+ .rodata        0x0000f2d2      0x115 obj_z1/contiki-z1-main.o
  .rodata.process_thread_coap_engine
-                0x0000f3e9       0x52 contiki-z1.a(er-coap-engine.)
- .rodata        0x0000f43b       0x14 contiki-z1.a(er-coap-engine.)
- *fill*         0x0000f44f        0x1 00
+                0x0000f3e7       0x52 contiki-z1.a(er-coap-engine.)
+ .rodata        0x0000f439       0x14 contiki-z1.a(er-coap-engine.)
+ *fill*         0x0000f44d        0x1 00
  .rodata.coap_rest_implementation
-                0x0000f450       0xb6 contiki-z1.a(er-coap-engine.)
-                0x0000f450                coap_rest_implementation
+                0x0000f44e       0xb6 contiki-z1.a(er-coap-engine.)
+                0x0000f44e                coap_rest_implementation
  .rodata.coap_observe_handler
-                0x0000f506       0x11 contiki-z1.a(er-coap-observe)
+                0x0000f504       0x11 contiki-z1.a(er-coap-observe)
  .rodata.well_known_core_get_handler
-                0x0000f517       0x13 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000f52a        0x6 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000f530        0xc contiki-z1.a(rest-engine.o)
+                0x0000f515       0x13 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000f528        0x6 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000f52e        0xc contiki-z1.a(rest-engine.o)
+ *fill*         0x0000f53a        0x2 00
  .rodata.get_value
                 0x0000f53c       0x38 contiki-z1.a(cc2420.o)
  .rodata.cc2420_driver

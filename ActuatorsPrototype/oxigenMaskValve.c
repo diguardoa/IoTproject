@@ -59,7 +59,7 @@ PROCESS_THREAD(oxigenMaskValve_main, ev, data){
 
 	rest_init_engine();
 
-	rest_activate_resource(&oxigenMaskValve, "Oxigen Valve");
+	rest_activate_resource(&oxigenMaskValve, "OxigenValve");
 
 
 
