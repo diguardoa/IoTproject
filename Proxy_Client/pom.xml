@@ -32,6 +32,11 @@
 	   <version>4.0.1</version>
 	   <type>jar</type>
  	</dependency>
+ 	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20170516</version>
+	</dependency>
   </dependencies>
   
   	<repositories>

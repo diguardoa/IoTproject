@@ -11,7 +11,7 @@ void hr_get_handler(void* request, void* response, uint8_t *buffer, uint16_t pre
 void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void hr_periodic_handler();
 
-PERIODIC_RESOURCE(hr_sens,"title=\"HeartRate Sensor\"; rt=\"Rate\"", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND
+PERIODIC_RESOURCE(hr_sens,"title=\"HRS\"", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND
 	,hr_periodic_handler);
 
 void hr_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)

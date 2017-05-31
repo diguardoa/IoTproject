@@ -54,7 +54,8 @@ public class BorderRouter {
 			for (String row: rows) 
 			{
 				String[] first_part_row = row.split("/128");
-				addresses.add("coap://[" + first_part_row[0] + "]:5683/"); //.well-known/core/");
+				addresses.add("coap://[" + first_part_row[0] + "]:5683");
+				//addresses.add("coap://[" + first_part_row[0] + "]:5683/.well-known/core/");
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
