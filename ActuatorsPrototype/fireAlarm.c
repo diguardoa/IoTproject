@@ -7,13 +7,19 @@
 #define ALARM_ON 1
 #define ALARM_OFF 0
 
-
 static char alarm_status = ALARM_OFF;
 static struct etimer led_timer;
+int room_id = 0;
 
+void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-void
-get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
+RESOURCE(fireAlarm, "title=\"FireAl\";type=\"A\";obs", get_handler, post_handler, NULL, NULL);
+RESOURCE(roomId, "title=\"RoomId\"rt=\"Id\"", get_handler, post_handler, NULL, NULL);
+
+void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 
 	/* Populat the buffer with the response payload*/
 	char message[10];
@@ -32,8 +38,7 @@ get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_s
 	REST.set_response_payload(response, buffer, length);
 }
 
-void
-post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
+void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 
 
   int next_status, len;
@@ -63,8 +68,6 @@ post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_
   }
 }
 
-RESOURCE(fireAlarm, "title=\"FA\"", get_handler, post_handler, NULL, NULL);
-
 PROCESS(fireAlarm_main, "Led Alarm Main");
 
 AUTOSTART_PROCESSES(&fireAlarm_main);
@@ -75,6 +78,7 @@ PROCESS_THREAD(fireAlarm_main, ev, data){
 	rest_init_engine();
 
 	rest_activate_resource(&fireAlarm, "FireAlarm");
+	rest_activate_resource(&roomId, "RoomId");
 
 	etimer_set(&led_timer, 2*CLOCK_SECOND);
 
