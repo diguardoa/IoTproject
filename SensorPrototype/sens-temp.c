@@ -18,20 +18,55 @@ static int u_k_1 = (STARTING_TEMPERATURE+1);
 static int u_k = (STARTING_TEMPERATURE+1);
 static float temp_k = STARTING_TEMPERATURE;	// temperature at current time
 static float temp_k_1 = STARTING_TEMPERATURE;	// temperature last sample
- 
 
+int pat_id = 0;
+ 
+void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void temp_periodic_handler();
 
-
-PERIODIC_RESOURCE(temp_sens,"title=\"TSE\"", temp_get_handler,NULL,NULL,NULL,
-	TIME_SAMPLING,temp_periodic_handler);
+PERIODIC_RESOURCE(temp_sens,"title=\"TRS\";rt=\"Temp\";type=\"S\";obs", temp_get_handler,NULL,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
 */
 RESOURCE(set_temp_environment, "title=\"TE\"", NULL, temp_post_handler, NULL, NULL);
+
+RESOURCE(PatId, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
+
+void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+	/* Populat the buffer with the response payload*/
+	char message[20];
+	int length = 20;
+
+	sprintf(message, "pat_id:%03u", pat_id);
+	length = strlen(message);
+	memcpy(buffer, message, length);
+
+	REST.set_header_content_type(response, REST.type.TEXT_PLAIN); 
+	REST.set_header_etag(response, (uint8_t *) &length, 1);
+	REST.set_response_payload(response, buffer, length);
+}
+
+void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+  int new_id, len;
+  const char *val = NULL;
+     
+  len=REST.get_post_variable(request, "value", &val);
+     
+  if( len > 0 ){
+     new_id = atoi(val);	
+     pat_id = new_id;
+     REST.set_response_status(response, REST.status.CREATED);
+  } else {
+     REST.set_response_status(response, REST.status.BAD_REQUEST);
+  }
+}
+
 
 void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -94,6 +129,7 @@ PROCESS_THREAD(temperature_process, ev, data)
 	rest_activate_resource(&temp_sens, "temp");
 		
 	rest_activate_resource(&set_temp_environment, "set_t");
+	rest_activate_resource(&PatId, "pat_id");
 
 
 	while(1) {
