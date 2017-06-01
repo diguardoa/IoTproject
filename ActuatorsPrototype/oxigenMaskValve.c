@@ -6,7 +6,46 @@
 #define MIN_VALVE 0
 
 static int current_status;
+int room_id = 0;
 
+void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+
+RESOURCE(oxigenMaskValve, "title=\"OxyValv\";type=\"A\";obs", get_handler, post_handler, NULL, NULL);
+RESOURCE(roomId, "title=\"RoomId\"rt=\"Id\"", get_handler, post_handler, NULL, NULL);
+
+void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+	/* Populat the buffer with the response payload*/
+	char message[20];
+	int length = 20;
+
+	sprintf(message, "room_id:%03u", room_id);
+	length = strlen(message);
+	memcpy(buffer, message, length);
+
+	REST.set_header_content_type(response, REST.type.TEXT_PLAIN); 
+	REST.set_header_etag(response, (uint8_t *) &length, 1);
+	REST.set_response_payload(response, buffer, length);
+}
+
+void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+  int new_id, len;
+  const char *val = NULL;
+     
+  len=REST.get_post_variable(request, "value", &val);
+     
+  if( len > 0 ){
+     new_id = atoi(val);	
+     room_id = new_id;
+     REST.set_response_status(response, REST.status.CREATED);
+  } else {
+     REST.set_response_status(response, REST.status.BAD_REQUEST);
+  }
+}
 
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -48,8 +87,6 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   }
 }
 
-RESOURCE(oxigenMaskValve, "title=\"OV\"", get_handler, post_handler, NULL, NULL);
-
 PROCESS(oxigenMaskValve_main, "Oxigen Valve Main");
 
 AUTOSTART_PROCESSES(&oxigenMaskValve_main);
@@ -60,7 +97,7 @@ PROCESS_THREAD(oxigenMaskValve_main, ev, data){
 	rest_init_engine();
 
 	rest_activate_resource(&oxigenMaskValve, "OxigenValve");
-
+	rest_activate_resource(&roomId, "RoomId");
 
 
 	while(1) 
