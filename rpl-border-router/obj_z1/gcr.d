@@ -1,2 +1,2 @@
-obj_z1/gcr.o: ../../../core/lib/gcr.c
-../../../core/lib/gcr.c :
+obj_z1/gcr.o: /home/user/contiki/core/lib/gcr.c
+/home/user/contiki/core/lib/gcr.c :

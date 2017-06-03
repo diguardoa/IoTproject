@@ -16,7 +16,7 @@ static void oxy_periodic_handler();
 
 PERIODIC_RESOURCE(oxy_sens, "title=\"OS\";rt=\"Perc\";type=\"S\";obs", oxy_get_handler, oxy_post_handler, NULL, NULL, 5*CLOCK_SECOND, oxy_periodic_handler);
 
-RESOURCE(PatId, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
+RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -100,7 +100,7 @@ PROCESS_THREAD(oxygen_process, ev, data)
 
 	/* Activate the application-specific resources */
 	rest_activate_resource(&oxy_sens, "oxygen");
-	rest_activate_resource(&PatId, "pat_id");
+	rest_activate_resource(&Id, "pat_id");
 
 	while(1) {
 		PROCESS_WAIT_EVENT();

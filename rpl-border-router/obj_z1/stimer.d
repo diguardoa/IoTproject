@@ -1,8 +1,12 @@
-obj_z1/stimer.o: ../../../core/sys/stimer.c \
- ../../../platform/z1/./contiki-conf.h \
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h \
- project-conf.h ../../../core/./sys/clock.h ../../../core/./sys/stimer.h
-../../../core/sys/stimer.c :
- ../../../platform/z1/./contiki-conf.h :
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h :
- project-conf.h ../../../core/./sys/clock.h ../../../core/./sys/stimer.h :
+obj_z1/stimer.o: /home/user/contiki/core/sys/stimer.c \
+ /home/user/contiki/platform/z1/./contiki-conf.h \
+ /home/user/contiki/platform/z1/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/core/./sys/clock.h \
+ /home/user/contiki/core/./sys/stimer.h
+/home/user/contiki/core/sys/stimer.c :
+ /home/user/contiki/platform/z1/./contiki-conf.h :
+ /home/user/contiki/platform/z1/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/core/./sys/clock.h :
+ /home/user/contiki/core/./sys/stimer.h :

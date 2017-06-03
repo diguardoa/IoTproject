@@ -17,7 +17,7 @@ static void hr_periodic_handler();
 
 PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt=\"Rate\";type=\"S\";obs", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
 
-RESOURCE(PatId, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
+RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
@@ -101,7 +101,7 @@ PROCESS_THREAD(heartRate_process, ev, data)
 
 	/* Activate the application-specific resources */
 	rest_activate_resource(&hr_sens, "heart_rate");
-	rest_activate_resource(&PatId, "pat_id");
+	rest_activate_resource(&Id, "pat_id");
 
 	while(1) {
 		PROCESS_WAIT_EVENT();

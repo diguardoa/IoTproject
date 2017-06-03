@@ -1,8 +1,10 @@
-obj_z1/lpm.o: ../../../cpu/msp430/./lpm.c ../../../cpu/msp430/./dev/lpm.h \
- ../../../platform/z1/./contiki-conf.h \
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h \
- project-conf.h
-../../../cpu/msp430/./lpm.c ../../../cpu/msp430/./dev/lpm.h :
- ../../../platform/z1/./contiki-conf.h :
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h :
- project-conf.h :
+obj_z1/lpm.o: /home/user/contiki/cpu/msp430/./lpm.c \
+ /home/user/contiki/cpu/msp430/./dev/lpm.h \
+ /home/user/contiki/platform/z1/./contiki-conf.h \
+ /home/user/contiki/platform/z1/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h
+/home/user/contiki/cpu/msp430/./lpm.c :
+ /home/user/contiki/cpu/msp430/./dev/lpm.h :
+ /home/user/contiki/platform/z1/./contiki-conf.h :
+ /home/user/contiki/platform/z1/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :

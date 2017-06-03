@@ -1,14 +1,18 @@
-obj_z1/autostart.o: ../../../core/sys/autostart.c \
- ../../../core/./sys/autostart.h ../../../core/./sys/process.h \
- ../../../core/./sys/pt.h ../../../core/./sys/lc.h \
- ../../../core/./sys/lc-switch.h ../../../core/./sys/cc.h \
- ../../../platform/z1/./contiki-conf.h \
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h \
- project-conf.h
-../../../core/sys/autostart.c :
- ../../../core/./sys/autostart.h ../../../core/./sys/process.h :
- ../../../core/./sys/pt.h ../../../core/./sys/lc.h :
- ../../../core/./sys/lc-switch.h ../../../core/./sys/cc.h :
- ../../../platform/z1/./contiki-conf.h :
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h :
- project-conf.h :
+obj_z1/autostart.o: /home/user/contiki/core/sys/autostart.c \
+ /home/user/contiki/core/./sys/autostart.h \
+ /home/user/contiki/core/./sys/process.h \
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
+ /home/user/contiki/core/./sys/lc-switch.h \
+ /home/user/contiki/core/./sys/cc.h \
+ /home/user/contiki/platform/z1/./contiki-conf.h \
+ /home/user/contiki/platform/z1/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h
+/home/user/contiki/core/sys/autostart.c :
+ /home/user/contiki/core/./sys/autostart.h :
+ /home/user/contiki/core/./sys/process.h :
+ /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :
+ /home/user/contiki/core/./sys/lc-switch.h :
+ /home/user/contiki/core/./sys/cc.h :
+ /home/user/contiki/platform/z1/./contiki-conf.h :
+ /home/user/contiki/platform/z1/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :

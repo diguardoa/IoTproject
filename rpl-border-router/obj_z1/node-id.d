@@ -1,8 +1,12 @@
-obj_z1/node-id.o: ../../../platform/z1/./node-id.c \
- ../../../core/./sys/node-id.h ../../../platform/z1/./contiki-conf.h \
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h \
- project-conf.h ../../../core/./dev/xmem.h
-../../../platform/z1/./node-id.c :
- ../../../core/./sys/node-id.h ../../../platform/z1/./contiki-conf.h :
- ../../../platform/z1/./platform-conf.h ../../../cpu/msp430/./msp430def.h :
- project-conf.h ../../../core/./dev/xmem.h :
+obj_z1/node-id.o: /home/user/contiki/platform/z1/./node-id.c \
+ /home/user/contiki/core/./sys/node-id.h \
+ /home/user/contiki/platform/z1/./contiki-conf.h \
+ /home/user/contiki/platform/z1/./platform-conf.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/user/contiki/core/./dev/xmem.h
+/home/user/contiki/platform/z1/./node-id.c :
+ /home/user/contiki/core/./sys/node-id.h :
+ /home/user/contiki/platform/z1/./contiki-conf.h :
+ /home/user/contiki/platform/z1/./platform-conf.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/user/contiki/core/./dev/xmem.h :

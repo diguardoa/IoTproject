@@ -1,26 +1,14 @@
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.CoapResponse;
 
 public class ProxyClient {
-	public static List<String> motes_add;
 
 	public static void main(String[] args) {
 		System.out.println( "Hello World!" );
 		
-		BorderRouter br = new BorderRouter("http://[aaaa::212:7401:1:101]");
-		motes_add = br.getNode();
-		Mote m1 = null;
-		for (String r: motes_add)
-			 m1 = new Mote(r);
-		
-		System.out.println("Fine");
-		
+		BorderRouter br = new BorderRouter("http://[aaaa::c30c:0:0:1]");
+
+		br.discovery();
 		
 
 		/*
