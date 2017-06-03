@@ -1,7 +1,7 @@
 obj_z1/slip_uart0.o: /home/user/contiki/cpu/msp430/./slip_uart0.c \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./dev/slip.h /home/user/contiki/core/./contiki.h \
  /home/user/contiki/core/./contiki-version.h \
  /home/user/contiki/core/./contiki-default-conf.h \
@@ -29,7 +29,7 @@ obj_z1/slip_uart0.o: /home/user/contiki/cpu/msp430/./slip_uart0.c \
 /home/user/contiki/cpu/msp430/./slip_uart0.c :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./dev/slip.h /home/user/contiki/core/./contiki.h :
  /home/user/contiki/core/./contiki-version.h :
  /home/user/contiki/core/./contiki-default-conf.h :

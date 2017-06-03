@@ -14,15 +14,15 @@ void get_handler(void* request, void* response, uint8_t *buffer, uint16_t prefer
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
 RESOURCE(airConditioner, "title=\"AirCon\";rt=\"Temp\";type=\"A\";obs", get_handler, post_handler, NULL, NULL);
-RESOURCE(roomId, "title=\"RoomId\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(Id, "title=\"RoomId\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[20];
-	int length = 20;
+	char message[30];
+	int length = 30;
 
-	sprintf(message, "room_id:%03u", room_id);
+	sprintf(message, "{'type':'room', 'id':'%d'}", room_id);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -97,7 +97,7 @@ PROCESS_THREAD(airConditioner_main, ev, data){
 	rest_init_engine();
 
 	rest_activate_resource(&airConditioner, "AirConditioner");
-	rest_activate_resource(&roomId, "RoomId");
+	rest_activate_resource(&Id, "id");
 
 
 	while(1) 

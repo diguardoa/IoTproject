@@ -1,12 +1,18 @@
-CONTIKI_PROJECT = ledAlarm
+CONTIKI_PROJECT = ledAlarm oxigenMaskValve fireAlarm airConditioner
 
-all: $(CONTIKI_PROJECT)
+SMALL=1
 
-CONTIKI = /home/user/contiki
+UIP_CONF_IPV6=1
 
-#CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+CFLAGS+= -DRPL_CONF_DIO_REDUNDANCY=1
+
+CONTIKI=/home/user/contiki
+CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+CFLAGS += -DUIP_CONF_IPV6_RPL
 
 APPS += er-coap
 APPS += rest-engine
+APPS += servreg-hack
 
+CONTIKI_WITH_IPV6 = 1
 include $(CONTIKI)/Makefile.include

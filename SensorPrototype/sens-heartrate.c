@@ -22,10 +22,10 @@ RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NU
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[20];
-	int length = 20;
+	char message[30];
+	int length = 30;
 
-	sprintf(message, "pat_id:%03u", pat_id);
+	sprintf(message, "{'type':'pat', 'id':'%d'}", pat_id);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -101,7 +101,7 @@ PROCESS_THREAD(heartRate_process, ev, data)
 
 	/* Activate the application-specific resources */
 	rest_activate_resource(&hr_sens, "heart_rate");
-	rest_activate_resource(&Id, "pat_id");
+	rest_activate_resource(&Id, "id");
 
 	while(1) {
 		PROCESS_WAIT_EVENT();

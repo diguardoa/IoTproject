@@ -1,7 +1,7 @@
 obj_z1/uip-udp-packet.o: /home/user/contiki/core/net/ip/uip-udp-packet.c \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./net/ip/uip-udp-packet.h \
  /home/user/contiki/core/./net/ip/uip.h \
  /home/user/contiki/core/./net/ip/uipopt.h \
@@ -38,7 +38,7 @@ obj_z1/uip-udp-packet.o: /home/user/contiki/core/net/ip/uip-udp-packet.c \
 /home/user/contiki/core/net/ip/uip-udp-packet.c :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./net/ip/uip-udp-packet.h :
  /home/user/contiki/core/./net/ip/uip.h :
  /home/user/contiki/core/./net/ip/uipopt.h :

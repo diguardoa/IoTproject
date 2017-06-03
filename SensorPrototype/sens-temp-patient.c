@@ -39,8 +39,8 @@ RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NU
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[20];
-	int length = 20;
+	char message[30];
+	int length = 30;
 
 	sprintf(message, "{'type':'pat', 'id':'%d'}", pat_id);
 	length = strlen(message);

@@ -5,7 +5,7 @@ obj_z1/print-stats.o: /home/user/contiki/core/lib/print-stats.c \
  /home/user/contiki/core/./net/linkaddr.h \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./net/rime/collect.h \
  /home/user/contiki/core/./net/rime/runicast.h \
  /home/user/contiki/core/./net/rime/stunicast.h \
@@ -74,7 +74,7 @@ obj_z1/print-stats.o: /home/user/contiki/core/lib/print-stats.c \
  /home/user/contiki/core/./net/linkaddr.h :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./net/rime/collect.h :
  /home/user/contiki/core/./net/rime/runicast.h :
  /home/user/contiki/core/./net/rime/stunicast.h :

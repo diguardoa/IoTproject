@@ -4,7 +4,7 @@ obj_z1/packetbuf.o: /home/user/contiki/core/net/packetbuf.c \
  /home/user/contiki/core/./contiki-version.h \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./contiki-default-conf.h \
  /home/user/contiki/core/./sys/process.h \
  /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h \
@@ -107,7 +107,7 @@ obj_z1/packetbuf.o: /home/user/contiki/core/net/packetbuf.c \
  /home/user/contiki/core/./contiki-version.h :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./contiki-default-conf.h :
  /home/user/contiki/core/./sys/process.h :
  /home/user/contiki/core/./sys/pt.h /home/user/contiki/core/./sys/lc.h :

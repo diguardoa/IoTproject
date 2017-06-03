@@ -2,7 +2,7 @@ obj_z1/er-coap-engine.o: /home/user/contiki/apps/er-coap/er-coap-engine.c \
  /home/user/contiki/core/./sys/cc.h \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/apps/er-coap/er-coap-engine.h \
  /home/user/contiki/core/sys/pt.h /home/user/contiki/core/./sys/lc.h \
  /home/user/contiki/core/./sys/lc-switch.h \
@@ -116,7 +116,7 @@ obj_z1/er-coap-engine.o: /home/user/contiki/apps/er-coap/er-coap-engine.c \
  /home/user/contiki/core/./sys/cc.h :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/apps/er-coap/er-coap-engine.h :
  /home/user/contiki/core/sys/pt.h /home/user/contiki/core/./sys/lc.h :
  /home/user/contiki/core/./sys/lc-switch.h :

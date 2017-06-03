@@ -51,6 +51,7 @@ public class DiVi_ADN {
 		Patients = ADN.createContainer(
 				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
 				"Patients");
+		
 		// Create Rooms Container
 		
 		Rooms = ADN.createContainer(
@@ -63,50 +64,48 @@ public class DiVi_ADN {
 	public void discovery() {
 		List<String> motes_add;
 		
-		/*
-		 * Gets all motes address
-		 */
+		// Get all motes address
 		
 		motes_add = getNodeAddress();
-		
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}		
-		/*
-		 * Gets all resources
-		 */
-		
-		for (String r: motes_add) {
+
+
+		// Gets all resources
+
+		for (String r: motes_add) 
 			getResources(r);
 			
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		/*
-		 * Look if there are patient without resources. if yes delete them
-		 */
-		
-		
 	}
 	
 	public void getResources(String add) {
 		URI uri_mote = ADN.createUri(add);	
 		CoapClient mote_c = new CoapClient(uri_mote);
 		mote_c.setTimeout(0);	// infinite timeout
-		Set<WebLink> links = mote_c.discover();
+		
+		// Wait for 100 ms
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}	
+		Set<WebLink> links = mote_c.discover();	
+	
 		
 		if(links!=null){
 			
-
+			
 			 // Look if it is a Patient or a Room sensor
 
 			CoapClient info_mote = new CoapClient(ADN.createUri(uri_mote + "/id"));
+			mote_c.setTimeout(0);	// infinite timeout
+			
+			//Wait for 100 ms
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			CoapResponse info_mote_resp = info_mote.get();
+			
 			
 			if (info_mote_resp != null) {
 				JSONObject jsonOBJ = new JSONObject(info_mote_resp.getResponseText());

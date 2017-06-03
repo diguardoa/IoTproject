@@ -1,7 +1,7 @@
 obj_z1/cfs-coffee.o: /home/user/contiki/core/cfs/cfs-coffee.c \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./cfs/cfs.h /home/user/contiki/core/./contiki.h \
  /home/user/contiki/core/./contiki-version.h \
  /home/user/contiki/core/./contiki-default-conf.h \
@@ -33,7 +33,7 @@ obj_z1/cfs-coffee.o: /home/user/contiki/core/cfs/cfs-coffee.c \
 /home/user/contiki/core/cfs/cfs-coffee.c :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./cfs/cfs.h /home/user/contiki/core/./contiki.h :
  /home/user/contiki/core/./contiki-version.h :
  /home/user/contiki/core/./contiki-default-conf.h :

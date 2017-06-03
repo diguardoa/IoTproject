@@ -3,7 +3,7 @@ obj_z1/er-coap-separate.o: \
  /home/user/contiki/core/./sys/cc.h \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/apps/er-coap/er-coap-separate.h \
  /home/user/contiki/apps/er-coap/er-coap.h \
  /home/user/contiki/core/./contiki-net.h \
@@ -112,7 +112,7 @@ obj_z1/er-coap-separate.o: \
  /home/user/contiki/core/./sys/cc.h :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/apps/er-coap/er-coap-separate.h :
  /home/user/contiki/apps/er-coap/er-coap.h :
  /home/user/contiki/core/./contiki-net.h :

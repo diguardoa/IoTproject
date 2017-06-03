@@ -2,7 +2,7 @@ obj_z1/uip6.o: /home/user/contiki/core/net/ipv6/uip6.c \
  /home/user/contiki/core/./sys/cc.h \
  /home/user/contiki/platform/z1/./contiki-conf.h \
  /home/user/contiki/platform/z1/./platform-conf.h \
- /home/user/contiki/cpu/msp430/./msp430def.h \
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h \
  /home/user/contiki/core/./net/ip/uip.h \
  /home/user/contiki/core/./net/ip/uipopt.h \
  /home/user/contiki/core/./net/ip/tcpip.h \
@@ -57,7 +57,7 @@ obj_z1/uip6.o: /home/user/contiki/core/net/ipv6/uip6.c \
  /home/user/contiki/core/./sys/cc.h :
  /home/user/contiki/platform/z1/./contiki-conf.h :
  /home/user/contiki/platform/z1/./platform-conf.h :
- /home/user/contiki/cpu/msp430/./msp430def.h :
+ /home/user/contiki/cpu/msp430/./msp430def.h project-conf.h :
  /home/user/contiki/core/./net/ip/uip.h :
  /home/user/contiki/core/./net/ip/uipopt.h :
  /home/user/contiki/core/./net/ip/tcpip.h :
