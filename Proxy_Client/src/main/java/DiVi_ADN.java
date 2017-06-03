@@ -69,13 +69,24 @@ public class DiVi_ADN {
 		
 		motes_add = getNodeAddress();
 		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}		
 		/*
 		 * Gets all resources
 		 */
 		
-		for (String r: motes_add)
-			 getResources(r);
-		
+		for (String r: motes_add) {
+			getResources(r);
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		/*
 		 * Look if there are patient without resources. if yes delete them
 		 */
@@ -85,7 +96,8 @@ public class DiVi_ADN {
 	
 	public void getResources(String add) {
 		URI uri_mote = ADN.createUri(add);	
-		CoapClient mote_c = new CoapClient(uri_mote);	
+		CoapClient mote_c = new CoapClient(uri_mote);
+		mote_c.setTimeout(0);	// infinite timeout
 		Set<WebLink> links = mote_c.discover();
 		
 		if(links!=null){
@@ -170,6 +182,11 @@ public class DiVi_ADN {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// Print all the addresses
+		for (String row: addresses)
+			System.out.println(row);
+		
 		return addresses;
 		
 	}

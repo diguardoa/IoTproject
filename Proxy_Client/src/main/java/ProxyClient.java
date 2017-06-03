@@ -10,6 +10,8 @@ public class ProxyClient {
 
 		br.discovery();
 		
+		System.out.println("end");
+		
 		while(true) {
         	try {
 				System.in.read();
