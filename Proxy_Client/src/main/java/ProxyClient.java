@@ -6,7 +6,7 @@ public class ProxyClient {
 	public static void main(String[] args) {
 		System.out.println( "Hello World!" );
 		
-		BorderRouter br = new BorderRouter("http://[aaaa::c30c:0:0:1]");
+		DiVi_ADN br = new DiVi_ADN("http://[aaaa::c30c:0:0:1]");
 
 		br.discovery();
 		
