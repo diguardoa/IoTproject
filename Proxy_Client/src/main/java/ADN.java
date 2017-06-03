@@ -9,16 +9,22 @@ import org.eclipse.californium.core.coap.Option;
 import org.eclipse.californium.core.coap.Request;
 import org.json.JSONObject;
 
+
 public class ADN {
-	protected AE createAE(String cse, String rn){
-		AE ae = new AE();
-		URI uri = null;
+	static URI createUri(String uri_string) {
+		URI uri_created = null;
 		try {
-			uri = new URI(cse);
+			uri_created = new URI(uri_string);
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return uri_created;
+	}
+	
+	static AE createAE(String cse, String rn){
+		AE ae = new AE();
+		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
 		Request req = Request.newPost();
 		req.getOptions().addOption(new Option(267, 2));
@@ -26,7 +32,7 @@ public class ADN {
 		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
 		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
 		JSONObject obj = new JSONObject();
-		obj.put("api","TempApp-ID");
+		obj.put("api",rn + "-ID");
 		obj.put("rr","true");
 		obj.put("rn", rn);
 		JSONObject root = new JSONObject();
@@ -47,19 +53,12 @@ public class ADN {
 		ae.setLt((String) container.get("lt"));
 		
 		return ae;
-
 	}
 	
-	protected Container createContainer(String cse, String rn){
+	static Container createContainer(String cse, String rn){
 		Container container = new Container();
 
-		URI uri = null;
-		try {
-			uri = new URI(cse);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
 		Request req = Request.newPost();
 		req.getOptions().addOption(new Option(267, 3));
@@ -91,14 +90,9 @@ public class ADN {
 		
 		return container;
 	}
-	protected void createContentInstance(String cse){
-		URI uri = null;
-		try {
-			uri = new URI(cse);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	static void createContentInstance(String cse){
+		
+		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
 		Request req = Request.newPost();
 		req.getOptions().addOption(new Option(267, 4));
@@ -120,7 +114,7 @@ public class ADN {
 			
 	}
 	
-	protected String Discovery(String cse) {
+	static String Discovery(String cse) {
 		URI uri = null;
 		try {
 			uri = new URI(cse);
@@ -139,23 +133,21 @@ public class ADN {
 		String path = content.getString("m2m:uril");
 		return path;
 	}
-/*	
-	public static void main(String args[]) {
-		ADN adn = new ADN();
-		
-		AE ae = adn.createAE("coap://127.0.0.1:5683/~/DiViProject-in-cse", "TempApp");
-		Container container = adn.createContainer("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/TempApp", "DATA");
-		adn.createContentInstance("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/TempApp/DATA");
-		
-		
-		AE ae = adn.createAE("coap://127.0.0.1:5684/~/DiGuardo-mn-cse", "TempApp");
-		Container container = adn.createContainer("coap://127.0.0.1:5684/~/DiGuardo-mn-cse/DiGuardo-mn-name/TempApp", "DATA");
-		adn.createContentInstance("coap://127.0.0.1:5684/~/DiGuardo-mn-cse/DiGuardo-mn-name/TempApp/DATA");
-		
-		String cse = new String("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1");
-		System.out.println(adn.Discovery(cse));
+	/*
+	static void createContentInstance(String cse){
 		
 	}
-*/	
 	
+	static AE createAE(String cse, String rn){
+		return null;
+	}
+	
+	static String Discovery(String cse) {
+		return null;
+	}
+	
+	static Container createContainer(String cse, String rn){
+		return null;
+	}*/
+
 }

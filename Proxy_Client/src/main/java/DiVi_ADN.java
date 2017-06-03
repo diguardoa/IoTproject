@@ -19,9 +19,7 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
-import org.eclipse.californium.core.coap.MediaTypeRegistry;
-import org.eclipse.californium.core.coap.Option;
-import org.eclipse.californium.core.coap.Request;
+
 import org.json.JSONObject;
 
 
@@ -31,25 +29,36 @@ public class DiVi_ADN {
 	public List<String> addresses = new LinkedList<>();
 	public List<Patient> patients = new LinkedList<>();
 	public AE SmartHospital;
+	public Container Patients;
+	public Container Rooms;
+	
+	/*
+	 * DiViADN publishes on the MN
+	 */
 	
 	public DiVi_ADN(String br_uri) {
-		uri = createUri(br_uri);
 		
-		SmartHospital = createAE("coap://127.0.0.1:5684/~/DiViProject-mn-cse", "SmartHospitalization");
-		//Container container = createContainer("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/TempApp", "DATA");
-		//createContentInstance("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/TempApp/DATA");
-	}
+		uri = ADN.createUri(br_uri);
+		
+		// Create the application entity
+		
+		SmartHospital = ADN.createAE(
+				"coap://127.0.0.1:5684/~/DiViProject-mn-cse", 
+				"SmartHospitalization");
 	
-	private URI createUri(String uri_string) {
-		URI uri_created = null;
-		try {
-			uri_created = new URI(uri_string);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		// Create Patients Container
 		
-		return uri_created;
+		Patients = ADN.createContainer(
+				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
+				"Patients");
+		// Create Rooms Container
+		
+		Rooms = ADN.createContainer(
+				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
+				"Rooms");
+			
 	}
+
 
 	public void discovery() {
 		List<String> motes_add;
@@ -75,16 +84,16 @@ public class DiVi_ADN {
 	}
 	
 	public void getResources(String add) {
-		URI uri_mote = createUri(add);	
+		URI uri_mote = ADN.createUri(add);	
 		CoapClient mote_c = new CoapClient(uri_mote);	
 		Set<WebLink> links = mote_c.discover();
 		
 		if(links!=null){
 			
-			/*
-			 * Look if it is a Patient or a Room sensor
-			 */
-			CoapClient info_mote = new CoapClient(createUri(uri_mote + "/id"));
+
+			 // Look if it is a Patient or a Room sensor
+
+			CoapClient info_mote = new CoapClient(ADN.createUri(uri_mote + "/id"));
 			CoapResponse info_mote_resp = info_mote.get();
 			
 			if (info_mote_resp != null) {
@@ -97,6 +106,7 @@ public class DiVi_ADN {
 			}
 		}
 	}
+	
 	public void getRoomResource(Set<WebLink> res_set, int room_id, URI uri_mote) {
 	
 	}
@@ -119,7 +129,7 @@ public class DiVi_ADN {
 		for (WebLink link : res_set) {
 			final String resUri = link.getURI();	
 			if (!resUri.equalsIgnoreCase("/.well-known/core") && !resUri.equalsIgnoreCase("/id"))
-				current_pat.addResource(createUri(uri_mote + resUri), link);
+				current_pat.addResource(ADN.createUri(uri_mote + resUri), link);
 			
 		}
 	}
@@ -164,36 +174,5 @@ public class DiVi_ADN {
 		
 	}
 	
-	public AE createAE(String cse, String rn){
-		AE ae = new AE();
-		URI uri = createUri(cse);
-		CoapClient client = new CoapClient(uri);
-		Request req = Request.newPost();
-		req.getOptions().addOption(new Option(267, 2));
-		req.getOptions().addOption(new Option(256, "admin:admin"));
-		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
-		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
-		JSONObject obj = new JSONObject();
-		obj.put("api",rn + "-ID");
-		obj.put("rr","true");
-		obj.put("rn", rn);
-		JSONObject root = new JSONObject();
-		root.put("m2m:ae", obj);
-		String body = root.toString();
-		System.out.println(body);
-		req.setPayload(body);
-		CoapResponse responseBody = client.advanced(req);
-		String response = new String(responseBody.getPayload());
-		System.out.println(response);
-		JSONObject resp = new JSONObject(response);
-		JSONObject container = (JSONObject) resp.get("m2m:ae");
-		ae.setRn((String) container.get("rn"));
-		ae.setTy((Integer) container.get("ty"));
-		ae.setRi((String) container.get("ri"));
-		ae.setPi((String) container.get("pi"));
-		ae.setCt((String) container.get("ct"));
-		ae.setLt((String) container.get("lt"));
-		
-		return ae;
-	}
+
 }
