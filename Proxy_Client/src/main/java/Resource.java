@@ -1,3 +1,4 @@
+import java.net.URI;
 import java.util.Set;
 
 import org.eclipse.californium.core.CoapClient;
@@ -6,31 +7,31 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.server.resources.ResourceAttributes;
 import org.json.JSONObject;
 
-// poi estenderà thread
 public class Resource {
 	public String resource_name;
-	private Container res_container;
 	
-	public Resource(WebLink link, String parent_container) {
+	private String resource_mn_path;
+	private Container res_container;
+	private Observer observer;
+	private URI uri_mote;
+	
+	public Resource(WebLink link, String parent_container,URI uri_server) {
 		
-
+		uri_mote = uri_server;
 		resource_name = link.getAttributes().getTitle();
-		JSONObject jsonOBJ = new JSONObject(link);
-		//System.out.println(resource_name);
 
 		// Create container
 		res_container = ADN.createContainer(parent_container, resource_name);		
-
-		// Create Instance (Class exercise)
-		ADN.createContentInstance(parent_container + "/" + resource_name);
+		resource_mn_path = parent_container + "/" + resource_name;
 		
-		/*
-		ResourceAttributes attr = link.getAttributes();
-		if(attr.getCount()>1){
-			Set<String> set_attr = attr.getAttributeKeySet();
-			for(String s: set_attr)
-				System.out.println(s + " " + link.getAttributes().getAttributeValues(s));
-		}	
-		*/
+		// Look if the resource is observable
+		if (link.getAttributes().containsAttribute("obs")) {
+			System.out.println("the resource is observable");	
+			observer = new Observer(uri_mote,resource_mn_path);
+			observer.start();
+		} else {
+			System.out.println("the resource is non observable");
+		}
+		
 	}
 }

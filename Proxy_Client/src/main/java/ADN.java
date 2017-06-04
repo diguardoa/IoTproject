@@ -90,21 +90,23 @@ public class ADN {
 		
 		return container;
 	}
-	static void createContentInstance(String cse){
+	static void createContentInstance(String cse, String cnf, String con){
 		
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
+		//client.setTimeout(0);
 		Request req = Request.newPost();
 		req.getOptions().addOption(new Option(267, 4));
 		req.getOptions().addOption(new Option(256, "admin:admin"));
 		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
 		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
 		JSONObject content = new JSONObject();
-		content.put("cnf","message");
-		content.put("con","12");
+		content.put("cnf",cnf); // Content Info
+		content.put("con",con);	// Data
 		JSONObject root = new JSONObject();
 		root.put("m2m:cin", content);
 		String body = root.toString();
+		System.out.println(uri);
 		System.out.println(body);
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
@@ -134,7 +136,7 @@ public class ADN {
 		return path;
 	}
 	/*
-	static void createContentInstance(String cse){
+	static void createContentInstance(String cse, String cnf, String con){
 		
 	}
 	
@@ -142,12 +144,12 @@ public class ADN {
 		return null;
 	}
 	
-	static String Discovery(String cse) {
+	static String Discovery(String cse,String cnf, String con) {
 		return null;
 	}
 	
 	static Container createContainer(String cse, String rn){
 		return null;
-	}*/
-
+	}
+*/
 }

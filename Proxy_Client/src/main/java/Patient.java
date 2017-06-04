@@ -30,8 +30,6 @@ public class Patient {
 		
 		my_container_long_name = parent_container + "/" + my_container_name;
 				
-		// Crea runnable che parte ritardato e se non trova risorse si elimina 
-
 	}
 	
 	public void addResource(URI uri, WebLink link) {
@@ -45,7 +43,7 @@ public class Patient {
 				.collect(Collectors.toList());	
 		
 		if (look_for_resource.isEmpty())
-			resources.add(new Resource(link,my_container_long_name));
+			resources.add(new Resource(link,my_container_long_name,uri));
 			
 	}
 }

@@ -74,7 +74,7 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 	char message[20];
 	int length = 20;
 
-	sprintf(message, "T:%03d", ((int) temp_k));
+	sprintf(message, "{'T':'%03d'}", ((int) temp_k));
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
