@@ -1,14 +1,11 @@
-import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.californium.core.WebLink;
-import org.eclipse.californium.core.server.resources.ResourceAttributes;
 
-public class Patient {
+public class Patient extends Thread {
 	public int seqNumber;
 	public int resNumber;
 	private List<Resource> resources = new LinkedList<>();;
@@ -26,7 +23,7 @@ public class Patient {
 				+ "SmartHospitalization/Patients";
 		String my_container_name = "Patient"+String.valueOf(seqNumber);
 		
-		single_patient_container = ADN.createContainer(parent_container, my_container_name);		
+		single_patient_container = DiVi_ADN.createContainer(parent_container, my_container_name);		
 		
 		my_container_long_name = parent_container + "/" + my_container_name;
 				
@@ -45,5 +42,14 @@ public class Patient {
 		if (look_for_resource.isEmpty())
 			resources.add(new Resource(link,my_container_long_name,res_uri));
 			
+	}
+	
+	public void run() {
+		/*
+		 *  codice che 
+		 *  1) guarda se ha ancora risorse, se non ne ha più elimina il paziente
+		 *  2) prende tutte le decisioni relative al singolo paziente (controller, setta i valori degli attuatori)
+		 *  
+		 */
 	}
 }

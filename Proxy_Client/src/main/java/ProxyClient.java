@@ -3,15 +3,16 @@ import java.io.IOException;
 
 public class ProxyClient {
 
-	public static void main(String[] args) {
-		System.out.println( "Hello World!" );
-		
+	public static void main(String[] args) {		
 		
 		DiVi_ADN br = new DiVi_ADN("http://[aaaa::c30c:0:0:1]");
 
+		// faccio la discovery e faccio partire il sistema
 		br.discovery();
 		
-		System.out.println("end");
+		// sarebbe utile fare un Thread a livello di ADN che "ogni tot" fa la discovery e aggiorna
+		// i pazienti/stanze
+		// br.start();
 		
 		while(true) {
         	try {

@@ -19,12 +19,14 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
-
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
+import org.eclipse.californium.core.coap.Option;
+import org.eclipse.californium.core.coap.Request;
 import org.json.JSONObject;
 
 
 
-public class DiVi_ADN {
+public class DiVi_ADN extends Thread{
 	public URI uri;
 	public List<String> addresses = new LinkedList<>();
 	public List<Patient> patients = new LinkedList<>();
@@ -39,23 +41,23 @@ public class DiVi_ADN {
 	
 	public DiVi_ADN(String br_uri) {
 		
-		uri = ADN.createUri(br_uri);
+		uri = DiVi_ADN.createUri(br_uri);
 		
 		// Create the application entity
 		
-		SmartHospital = ADN.createAE(
+		SmartHospital = DiVi_ADN.createAE(
 				"coap://127.0.0.1:5684/~/DiViProject-mn-cse", 
 				"SmartHospitalization");
 	
 		// Create Patients Container
 		
-		Patients = ADN.createContainer(
+		Patients = DiVi_ADN.createContainer(
 				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
 				"Patients");
 		
 		// Create Rooms Container
 		
-		Rooms = ADN.createContainer(
+		Rooms = DiVi_ADN.createContainer(
 				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
 				"Rooms");
 			
@@ -78,7 +80,7 @@ public class DiVi_ADN {
 	}
 	
 	public void getResources(String add) {
-		URI uri_mote = ADN.createUri(add);	
+		URI uri_mote = DiVi_ADN.createUri(add);	
 		CoapClient mote_c = new CoapClient(uri_mote);
 		mote_c.setTimeout(0);	// infinite timeout
 		
@@ -96,7 +98,7 @@ public class DiVi_ADN {
 			
 			 // Look if it is a Patient or a Room sensor
 
-			CoapClient info_mote = new CoapClient(ADN.createUri(uri_mote + "/id"));
+			CoapClient info_mote = new CoapClient(DiVi_ADN.createUri(uri_mote + "/id"));
 			mote_c.setTimeout(0);	// infinite timeout
 			
 			//Wait for 3000 ms
@@ -134,6 +136,12 @@ public class DiVi_ADN {
 		else
 			current_room = look_for_room.get(0);
 		
+		for (WebLink link : res_set) {
+			final String resUri = link.getURI();	
+			if (!resUri.equalsIgnoreCase("/.well-known/core") && !resUri.equalsIgnoreCase("/id"))
+				current_room.addResource(link, uri_mote + resUri);
+			
+		}
 		
 	}
 	public void getPatientResource(Set<WebLink> res_set, int pat_id, URI uri_mote) {
@@ -205,5 +213,149 @@ public class DiVi_ADN {
 		
 	}
 	
+	public void run() {
+		
+	}
+	
+	static URI createUri(String uri_string) {
+		URI uri_created = null;
+		try {
+			uri_created = new URI(uri_string);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		return uri_created;
+	}
+	
+	static AE createAE(String cse, String rn){
+		AE ae = new AE();
+		URI uri = createUri(cse);
+		CoapClient client = new CoapClient(uri);
+		Request req = Request.newPost();
+		req.getOptions().addOption(new Option(267, 2));
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		JSONObject obj = new JSONObject();
+		obj.put("api",rn + "-ID");
+		obj.put("rr","true");
+		obj.put("rn", rn);
+		JSONObject root = new JSONObject();
+		root.put("m2m:ae", obj);
+		String body = root.toString();
+		System.out.println(body);
+		req.setPayload(body);
+		CoapResponse responseBody = client.advanced(req);
+		String response = new String(responseBody.getPayload());
+		System.out.println(response);
+		JSONObject resp = new JSONObject(response);
+		JSONObject container = (JSONObject) resp.get("m2m:ae");
+		ae.setRn((String) container.get("rn"));
+		ae.setTy((Integer) container.get("ty"));
+		ae.setRi((String) container.get("ri"));
+		ae.setPi((String) container.get("pi"));
+		ae.setCt((String) container.get("ct"));
+		ae.setLt((String) container.get("lt"));
+		
+		return ae;
+	}
+	
+	static Container createContainer(String cse, String rn){
+		Container container = new Container();
 
+		URI uri = createUri(cse);
+		CoapClient client = new CoapClient(uri);
+		Request req = Request.newPost();
+		req.getOptions().addOption(new Option(267, 3));
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		JSONObject obj = new JSONObject();
+		obj.put("rn", rn);
+		JSONObject root = new JSONObject();
+		root.put("m2m:cnt", obj);
+		String body = root.toString();
+		System.out.println(body);
+		req.setPayload(body);
+		CoapResponse responseBody = client.advanced(req);
+		
+		String response = new String(responseBody.getPayload());
+		System.out.println(response);
+		JSONObject resp = new JSONObject(response);
+		JSONObject cont = (JSONObject) resp.get("m2m:cnt");
+		container.setRn((String) cont.get("rn"));
+		container.setTy((Integer) cont.get("ty"));
+		container.setRi((String) cont.get("ri"));
+		container.setPi((String) cont.get("pi"));
+		container.setCt((String) cont.get("ct"));
+		container.setLt((String) cont.get("lt"));
+		container.setSt((Integer) cont.get("st"));
+		container.setOl((String) cont.get("ol"));
+		container.setLa((String) cont.get("la"));
+		
+		return container;
+	}
+	static void createContentInstance(String cse, String cnf, String con){
+		
+		URI uri = createUri(cse);
+		CoapClient client = new CoapClient(uri);
+		//client.setTimeout(0);
+		Request req = Request.newPost();
+		req.getOptions().addOption(new Option(267, 4));
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		JSONObject content = new JSONObject();
+		content.put("cnf",cnf); // Content Info
+		content.put("con",con);	// Data
+		JSONObject root = new JSONObject();
+		root.put("m2m:cin", content);
+		String body = root.toString();
+		System.out.println(uri);
+		System.out.println(body);
+		req.setPayload(body);
+		CoapResponse responseBody = client.advanced(req);
+		
+		String response = new String(responseBody.getPayload());
+		System.out.println(response);
+			
+	}
+	
+	static String Discovery(String cse) {
+		URI uri = null;
+		try {
+			uri = new URI(cse);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		CoapClient client = new CoapClient(uri);
+		Request req = Request.newGet();
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		CoapResponse responseBody = client.advanced(req);
+		String response = new String(responseBody.getPayload());
+		JSONObject content = new JSONObject(response);
+		String path = content.getString("m2m:uril");
+		return path;
+	}
+/*	
+	static void createContentInstance(String cse, String cnf, String con){
+		
+	}
+	
+	static AE createAE(String cse, String rn){
+		return null;
+	}
+	
+	static String Discovery(String cse,String cnf, String con) {
+		return null;
+	}
+	
+	static Container createContainer(String cse, String rn){
+		return null;
+	}
+*/
 }

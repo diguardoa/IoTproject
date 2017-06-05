@@ -21,7 +21,7 @@ public class Resource {
 		resource_name = link.getAttributes().getTitle();
 
 		// Create container
-		res_container = ADN.createContainer(parent_container, resource_name);		
+		res_container = DiVi_ADN.createContainer(parent_container, resource_name);		
 		resource_mn_path = parent_container + "/" + resource_name;
 		
 		// Look if the resource is observable

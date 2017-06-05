@@ -404,7 +404,7 @@
       <viewport>2.0130670231064327 0.0 0.0 2.0130670231064327 64.45084065591185 208.61530613078426</viewport>
     </plugin_config>
     <width>400</width>
-    <z>2</z>
+    <z>1</z>
     <height>400</height>
     <location_x>1</location_x>
     <location_y>1</location_y>
@@ -440,7 +440,7 @@
       <zoomfactor>500.0</zoomfactor>
     </plugin_config>
     <width>1080</width>
-    <z>1</z>
+    <z>2</z>
     <height>166</height>
     <location_x>0</location_x>
     <location_y>534</location_y>

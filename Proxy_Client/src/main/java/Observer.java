@@ -23,7 +23,7 @@ public class Observer extends Thread{
 				JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
 				String value = jsonOBJ.get("e").toString();
 				String mes_unity = jsonOBJ.get("u").toString();
-				ADN.createContentInstance(parent_container, mes_unity, value);
+				DiVi_ADN.createContentInstance(parent_container, mes_unity, value);
 				to_publish = null;
 			}
 			try {
@@ -53,12 +53,7 @@ public class Observer extends Thread{
 			
 			@Override
 			public void onError() {
-				//new Runnable() {
-				//	@Override
-				//	public void run() {
-						//NotificationUtils.showError("Failed");
-				//	}
-				//};				
+				System.out.println("Error!");				
 			}
 			
 		});
