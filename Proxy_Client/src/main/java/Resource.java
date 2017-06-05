@@ -13,9 +13,9 @@ public class Resource {
 	private String resource_mn_path;
 	private Container res_container;
 	private Observer observer;
-	private URI uri_mote;
+	private String uri_mote;
 	
-	public Resource(WebLink link, String parent_container,URI uri_server) {
+	public Resource(WebLink link, String parent_container,String uri_server) {
 		
 		uri_mote = uri_server;
 		resource_name = link.getAttributes().getTitle();

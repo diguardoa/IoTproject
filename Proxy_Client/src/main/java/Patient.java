@@ -32,8 +32,8 @@ public class Patient {
 				
 	}
 	
-	public void addResource(URI uri, WebLink link) {
-		System.out.println(uri);
+	public void addResource(WebLink link, String res_uri) {
+		System.out.println(link.getURI());
 		
 		String res_title = link.getAttributes().getTitle();
 		
@@ -43,7 +43,7 @@ public class Patient {
 				.collect(Collectors.toList());	
 		
 		if (look_for_resource.isEmpty())
-			resources.add(new Resource(link,my_container_long_name,uri));
+			resources.add(new Resource(link,my_container_long_name,res_uri));
 			
 	}
 }

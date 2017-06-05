@@ -13,7 +13,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(oxigenMaskValve, "title=\"OxyValv\";type=\"A\";obs", get_handler, post_handler, NULL, NULL);
+RESOURCE(oxigenMaskValve, "title=\"OxyValv\";type=\"A\"", get_handler, post_handler, NULL, NULL);
 RESOURCE(Id, "title=\"PatientId\"rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -50,10 +50,10 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[10];
-	int length = 10;
+	char message[23];
+	int length = 23;
 
-	sprintf(message,"status:%03d",current_status);
+	sprintf(message,"{'e':'%03d','u':'%'}",current_status);
 
 	length = strlen(message);
 	memcpy(buffer, message, length);

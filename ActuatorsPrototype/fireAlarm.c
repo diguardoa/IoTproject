@@ -52,13 +52,13 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 
 	/* Populat the buffer with the response payload*/
-	char message[10];
-	int length = 9;
+	char message[26];
+	int length = 26;
 
 	if (alarm_status == ALARM_ON)
-		sprintf(message, "alarm on");
+		sprintf(message, "{'e':'on','u':'status'}");
 	else
-		sprintf(message, "alarm off");
+		sprintf(message, "{'e':'off','u':'status'}");
 
 	length = strlen(message);
 	memcpy(buffer, message, length);

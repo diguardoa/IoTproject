@@ -50,10 +50,10 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
 {
 	/* Populat the buffer with the response payload*/
-	char message[8];
-	int length = 8;
+	char message[23];
+	int length = 23;
 
-	sprintf(message,"temp:%03d",current_temp);
+	sprintf(message,"{'e':'%03d','u':'C'}",current_temp);
 
 	length = strlen(message);
 	memcpy(buffer, message, length);

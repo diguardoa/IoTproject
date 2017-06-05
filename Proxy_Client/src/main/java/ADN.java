@@ -135,7 +135,7 @@ public class ADN {
 		String path = content.getString("m2m:uril");
 		return path;
 	}
-	/*
+/*	
 	static void createContentInstance(String cse, String cnf, String con){
 		
 	}

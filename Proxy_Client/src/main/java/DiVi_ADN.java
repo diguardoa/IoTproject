@@ -28,6 +28,7 @@ public class DiVi_ADN {
 	public URI uri;
 	public List<String> addresses = new LinkedList<>();
 	public List<Patient> patients = new LinkedList<>();
+	public List<Room> rooms = new LinkedList<>();
 	public AE SmartHospital;
 	public Container Patients;
 	public Container Rooms;
@@ -81,7 +82,7 @@ public class DiVi_ADN {
 		CoapClient mote_c = new CoapClient(uri_mote);
 		mote_c.setTimeout(0);	// infinite timeout
 		
-		// Wait for 100 ms
+		// Wait for 3000 ms
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -98,7 +99,7 @@ public class DiVi_ADN {
 			CoapClient info_mote = new CoapClient(ADN.createUri(uri_mote + "/id"));
 			mote_c.setTimeout(0);	// infinite timeout
 			
-			//Wait for 100 ms
+			//Wait for 3000 ms
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
@@ -119,7 +120,21 @@ public class DiVi_ADN {
 	}
 	
 	public void getRoomResource(Set<WebLink> res_set, int room_id, URI uri_mote) {
-	
+		Room current_room;
+		
+		// Look if the room exist. If it doesn't create it
+		List<Room> look_for_room = rooms.stream()
+				.filter(a -> Objects.equals(a.seqNumber, room_id))
+				.collect(Collectors.toList());
+		if (look_for_room.isEmpty())
+		{
+			current_room = new Room(room_id);
+			rooms.add(current_room);
+		}
+		else
+			current_room = look_for_room.get(0);
+		
+		
 	}
 	public void getPatientResource(Set<WebLink> res_set, int pat_id, URI uri_mote) {
 		Patient current_pat;
@@ -140,7 +155,7 @@ public class DiVi_ADN {
 		for (WebLink link : res_set) {
 			final String resUri = link.getURI();	
 			if (!resUri.equalsIgnoreCase("/.well-known/core") && !resUri.equalsIgnoreCase("/id"))
-				current_pat.addResource(ADN.createUri(uri_mote + resUri), link);
+				current_pat.addResource(link, uri_mote + resUri);
 			
 		}
 	}

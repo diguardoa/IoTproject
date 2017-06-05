@@ -2329,58 +2329,58 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x0000eb26                _unexpected_
                 0x0000eb28                . = ALIGN (0x2)
 
-.rodata         0x0000eb28      0x5bc
+.rodata         0x0000eb28      0x5c4
                 0x0000eb28                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000eb28       0x98 sens-temp-patient.co
-                0x0000eb64                autostart_processes
- .rodata        0x0000ebc0      0x115 obj_z1/contiki-z1-main.o
- *fill*         0x0000ecd5        0x1 00
- .rodata        0x0000ecd6       0xec contiki-z1.a(er-coap-engine.)
-                0x0000ed30                coap_rest_implementation
- .rodata        0x0000edc2       0x11 contiki-z1.a(er-coap-observe)
- .rodata        0x0000edd3       0x19 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000edec        0xc contiki-z1.a(rest-engine.o)
- .rodata        0x0000edf8       0x5a contiki-z1.a(cc2420.o)
-                0x0000ee14                cc2420_aes_128_driver
-                0x0000ee18                cc2420_driver
- .rodata        0x0000ee52        0x8 contiki-z1.a(sensors.o)
- .rodata        0x0000ee5a       0x10 contiki-z1.a(button-sensor.o)
-                0x0000ee62                button_sensor
- .rodata        0x0000ee6a       0x16 contiki-z1.a(adxl345.o)
- .rodata        0x0000ee80        0xf contiki-z1.a(ctimer.o)
- .rodata        0x0000ee8f        0xc contiki-z1.a(etimer.o)
- *fill*         0x0000ee9b        0x1 00
- .rodata        0x0000ee9c       0x24 contiki-z1.a(sicslowpan.o)
-                0x0000eea8                sicslowpan_driver
-                0x0000eeae                llprefix
-                0x0000eeb0                unc_mxconf
-                0x0000eeb4                unc_ctxconf
-                0x0000eeb8                unc_llconf
- .rodata        0x0000eec0        0xd contiki-z1.a(tcpip.o)
- .rodata        0x0000eecd       0x29 contiki-z1.a(uip-debug.o)
- .rodata        0x0000eef6        0x8 contiki-z1.a(linkaddr.o)
-                0x0000eef6                linkaddr_null
- .rodata        0x0000eefe        0x8 contiki-z1.a(framer-802154.o)
-                0x0000eefe                framer_802154
- .rodata        0x0000ef06       0x16 contiki-z1.a(nullmac.o)
-                0x0000ef0e                nullmac_driver
- .rodata        0x0000ef1c       0x18 contiki-z1.a(nullrdc.o)
-                0x0000ef24                nullrdc_driver
- .rodata        0x0000ef34       0x14 contiki-z1.a(nullsec.o)
-                0x0000ef3c                nullsec_driver
- .rodata        0x0000ef48       0x8a contiki-z1.a(er-coap.o)
- .rodata        0x0000efd2        0x2 contiki-z1.a(frame802154.o)
- .rodata        0x0000efd4        0x8 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a(_thenan_sf.o)
-                0x0000efd4                __thenan_sf
- .rodata        0x0000efdc      0x100 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a(_clz.o)
-                0x0000efdc                __clz_tab
- .rodata        0x0000f0dc        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
-                0x0000f0e4                . = ALIGN (0x2)
- *fill*         0x0000f0e3        0x1 00
-                0x0000f0e4                _etext = .
+ .rodata        0x0000eb28       0xa0 sens-temp-patient.co
+                0x0000eb6c                autostart_processes
+ .rodata        0x0000ebc8      0x115 obj_z1/contiki-z1-main.o
+ *fill*         0x0000ecdd        0x1 00
+ .rodata        0x0000ecde       0xec contiki-z1.a(er-coap-engine.)
+                0x0000ed38                coap_rest_implementation
+ .rodata        0x0000edca       0x11 contiki-z1.a(er-coap-observe)
+ .rodata        0x0000eddb       0x19 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000edf4        0xc contiki-z1.a(rest-engine.o)
+ .rodata        0x0000ee00       0x5a contiki-z1.a(cc2420.o)
+                0x0000ee1c                cc2420_aes_128_driver
+                0x0000ee20                cc2420_driver
+ .rodata        0x0000ee5a        0x8 contiki-z1.a(sensors.o)
+ .rodata        0x0000ee62       0x10 contiki-z1.a(button-sensor.o)
+                0x0000ee6a                button_sensor
+ .rodata        0x0000ee72       0x16 contiki-z1.a(adxl345.o)
+ .rodata        0x0000ee88        0xf contiki-z1.a(ctimer.o)
+ .rodata        0x0000ee97        0xc contiki-z1.a(etimer.o)
+ *fill*         0x0000eea3        0x1 00
+ .rodata        0x0000eea4       0x24 contiki-z1.a(sicslowpan.o)
+                0x0000eeb0                sicslowpan_driver
+                0x0000eeb6                llprefix
+                0x0000eeb8                unc_mxconf
+                0x0000eebc                unc_ctxconf
+                0x0000eec0                unc_llconf
+ .rodata        0x0000eec8        0xd contiki-z1.a(tcpip.o)
+ .rodata        0x0000eed5       0x29 contiki-z1.a(uip-debug.o)
+ .rodata        0x0000eefe        0x8 contiki-z1.a(linkaddr.o)
+                0x0000eefe                linkaddr_null
+ .rodata        0x0000ef06        0x8 contiki-z1.a(framer-802154.o)
+                0x0000ef06                framer_802154
+ .rodata        0x0000ef0e       0x16 contiki-z1.a(nullmac.o)
+                0x0000ef16                nullmac_driver
+ .rodata        0x0000ef24       0x18 contiki-z1.a(nullrdc.o)
+                0x0000ef2c                nullrdc_driver
+ .rodata        0x0000ef3c       0x14 contiki-z1.a(nullsec.o)
+                0x0000ef44                nullsec_driver
+ .rodata        0x0000ef50       0x8a contiki-z1.a(er-coap.o)
+ .rodata        0x0000efda        0x2 contiki-z1.a(frame802154.o)
+ .rodata        0x0000efdc        0x8 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a(_thenan_sf.o)
+                0x0000efdc                __thenan_sf
+ .rodata        0x0000efe4      0x100 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a(_clz.o)
+                0x0000efe4                __clz_tab
+ .rodata        0x0000f0e4        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
+                0x0000f0ec                . = ALIGN (0x2)
+ *fill*         0x0000f0eb        0x1 00
+                0x0000f0ec                _etext = .
 
-.data           0x00001100      0x184 load address 0x0000f0e4
+.data           0x00001100      0x184 load address 0x0000f0ec
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                PROVIDE (__data_start, .)
  *(.data .data.* .gnu.linkonce.d.*)
@@ -2433,10 +2433,10 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  .data          0x00001280        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(rand.o)
                 0x00001284                . = ALIGN (0x2)
                 0x00001284                _edata = .
-                0x0000f0e4                PROVIDE (__data_load_start, LOADADDR (.data))
+                0x0000f0ec                PROVIDE (__data_load_start, LOADADDR (.data))
                 0x00000184                PROVIDE (__data_size, SIZEOF (.data))
 
-.bss            0x00001284     0x1654 load address 0x0000f268
+.bss            0x00001284     0x1654 load address 0x0000f270
                 0x00001284                PROVIDE (__bss_start, .)
  *(.bss .bss.*)
  .bss           0x00001284        0x2 sens-temp-patient.co
@@ -2563,7 +2563,7 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x000028d8                PROVIDE (__bss_end, .)
                 0x00001654                PROVIDE (__bss_size, SIZEOF (.bss))
 
-.noinit         0x000028d8        0x2 load address 0x0000f268
+.noinit         0x000028d8        0x2 load address 0x0000f270
                 0x000028d8                PROVIDE (__noinit_start, .)
  *(.noinit .noinit.*)
  .noinit.crt0   0x000028d8        0x2 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a(__watchdog_support.o)
@@ -3059,6 +3059,6 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  .debug_ranges  0x0000004c        0xc /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a(_clzsi2.o)
  .debug_ranges  0x00000058       0x18 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
                 0x00003100                PROVIDE (__stack, (ORIGIN (ram) + 0x2000))
-                0x0000f0e4                PROVIDE (__data_start_rom, _etext)
-                0x0000f268                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
+                0x0000f0ec                PROVIDE (__data_start_rom, _etext)
+                0x0000f270                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
 OUTPUT(sens-temp-patient.z1 elf32-msp430)

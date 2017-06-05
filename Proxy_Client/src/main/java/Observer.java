@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 
 public class Observer extends Thread{
-	private final URI uri;
+	private final String uri;
 	private CoapClient observable;
 	private CoapObserveRelation relation;
 	public String parent_container;
@@ -19,9 +19,11 @@ public class Observer extends Thread{
 	public void run() {
 		while (true) {
 			if (to_publish!=null) {
+				// All msg are conformed with SenML standard
 				JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
-				String value = jsonOBJ.get("T").toString();
-				ADN.createContentInstance(parent_container, "T", value);
+				String value = jsonOBJ.get("e").toString();
+				String mes_unity = jsonOBJ.get("u").toString();
+				ADN.createContentInstance(parent_container, mes_unity, value);
 				to_publish = null;
 			}
 			try {
@@ -33,9 +35,10 @@ public class Observer extends Thread{
 		}
 	}
 	
-	public Observer(URI uri, String resource_mn_path){
+	public Observer(String uri_mote, String resource_mn_path){
 		this.parent_container = resource_mn_path;
-		this.uri = uri;
+		this.uri = uri_mote;
+		System.out.println(uri_mote);
 		
 		observable = new CoapClient(this.uri);
 		relation = observable.observe(new CoapHandler() {
