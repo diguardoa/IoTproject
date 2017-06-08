@@ -1,7 +1,10 @@
 package WebServer.WebServer;
 
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -12,14 +15,37 @@ import org.json.JSONObject;
 
 public class DiVi_ADN_IN {
 	
-	public void prova() {
-		String results = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
-		System.out.println(results);
-		results = "coap://127.0.0.1:5683/~" + results + "?fu=1&rty=3";
-		System.out.println(results);
-		String res2 = discovery(results);
-		System.out.println(res2);
-			
+	public LinkedList<String> prova() {
+		System.out.println("Search for AE");
+		String st_ae = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
+		System.out.println(st_ae);
+		System.out.println();
+		System.out.println("Search for Container");
+		String str_ae = "coap://127.0.0.1:5683/~" + st_ae + "?fu=1&rty=3";
+		String str_cont = discovery(str_ae);
+		String[] containers = str_cont.split(" /");
+		LinkedList<String> ll = new LinkedList<String>(Arrays.asList(containers));
+		ll.addFirst(st_ae);
+		return ll;
+	}
+	
+	public void findPatientRoom(LinkedList<String> ll, String str){
+		int x = 0, index = -1;
+		for(String s: ll){
+			if(s.equals(str)){
+				index = x;
+				System.out.println(str + "found -> index: " + index);
+				System.out.println(str + "/Patient0");
+				System.out.println(ll.get(index+1));
+				if(ll.get(index+1).toString().equals(new String(str + "/Patient0"))){
+					String[] pat_cont = new String[5];
+					for(int i = 1; i<5; i++)
+						pat_cont[i] = ll.get(index+1+i).toString();	
+					System.out.println("fatto");
+				}
+			}
+			x++;
+		}
 	}
 	
 	static String discovery(String cse){
