@@ -46,22 +46,22 @@ public class Room extends Thread{
 				
 		switch (res_title) {
 		case "Temp":
-			Temp = new Sensor(link,my_container_long_name,res_uri);
+			Temp = new Resource(link,my_container_long_name,res_uri);
 			Temp.start();
 			resNumber++;
 			break;
 		case "AirCon":
-			AirCon = new Actuator(link,my_container_long_name,res_uri);
+			AirCon = new Resource(link,my_container_long_name,res_uri);
 			AirCon.start();
 			resNumber++;
 			break;
 		case "FireAl":
-			FireAl = new Actuator(link,my_container_long_name,res_uri);
+			FireAl = new Resource(link,my_container_long_name,res_uri);
 			FireAl.start();
 			resNumber++;
 			break;
 		case "Set_Temp":
-			Set_Temp = new Actuator(link,my_container_long_name,res_uri);
+			Set_Temp = new Resource(link,my_container_long_name,res_uri);
 			Set_Temp.start();
 			resNumber++;
 			break;

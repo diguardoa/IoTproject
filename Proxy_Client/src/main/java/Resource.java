@@ -21,6 +21,8 @@ public class Resource extends Thread {
 	protected String uri_mote;
 	protected String rt;
 	
+	protected boolean automatic_mode;
+	
 	private CoapResponse to_publish;
 	private boolean ready_to_publish;
 	private CoapClient observable;
@@ -30,7 +32,8 @@ public class Resource extends Thread {
 		
 		uri_mote = uri_server;
 		resource_name = link.getAttributes().getTitle();
-
+		automatic_mode = false;
+		
 		// Create container (only if the resource is a sensor or an actuator)
 		rt = link.getAttributes().getResourceTypes().get(0);
 
@@ -75,7 +78,7 @@ public class Resource extends Thread {
 			// All msg are conformed with SenML standard
 			JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
 			String value = jsonOBJ.get("e").toString();
-			setCurrentValue(Integer.parseInt(value));
+			setCurrentValue(Integer.parseInt(value));			
 			String mes_unity = jsonOBJ.get("u").toString();
 			DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
 			ready_to_publish = false;
@@ -83,17 +86,29 @@ public class Resource extends Thread {
 	}
 	
 	public void run() {
-		if (rt.equals("A") || rt.equals("S"))
-			observingStep();
-		try {
-			currentThread();
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		while(true) {
+			if (rt.equals("A") || rt.equals("S"))
+				observingStep();
+			
+			
+			// Chiedi se in modalità manuale o no il modo e setta la variabile automatic_mode
+			
+			try {
+				currentThread();
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	
 	public void setValue(int value) {
+		if (automatic_mode)
+			sendValue(value);
+	}
+	
+	private void sendValue(int value) {
 		String message = "e=" + String.valueOf(value);
 		CoapClient pclient = new CoapClient(uri_mote);
 		CoapResponse post_response = pclient.post(message,MediaTypeRegistry.TEXT_PLAIN);
