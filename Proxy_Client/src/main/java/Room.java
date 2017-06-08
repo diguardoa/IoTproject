@@ -16,8 +16,7 @@ public class Room extends Thread{
 	// Actuators (true ones)
 	private Resource FireAl;
 	private Resource AirCon;
-	// Actuators (for simulation)
-	private Resource Set_Temp;
+
 
 	
 	private Container single_room_container;
@@ -60,11 +59,6 @@ public class Room extends Thread{
 			FireAl.start();
 			resNumber++;
 			break;
-		case "Set_Temp":
-			Set_Temp = new Resource(link,my_container_long_name,res_uri);
-			Set_Temp.start();
-			resNumber++;
-			break;
 
 		default:
 			System.out.println(res_title + " was not recognized");	
@@ -76,7 +70,7 @@ public class Room extends Thread{
 	public void run() {
 		while (true) {
 			
-			if (resNumber == 4) {
+			if (resNumber == 3) {
 				System.out.println("thread started" + String.valueOf(Temp.getValue()));
 				if (Temp.getValue() > treshold_temp)
 				{

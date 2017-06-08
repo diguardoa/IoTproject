@@ -13,10 +13,7 @@ public class Patient extends Thread {
 	// Actuators (true ones)
 	private Resource OxyValve;
 	private Resource LedA;
-	// Actuators (for simulation)
-	private Resource Set_Temp;
-	private Resource Set_HRS;
-	private Resource Set_OxyS;
+
 	
 	private Container single_patient_container;
 	private String my_container_long_name;
@@ -69,21 +66,6 @@ public class Patient extends Thread {
 			LedA.start();
 			resNumber++;
 			break;
-		case "Set_Temp":
-			Set_Temp = new Resource(link,my_container_long_name,res_uri);
-			Set_Temp.start();
-			resNumber++;
-			break;
-		case "Set_HRS":
-			Set_HRS = new Resource(link,my_container_long_name,res_uri);
-			Set_HRS.start();
-			resNumber++;
-			break;
-		case "Set_OxyS":
-			Set_OxyS = new Resource(link,my_container_long_name,res_uri);
-			Set_OxyS.start();
-			resNumber++;
-			break;
 		default:
 			System.out.println(res_title + " was not recognized");	
 		}
@@ -94,7 +76,7 @@ public class Patient extends Thread {
 	public void run() {
 		while (true) {
 			
-			if (resNumber == 8) {
+			if (resNumber == 5) {
 
 			}
 			

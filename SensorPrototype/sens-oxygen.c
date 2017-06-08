@@ -26,9 +26,9 @@ void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 
 static void oxy_periodic_handler();
 
-PERIODIC_RESOURCE(oxy_sens, "title=\"OxyS\";rt=\"S\";obs", oxy_get_handler, NULL, NULL, NULL, TIME_SAMPLING, oxy_periodic_handler);
+PERIODIC_RESOURCE(oxy_sens, "title=\"OxyS\";rt=\"S\";obs", oxy_get_handler, oxy_post_handler, NULL, NULL, TIME_SAMPLING, oxy_periodic_handler);
 
-RESOURCE(set_temp_environment, "title=\"Set_OxyS\";rt=\"P\"", NULL, oxy_post_handler, NULL, NULL);
+//RESOURCE(set_temp_environment, "title=\"Set_OxyS\";rt=\"P\"", NULL, oxy_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 

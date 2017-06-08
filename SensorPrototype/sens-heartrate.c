@@ -20,9 +20,9 @@ void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 static void hr_periodic_handler();
 
 
-PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt\"S\";obs", hr_get_handler,NULL,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
+PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt\"S\";obs", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
 
-RESOURCE(set_temp_environment, "title=\"Set_HRS\";rt=\"P\"", NULL, hr_post_handler, NULL, NULL);
+//RESOURCE(set_temp_environment, "title=\"Set_HRS\";rt=\"P\"", NULL, hr_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 

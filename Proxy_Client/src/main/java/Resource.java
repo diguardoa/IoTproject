@@ -37,11 +37,10 @@ public class Resource extends Thread {
 		// Create container (only if the resource is a sensor or an actuator)
 		rt = link.getAttributes().getResourceTypes().get(0);
 
-		if (rt.equals("S") || rt.equals("A")) {
-			System.out.println("created");
-			res_container = DiVi_ADN.createContainer(parent_container, resource_name);		
-			resource_mn_path = parent_container + "/" + resource_name;
-		}
+		System.out.println("created");
+		res_container = DiVi_ADN.createContainer(parent_container, resource_name);		
+		resource_mn_path = parent_container + "/" + resource_name;
+
 		// Look if the resource is observable
 		if (link.getAttributes().containsAttribute("obs")) {
 			System.out.println("the resource is observable");
@@ -70,6 +69,8 @@ public class Resource extends Thread {
 			System.out.println("the resource is non observable");
 		}
 		
+		// Fai partire l'oggetto server coap che fa la subscription su IN
+		
 	}
 	
 	public void observingStep() {
@@ -87,8 +88,7 @@ public class Resource extends Thread {
 	
 	public void run() {
 		while(true) {
-			if (rt.equals("A") || rt.equals("S"))
-				observingStep();
+			observingStep();
 			
 			
 			// Chiedi se in modalità manuale o no il modo e setta la variabile automatic_mode
