@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.eclipse.californium.core.WebLink;
 
 public class Room extends Thread{
-	public static final int treshold_temp = 50;
+
 	
 	public int seqNumber;
 	
@@ -72,7 +72,8 @@ public class Room extends Thread{
 			
 			if (resNumber == 3) {
 				System.out.println("thread started" + String.valueOf(Temp.getValue()));
-				if (Temp.getValue() > treshold_temp)
+				if ((Temp.getValue() > ProxyClient.treshold_temp_room_high) || 
+						(Temp.getValue() < ProxyClient.treshold_temp_room_low))
 				{
 					DiVi_ADN.general_alarm.set();
 					// every time a "post" alarm (it is very important)
@@ -86,7 +87,7 @@ public class Room extends Thread{
 			
 			try {
 				currentThread();
-				Thread.sleep(2000);
+				Thread.sleep(ProxyClient.T_room);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

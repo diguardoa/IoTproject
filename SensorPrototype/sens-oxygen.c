@@ -69,8 +69,9 @@ void oxy_get_handler(void* request, void* response, uint8_t* buffer, uint16_t pr
 	/* Populat the buffer with the response payload*/
 	char message[23];
 	int length = 23;
+	int t_oxy = (int) oxy_k;
 
-	sprintf(message, "{'e':'%03u','u':'%'}", oxy_k);
+	sprintf(message, "{'e':'%03d','u':'%'}", t_oxy);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -84,7 +85,7 @@ void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t p
   int new_value, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_value = atoi(val);	

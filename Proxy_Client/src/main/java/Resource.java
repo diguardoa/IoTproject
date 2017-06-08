@@ -32,7 +32,7 @@ public class Resource extends Thread {
 		
 		uri_mote = uri_server;
 		resource_name = link.getAttributes().getTitle();
-		automatic_mode = false;
+		automatic_mode = true;
 		
 		// Create container (only if the resource is a sensor or an actuator)
 		rt = link.getAttributes().getResourceTypes().get(0);
@@ -114,7 +114,7 @@ public class Resource extends Thread {
 		CoapResponse post_response = pclient.post(message,MediaTypeRegistry.TEXT_PLAIN);
 	}
 	
-	public synchronized void setCurrentValue(int value) {
+	private synchronized void setCurrentValue(int value) {
 		current_value = value;
 	}
 	

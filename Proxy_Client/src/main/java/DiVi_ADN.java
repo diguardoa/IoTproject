@@ -160,6 +160,7 @@ public class DiVi_ADN extends Thread{
 		if (look_for_patient.isEmpty())
 		{
 			current_pat = new Patient(pat_id);
+			current_pat.start();
 			patients.add(current_pat);
 		}
 		else

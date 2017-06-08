@@ -3,8 +3,10 @@ import org.eclipse.californium.core.WebLink;
 
 public class Patient extends Thread {
 	public int seqNumber;
-	
 	private int resNumber;
+	
+
+
 		
 	// Sensors
 	private Resource Temp;
@@ -75,14 +77,32 @@ public class Patient extends Thread {
 	
 	public void run() {
 		while (true) {
-			
 			if (resNumber == 5) {
+				
 
+				// get temp variables
+				int t_HRS = HRS.getValue();
+				int t_OxyS = OxyS.getValue();
+				int t_temp = Temp.getValue();
+				System.out.println("thread patient" + String.valueOf(t_OxyS));
+				// look for errors
+				if ((t_HRS < ProxyClient.treshold_HRS_low) || (t_HRS > ProxyClient.treshold_HRS_low) ||
+						(t_OxyS < ProxyClient.treshold_OxyS_low) || (t_OxyS > ProxyClient.treshold_OxyS_high) ||
+						(t_temp < ProxyClient.treshold_temp_pat_low) || (t_temp > ProxyClient.treshold_temp_pat_high))
+				{
+					LedA.setValue(1);;
+				}
+				
+				// Adjust Oxigen
+				int e = ProxyClient.oxygen_optimal - t_OxyS;
+				int u = ProxyClient.Kp_oxy * e;
+				OxyS.setValue(u);
+				OxyValve.setValue(u);
 			}
 			
 			try {
 				currentThread();
-				Thread.sleep(2000);
+				Thread.sleep(ProxyClient.T_patient);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

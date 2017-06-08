@@ -53,7 +53,7 @@ void get_handler(void* request, void* response, uint8_t *buffer, uint16_t prefer
 	char message[23];
 	int length = 23;
 
-	sprintf(message,"{'e':'%03d','u':'%'}",current_status);
+	sprintf(message,"{'e':'%d','u':'%'}",current_status);
 
 	length = strlen(message);
 	memcpy(buffer, message, length);
@@ -69,7 +69,7 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   int len, temp_status;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "status", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      temp_status = atoi(val);	
