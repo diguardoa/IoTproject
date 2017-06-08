@@ -4,22 +4,13 @@
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
-//#include "project-conf.h"
 
-
-#define TIME_SAMPLING 100
-#define STARTING_TEMPERATURE 20
-#define A 0.9048
-// A = exp(-(TIME_SAMPLING/TIME_CONST)
-#define B (1 - A)
-
-// First order variable
-static int u_k_1 = (STARTING_TEMPERATURE+1);
-static int u_k = (STARTING_TEMPERATURE+1);
-static float temp_k = STARTING_TEMPERATURE;	// temperature at current time
-static float temp_k_1 = STARTING_TEMPERATURE;	// temperature last sample
+#define STARTING_TEMP 36
 
 int pat_id = 0;
+
+int temp_current = STARTING_TEMP;
+int temp_next = STARTING_TEMP;
  
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -27,12 +18,12 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void temp_periodic_handler();
 
-PERIODIC_RESOURCE(temp_sens,"title=\"TRS\";rt=\"T\";type=\"S\";obs", temp_get_handler,NULL,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
+PERIODIC_RESOURCE(temp_sens,"title=\"Temp\";rt=\"S\";obs", temp_get_handler,NULL,NULL,NULL, 10*CLOCK_SECOND,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
 */
-RESOURCE(set_temp_environment, "title=\"TE\"", NULL, temp_post_handler, NULL, NULL);
+RESOURCE(set_temp_environment, "title=\"Set_Temp\";rt=\"P\"", NULL, temp_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
@@ -56,7 +47,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
   int new_id, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_id = atoi(val);	
@@ -74,7 +65,7 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 	char message[23];
 	int length = 23;
 
-	sprintf(message, "{'e':'%03d','u':'C'}", ((int) temp_k));
+	sprintf(message, "{'e':'%03d','u':'C'}", ((int) temp_current));
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -92,7 +83,7 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
      
   if( len > 0 ){
      new_value = atoi(val);	
-     u_k = new_value + 1; 
+     temp_next = new_value + 1; 
      /* 
      * because it doesn't reach the final value. It's done only for the coherence of the
      * simulation
@@ -105,11 +96,12 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
 
 static void temp_periodic_handler()
 {
-	temp_k_1 = temp_k;
-	temp_k = (A * temp_k_1) + (B * u_k_1);
-	if (((int) temp_k) != ((int) temp_k_1))
+	if (temp_next != temp_current)
+	{	
+		temp_current = temp_next;
 		REST.notify_subscribers(&temp_sens);
-	u_k_1 = u_k;
+	}
+
 }
 
 PROCESS(temperature_process, "Temperature sensor");

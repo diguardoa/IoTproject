@@ -17,7 +17,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(ledAlarm, "title=\"LA\";type=\"A\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(ledAlarm, "title=\"LedA\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL);
 RESOURCE(Id, "title=\"PatienId\"rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -58,9 +58,9 @@ void get_handler(void* request, void* response, uint8_t *buffer, uint16_t prefer
 	int length = 26;
 
 	if (alarm_status == ALARM_ON)
-		sprintf(message, "{'e':'on','u':'status'}");
+		sprintf(message, "{'e':'1','u':'status'}");
 	else
-		sprintf(message, "{'e':'off','u':'status'}");
+		sprintf(message, "{'e':'0','u':'status'}");
 
 	length = strlen(message);
 	memcpy(buffer, message, length);
@@ -76,7 +76,7 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   int next_status, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "status", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      next_status = atoi(val);	

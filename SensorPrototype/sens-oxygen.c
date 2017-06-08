@@ -5,16 +5,30 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-int oxy_perc = 98;
+#define TIME_SAMPLING 100
+#define STARTING_OXY 20
+#define A 0.9048
+// A = exp(-(TIME_SAMPLING/TIME_CONST)
+#define B (1 - A)
+
+// First order variable
+static int u_k_1 = STARTING_OXY;
+static int u_k = STARTING_OXY;
+static float oxy_k = STARTING_OXY;	// temperature at current time
+static float oxy_k_1 = STARTING_OXY;	// temperature last sample
+
 int pat_id = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void oxy_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+
 static void oxy_periodic_handler();
 
-PERIODIC_RESOURCE(oxy_sens, "title=\"OS\";rt=\"Perc\";type=\"S\";obs", oxy_get_handler, oxy_post_handler, NULL, NULL, 5*CLOCK_SECOND, oxy_periodic_handler);
+PERIODIC_RESOURCE(oxy_sens, "title=\"OxyS\";rt=\"S\";obs", oxy_get_handler, NULL, NULL, NULL, TIME_SAMPLING, oxy_periodic_handler);
+
+RESOURCE(set_temp_environment, "title=\"Set_OxyS\";rt=\"P\"", NULL, oxy_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
@@ -56,7 +70,7 @@ void oxy_get_handler(void* request, void* response, uint8_t* buffer, uint16_t pr
 	char message[23];
 	int length = 23;
 
-	sprintf(message, "{'e':'%03u','u':'%'}", oxy_perc);
+	sprintf(message, "{'e':'%03u','u':'%'}", oxy_k);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -74,7 +88,7 @@ void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t p
      
   if( len > 0 ){
      new_value = atoi(val);	
-     oxy_perc = new_value;
+     u_k = new_value;
      REST.set_response_status(response, REST.status.CREATED);
   } else {
      REST.set_response_status(response, REST.status.BAD_REQUEST);
@@ -83,9 +97,11 @@ void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 
 static void oxy_periodic_handler()
 {
-	--oxy_perc;
-
-	REST.notify_subscribers(&oxy_sens);
+	oxy_k_1 = oxy_k;
+	oxy_k = (A * oxy_k_1) + (B * u_k_1);
+	if (((int) oxy_k) != ((int) oxy_k_1))
+		REST.notify_subscribers(&oxy_sens);
+	u_k_1 = u_k;
 }
 
 PROCESS(oxygen_process, "Oxygen Process");

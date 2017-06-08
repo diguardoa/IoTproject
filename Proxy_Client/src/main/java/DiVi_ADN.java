@@ -27,13 +27,15 @@ import org.json.JSONObject;
 
 
 public class DiVi_ADN extends Thread{
-	public URI uri;
-	public List<String> addresses = new LinkedList<>();
-	public List<Patient> patients = new LinkedList<>();
-	public List<Room> rooms = new LinkedList<>();
-	public AE SmartHospital;
-	public Container Patients;
-	public Container Rooms;
+	private URI uri;
+	private List<String> addresses = new LinkedList<>();
+	private List<Patient> patients = new LinkedList<>();
+	private List<Room> rooms = new LinkedList<>();
+	private AE SmartHospital;
+	private Container Patients;
+	private Container Rooms;
+	
+	static public RoomsAlarm general_alarm;
 	
 	/*
 	 * DiViADN publishes on the MN
@@ -61,6 +63,8 @@ public class DiVi_ADN extends Thread{
 				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
 				"Rooms");
 			
+		// Create the Alarm
+		general_alarm = new RoomsAlarm();
 	}
 
 
@@ -131,6 +135,7 @@ public class DiVi_ADN extends Thread{
 		if (look_for_room.isEmpty())
 		{
 			current_room = new Room(room_id);
+			current_room.start();
 			rooms.add(current_room);
 		}
 		else
@@ -227,7 +232,7 @@ public class DiVi_ADN extends Thread{
 		
 		return uri_created;
 	}
-	
+	/*
 	static AE createAE(String cse, String rn){
 		AE ae = new AE();
 		URI uri = createUri(cse);
@@ -341,7 +346,7 @@ public class DiVi_ADN extends Thread{
 		String path = content.getString("m2m:uril");
 		return path;
 	}
-/*	
+*/
 	static void createContentInstance(String cse, String cnf, String con){
 		
 	}
@@ -357,5 +362,5 @@ public class DiVi_ADN extends Thread{
 	static Container createContainer(String cse, String rn){
 		return null;
 	}
-*/
+
 }

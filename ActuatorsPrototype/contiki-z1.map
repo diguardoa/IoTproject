@@ -1,14 +1,14 @@
 Archive member included because of file (symbol)
 
 contiki-z1.a(er-coap-engine.)
-                              ledAlarm.co (coap_rest_implementation)
+                              fireAlarm.co (coap_rest_implementation)
 contiki-z1.a(er-coap-transac)
                               contiki-z1.a(er-coap-engine.) (coap_register_as_transaction_handler)
 contiki-z1.a(er-coap-observe)
                               contiki-z1.a(er-coap-transac) (coap_remove_observer_by_client)
 contiki-z1.a(er-coap-res-wel)
                               contiki-z1.a(er-coap-engine.) (res_well_known_core)
-contiki-z1.a(rest-engine.o)   ledAlarm.co (rest_init_engine)
+contiki-z1.a(rest-engine.o)   fireAlarm.co (rest_init_engine)
 contiki-z1.a(contiki-z1-plat)
                               obj_z1/contiki-z1-main.o (init_platform)
 contiki-z1.a(msp430.o)        obj_z1/contiki-z1-main.o (splhigh_)
@@ -92,19 +92,19 @@ contiki-z1.a(mac.o)           contiki-z1.a(nullrdc.o) (mac_call_sent_callback)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(memcmp.o)
                               contiki-z1.a(er-coap-observe) (memcmp)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(strcpy.o)
-                              ledAlarm.co (strcpy)
+                              fireAlarm.co (strcpy)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(memcpy.o)
-                              ledAlarm.co (memcpy)
+                              fireAlarm.co (memcpy)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(memmove.o)
                               contiki-z1.a(sicslowpan.o) (memmove)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(memset.o)
                               obj_z1/contiki-z1-main.o (memset)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(atoi.o)
-                              ledAlarm.co (atoi)
+                              fireAlarm.co (atoi)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(printf.o)
                               obj_z1/contiki-z1-main.o (printf)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(sprintf.o)
-                              ledAlarm.co (sprintf)
+                              fireAlarm.co (sprintf)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
                               /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(printf.o) (vuprintf)
 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(puts.o)
@@ -207,7 +207,7 @@ Discarded input sections
  .data          0x00000000        0x0 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/crt0ivtbl32.o
  .bss           0x00000000        0x0 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/crt0ivtbl32.o
  .text.crt0     0x00000000        0x0 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/crt0ivtbl32.o
- .text          0x00000000        0x0 ledAlarm.co
+ .text          0x00000000        0x0 fireAlarm.co
  .text          0x00000000        0x0 obj_z1/contiki-z1-main.o
  .text.uip_log  0x00000000        0x6 obj_z1/contiki-z1-main.o
  .text          0x00000000        0x0 contiki-z1.a(er-coap-engine.)
@@ -661,7 +661,7 @@ Linker script and memory map
 LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/crt0ivtbl32.o
                 0x00000041                __P1SEL2 = 0x41
                 0x00000045                __P5SEL2 = 0x45
-LOAD ledAlarm.co
+LOAD fireAlarm.co
 LOAD obj_z1/contiki-z1-main.o
 LOAD contiki-z1.a
 LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libgcc.a
@@ -1048,19 +1048,19 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x000034a0                __isr_1
                 0x000034a0                __isr_15
                 0x000034a0                __isr_21
- .text.process_thread_ledAlarm_main
-                0x000034a4       0x76 ledAlarm.co
+ .text.process_thread_fireAlarm_main
+                0x000034a4       0x76 fireAlarm.co
  .text.get_handler
-                0x0000351a       0x6e ledAlarm.co
+                0x0000351a       0x6e fireAlarm.co
                 0x0000351a                get_handler
  .text.id_get_handler
-                0x00003588       0x6c ledAlarm.co
+                0x00003588       0x6c fireAlarm.co
                 0x00003588                id_get_handler
  .text.id_post_handler
-                0x000035f4       0x3a ledAlarm.co
+                0x000035f4       0x3a fireAlarm.co
                 0x000035f4                id_post_handler
  .text.post_handler
-                0x0000362e       0x58 ledAlarm.co
+                0x0000362e       0x58 fireAlarm.co
                 0x0000362e                post_handler
  .text.coap_set_service_callback
                 0x00003686        0x6 contiki-z1.a(er-coap-engine.)
@@ -2281,61 +2281,61 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x0000e15e                _unexpected_
                 0x0000e160                . = ALIGN (0x2)
 
-.rodata         0x0000e160      0x4b0
+.rodata         0x0000e160      0x4b8
                 0x0000e160                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000e160       0x94 ledAlarm.co
-                0x0000e1c4                autostart_processes
- .rodata        0x0000e1f4      0x115 obj_z1/contiki-z1-main.o
- *fill*         0x0000e309        0x1 00
- .rodata        0x0000e30a       0xec contiki-z1.a(er-coap-engine.)
-                0x0000e364                coap_rest_implementation
- .rodata        0x0000e3f6       0x11 contiki-z1.a(er-coap-observe)
- .rodata        0x0000e407       0x19 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000e420        0xc contiki-z1.a(rest-engine.o)
- .rodata        0x0000e42c       0x5a contiki-z1.a(cc2420.o)
-                0x0000e448                cc2420_aes_128_driver
-                0x0000e44c                cc2420_driver
- .rodata        0x0000e486        0x8 contiki-z1.a(sensors.o)
- .rodata        0x0000e48e       0x10 contiki-z1.a(button-sensor.o)
-                0x0000e496                button_sensor
- .rodata        0x0000e49e       0x16 contiki-z1.a(adxl345.o)
- .rodata        0x0000e4b4        0xf contiki-z1.a(ctimer.o)
- .rodata        0x0000e4c3        0xc contiki-z1.a(etimer.o)
- *fill*         0x0000e4cf        0x1 00
- .rodata        0x0000e4d0       0x24 contiki-z1.a(sicslowpan.o)
-                0x0000e4dc                sicslowpan_driver
-                0x0000e4e2                llprefix
-                0x0000e4e4                unc_mxconf
-                0x0000e4e8                unc_ctxconf
-                0x0000e4ec                unc_llconf
- .rodata        0x0000e4f4        0xd contiki-z1.a(tcpip.o)
- .rodata        0x0000e501       0x29 contiki-z1.a(uip-debug.o)
- .rodata        0x0000e52a        0x8 contiki-z1.a(linkaddr.o)
-                0x0000e52a                linkaddr_null
- .rodata        0x0000e532        0x8 contiki-z1.a(framer-802154.o)
-                0x0000e532                framer_802154
- .rodata        0x0000e53a       0x16 contiki-z1.a(nullmac.o)
-                0x0000e542                nullmac_driver
- .rodata        0x0000e550       0x18 contiki-z1.a(nullrdc.o)
-                0x0000e558                nullrdc_driver
- .rodata        0x0000e568       0x14 contiki-z1.a(nullsec.o)
-                0x0000e570                nullsec_driver
- .rodata        0x0000e57c       0x8a contiki-z1.a(er-coap.o)
- .rodata        0x0000e606        0x2 contiki-z1.a(frame802154.o)
- .rodata        0x0000e608        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
-                0x0000e610                . = ALIGN (0x2)
- *fill*         0x0000e60f        0x1 00
-                0x0000e610                _etext = .
+ .rodata        0x0000e160       0x9c fireAlarm.co
+                0x0000e1b8                autostart_processes
+ .rodata        0x0000e1fc      0x115 obj_z1/contiki-z1-main.o
+ *fill*         0x0000e311        0x1 00
+ .rodata        0x0000e312       0xec contiki-z1.a(er-coap-engine.)
+                0x0000e36c                coap_rest_implementation
+ .rodata        0x0000e3fe       0x11 contiki-z1.a(er-coap-observe)
+ .rodata        0x0000e40f       0x19 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000e428        0xc contiki-z1.a(rest-engine.o)
+ .rodata        0x0000e434       0x5a contiki-z1.a(cc2420.o)
+                0x0000e450                cc2420_aes_128_driver
+                0x0000e454                cc2420_driver
+ .rodata        0x0000e48e        0x8 contiki-z1.a(sensors.o)
+ .rodata        0x0000e496       0x10 contiki-z1.a(button-sensor.o)
+                0x0000e49e                button_sensor
+ .rodata        0x0000e4a6       0x16 contiki-z1.a(adxl345.o)
+ .rodata        0x0000e4bc        0xf contiki-z1.a(ctimer.o)
+ .rodata        0x0000e4cb        0xc contiki-z1.a(etimer.o)
+ *fill*         0x0000e4d7        0x1 00
+ .rodata        0x0000e4d8       0x24 contiki-z1.a(sicslowpan.o)
+                0x0000e4e4                sicslowpan_driver
+                0x0000e4ea                llprefix
+                0x0000e4ec                unc_mxconf
+                0x0000e4f0                unc_ctxconf
+                0x0000e4f4                unc_llconf
+ .rodata        0x0000e4fc        0xd contiki-z1.a(tcpip.o)
+ .rodata        0x0000e509       0x29 contiki-z1.a(uip-debug.o)
+ .rodata        0x0000e532        0x8 contiki-z1.a(linkaddr.o)
+                0x0000e532                linkaddr_null
+ .rodata        0x0000e53a        0x8 contiki-z1.a(framer-802154.o)
+                0x0000e53a                framer_802154
+ .rodata        0x0000e542       0x16 contiki-z1.a(nullmac.o)
+                0x0000e54a                nullmac_driver
+ .rodata        0x0000e558       0x18 contiki-z1.a(nullrdc.o)
+                0x0000e560                nullrdc_driver
+ .rodata        0x0000e570       0x14 contiki-z1.a(nullsec.o)
+                0x0000e578                nullsec_driver
+ .rodata        0x0000e584       0x8a contiki-z1.a(er-coap.o)
+ .rodata        0x0000e60e        0x2 contiki-z1.a(frame802154.o)
+ .rodata        0x0000e610        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
+                0x0000e618                . = ALIGN (0x2)
+ *fill*         0x0000e617        0x1 00
+                0x0000e618                _etext = .
 
-.data           0x00001100      0x150 load address 0x0000e610
+.data           0x00001100      0x150 load address 0x0000e618
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                PROVIDE (__data_start, .)
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x00001100       0x2e ledAlarm.co
-                0x00001100                ledAlarm_main
+ .data          0x00001100       0x2e fireAlarm.co
+                0x00001100                fireAlarm_main
                 0x0000110a                Id
-                0x0000111c                ledAlarm
+                0x0000111c                fireAlarm
  .data          0x0000112e        0x4 obj_z1/contiki-z1-main.o
                 0x0000112e                sensors
  .data          0x00001132        0xa contiki-z1.a(er-coap-engine.)
@@ -2379,14 +2379,14 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  .data          0x0000124c        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(rand.o)
                 0x00001250                . = ALIGN (0x2)
                 0x00001250                _edata = .
-                0x0000e610                PROVIDE (__data_load_start, LOADADDR (.data))
+                0x0000e618                PROVIDE (__data_load_start, LOADADDR (.data))
                 0x00000150                PROVIDE (__data_size, SIZEOF (.data))
 
-.bss            0x00001250     0x1662 load address 0x0000e760
+.bss            0x00001250     0x1662 load address 0x0000e768
                 0x00001250                PROVIDE (__bss_start, .)
  *(.bss .bss.*)
- .bss           0x00001250       0x10 ledAlarm.co
-                0x00001250                pat_id
+ .bss           0x00001250       0x10 fireAlarm.co
+                0x00001250                room_id
  .bss           0x00001260        0x4 obj_z1/contiki-z1-main.o
  .bss           0x00001264      0x10c contiki-z1.a(er-coap-engine.)
  .bss           0x00001370      0x2f0 contiki-z1.a(er-coap-transac)
@@ -2509,7 +2509,7 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x000028b2                PROVIDE (__bss_end, .)
                 0x00001662                PROVIDE (__bss_size, SIZEOF (.bss))
 
-.noinit         0x000028b2        0x2 load address 0x0000e760
+.noinit         0x000028b2        0x2 load address 0x0000e768
                 0x000028b2                PROVIDE (__noinit_start, .)
  *(.noinit .noinit.*)
  .noinit.crt0   0x000028b2        0x2 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a(__watchdog_support.o)
@@ -2560,7 +2560,7 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
 
 .stab           0x00000000    0x2be90
  *(.stab)
- .stab          0x00000000     0x1c5c ledAlarm.co
+ .stab          0x00000000     0x1c5c fireAlarm.co
  .stab          0x00001c5c     0x12b4 obj_z1/contiki-z1-main.o
                                0x1b24 (size before relaxing)
  .stab          0x00002f10     0x1104 contiki-z1.a(er-coap-engine.)
@@ -2688,9 +2688,9 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  .stab          0x0002bc98      0x1f8 contiki-z1.a(mac.o)
                                 0x4ec (size before relaxing)
 
-.stabstr        0x00000000    0x20236
+.stabstr        0x00000000    0x2023b
  *(.stabstr)
- .stabstr       0x00000000    0x20236 ledAlarm.co
+ .stabstr       0x00000000    0x2023b fireAlarm.co
 
 .stab.excl
  *(.stab.excl)
@@ -2940,6 +2940,6 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
                 0x00003100                PROVIDE (__stack, (ORIGIN (ram) + 0x2000))
-                0x0000e610                PROVIDE (__data_start_rom, _etext)
-                0x0000e760                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
-OUTPUT(ledAlarm.z1 elf32-msp430)
+                0x0000e618                PROVIDE (__data_start_rom, _etext)
+                0x0000e768                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
+OUTPUT(fireAlarm.z1 elf32-msp430)

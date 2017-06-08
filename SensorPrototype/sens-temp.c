@@ -27,12 +27,12 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void temp_periodic_handler();
 
-PERIODIC_RESOURCE(temp_sens,"title=\"TRS\";rt=\"T\";type=\"S\";obs", temp_get_handler,NULL,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
+PERIODIC_RESOURCE(temp_sens,"title=\"Temp\";rt=\"S\";obs", temp_get_handler,NULL,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
 */
-RESOURCE(set_temp_environment, "title=\"TE\"", NULL, temp_post_handler, NULL, NULL);
+RESOURCE(set_temp_environment, "title=\"Set_Temp\";rt=\"P\"", NULL, temp_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"RoomId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
@@ -88,7 +88,7 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
   int new_value, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_value = atoi(val);	

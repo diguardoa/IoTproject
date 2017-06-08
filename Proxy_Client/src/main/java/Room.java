@@ -6,17 +6,26 @@ import java.util.stream.Collectors;
 import org.eclipse.californium.core.WebLink;
 
 public class Room extends Thread{
+	public static final int treshold_temp = 50;
+	
 	public int seqNumber;
-	public int resNumber;
-	private List<Resource> resources = new LinkedList<>();;
+	
+	private int resNumber;
+	// Sensors
+	private Resource Temp;
+	// Actuators (true ones)
+	private Resource FireAl;
+	private Resource AirCon;
+	// Actuators (for simulation)
+	private Resource Set_Temp;
+
+	
 	private Container single_room_container;
 	private String my_container_long_name;
 	
 	public Room(int id) {
 		seqNumber = id;
 		resNumber = 0;
-
-		
 		// Create a patient$seqNumber container into /Patients conteiner
 		
 		String parent_container = "coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/"
@@ -30,26 +39,63 @@ public class Room extends Thread{
 	}
 	
 	public void addResource(WebLink link, String res_uri) {
+	
 		System.out.println(link.getURI());
 		
 		String res_title = link.getAttributes().getTitle();
-		
-		// Look for the resource, if it exist. If it is not create it
-		List<Resource> look_for_resource = resources.stream()
-				.filter(a -> Objects.equals(a.resource_name, res_title))
-				.collect(Collectors.toList());	
-		
-		if (look_for_resource.isEmpty())
-			resources.add(new Resource(link,my_container_long_name,res_uri));
+				
+		switch (res_title) {
+		case "Temp":
+			Temp = new Sensor(link,my_container_long_name,res_uri);
+			Temp.start();
+			resNumber++;
+			break;
+		case "AirCon":
+			AirCon = new Actuator(link,my_container_long_name,res_uri);
+			AirCon.start();
+			resNumber++;
+			break;
+		case "FireAl":
+			FireAl = new Actuator(link,my_container_long_name,res_uri);
+			FireAl.start();
+			resNumber++;
+			break;
+		case "Set_Temp":
+			Set_Temp = new Actuator(link,my_container_long_name,res_uri);
+			Set_Temp.start();
+			resNumber++;
+			break;
+
+		default:
+			System.out.println(res_title + " was not recognized");	
+		}
+
 			
 	}
-	
+
 	public void run() {
-		/*
-		 *  codice che 
-		 *  1) guarda se ha ancora risorse, se non ne ha più elimina il paziente
-		 *  2) prende tutte le decisioni relative alla singolo stanza (controller, setta i valori degli attuatori)
-		 *  
-		 */
+		while (true) {
+			
+			if (resNumber == 4) {
+				System.out.println("thread started" + String.valueOf(Temp.getValue()));
+				if (Temp.getValue() > treshold_temp)
+				{
+					DiVi_ADN.general_alarm.set();
+					// every time a "post" alarm (it is very important)
+					System.out.println("Alarm Setted");
+					
+				}
+			}
+			
+			if (DiVi_ADN.general_alarm.getStatus())
+				FireAl.setValue(1);
+			
+			try {
+				currentThread();
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -5,17 +5,24 @@
 #include "contiki-net.h"
 #include "rest-engine.h"
 
-int value = 0;
+#define STARTING_HR 100
+
 int pat_id = 0;
+
+int hr_current = STARTING_HR;
+int hr_next = STARTING_HR;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void hr_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+
 static void hr_periodic_handler();
 
 
-PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt=\"Rate\";type=\"S\";obs", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
+PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt\"S\";obs", hr_get_handler,NULL,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
+
+RESOURCE(set_temp_environment, "title=\"Set_HRS\";rt=\"P\"", NULL, hr_post_handler, NULL, NULL);
 
 RESOURCE(Id, "title=\"PatienId\";rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
@@ -39,7 +46,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
   int new_id, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_id = atoi(val);	
@@ -56,7 +63,7 @@ void hr_get_handler(void* request, void* response, uint8_t *buffer, uint16_t pre
 	char message[26];
 	int length = 26;
 
-	sprintf(message, "{'e':'%03u','u':'hr/m'}", value);
+	sprintf(message, "{'e':'%03u','u':'hr/m'}", hr_current);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -71,11 +78,11 @@ void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
   int new_value, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_value = atoi(val);	
-     value = new_value;
+     hr_next = new_value;
      REST.set_response_status(response, REST.status.CREATED);
   } else {
      REST.set_response_status(response, REST.status.BAD_REQUEST);
@@ -84,9 +91,11 @@ void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 
 static void hr_periodic_handler()
 {
-	value++;
-
-	REST.notify_subscribers(&hr_sens);
+	if (hr_next != hr_current)
+	{
+		hr_current = hr_next;
+		REST.notify_subscribers(&hr_sens);
+	}
 }
 
 PROCESS(heartRate_process, "HeartRate sensor");

@@ -13,7 +13,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(oxigenMaskValve, "title=\"OxyValv\";type=\"A\"", get_handler, post_handler, NULL, NULL);
+RESOURCE(oxigenMaskValve, "title=\"OxyValv\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL);
 RESOURCE(Id, "title=\"PatientId\"rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)

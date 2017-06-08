@@ -1,21 +1,29 @@
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.eclipse.californium.core.WebLink;
 
 public class Patient extends Thread {
 	public int seqNumber;
-	public int resNumber;
-	private List<Resource> resources = new LinkedList<>();;
+	
+	private int resNumber;
+		
+	// Sensors
+	private Resource Temp;
+	private Resource HRS;
+	private Resource OxyS;
+	// Actuators (true ones)
+	private Resource OxyValve;
+	private Resource LedA;
+	// Actuators (for simulation)
+	private Resource Set_Temp;
+	private Resource Set_HRS;
+	private Resource Set_OxyS;
+	
 	private Container single_patient_container;
 	private String my_container_long_name;
 	
 	public Patient(int id) {
 		seqNumber = id;
 		resNumber = 0;
-
 		
 		// Create a patient$seqNumber container into /Patients conteiner
 		
@@ -27,29 +35,75 @@ public class Patient extends Thread {
 		
 		my_container_long_name = parent_container + "/" + my_container_name;
 				
+		
 	}
 	
 	public void addResource(WebLink link, String res_uri) {
 		System.out.println(link.getURI());
 		
 		String res_title = link.getAttributes().getTitle();
-		
-		// Look for the resource, if it exist. If it is not create it
-		List<Resource> look_for_resource = resources.stream()
-				.filter(a -> Objects.equals(a.resource_name, res_title))
-				.collect(Collectors.toList());	
-		
-		if (look_for_resource.isEmpty())
-			resources.add(new Resource(link,my_container_long_name,res_uri));
+				
+		switch (res_title) {
+		case "Temp":
+			Temp = new Resource(link,my_container_long_name,res_uri);
+			Temp.start();
+			resNumber++;
+			break;
+		case "HRS":
+			HRS = new Resource(link,my_container_long_name,res_uri);
+			HRS.start();
+			resNumber++;
+			break;
+		case "OxyS":
+			OxyS = new Resource(link,my_container_long_name,res_uri);
+			OxyS.start();
+			resNumber++;
+			break;
+		case "OxyValv":
+			OxyValve = new Resource(link,my_container_long_name,res_uri);
+			OxyValve.start();
+			resNumber++;
+			break;
+		case "LedA":
+			LedA = new Resource(link,my_container_long_name,res_uri);
+			LedA.start();
+			resNumber++;
+			break;
+		case "Set_Temp":
+			Set_Temp = new Resource(link,my_container_long_name,res_uri);
+			Set_Temp.start();
+			resNumber++;
+			break;
+		case "Set_HRS":
+			Set_HRS = new Resource(link,my_container_long_name,res_uri);
+			Set_HRS.start();
+			resNumber++;
+			break;
+		case "Set_OxyS":
+			Set_OxyS = new Resource(link,my_container_long_name,res_uri);
+			Set_OxyS.start();
+			resNumber++;
+			break;
+		default:
+			System.out.println(res_title + " was not recognized");	
+		}
+
 			
 	}
 	
 	public void run() {
-		/*
-		 *  codice che 
-		 *  1) guarda se ha ancora risorse, se non ne ha più elimina il paziente
-		 *  2) prende tutte le decisioni relative al singolo paziente (controller, setta i valori degli attuatori)
-		 *  
-		 */
+		while (true) {
+			
+			if (resNumber == 8) {
+
+			}
+			
+			try {
+				currentThread();
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
