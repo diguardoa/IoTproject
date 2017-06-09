@@ -25,6 +25,7 @@ public class ProxyClient {
 	
 	public static final int T_patient = 2000;
 	public static final int T_room = 2000;
+	public static final int T_resource = 200;
 	
 	public static final int Kp_oxy = 1;
 	public static final double Ki_oxy = 0.1;

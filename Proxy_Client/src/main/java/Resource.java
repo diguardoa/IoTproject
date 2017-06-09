@@ -1,14 +1,9 @@
-import java.net.SocketException;
-import java.net.URI;
-import java.util.Set;
-
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapObserveRelation;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
-import org.eclipse.californium.core.server.resources.ResourceAttributes;
 import org.json.JSONObject;
 
 public class Resource extends Thread {
@@ -74,10 +69,11 @@ public class Resource extends Thread {
 		}
 		
 		// Fai partire l'oggetto server coap che fa la subscription su IN
-		server_coap_port = ++ProxyClient.COAP_PORT;
+		server_coap_port = ++ProxyClient.COAP_PORT;	
 		controller_IN = new ServerSubscriber(resource_name + "_pat", server_coap_port);
 		controller_IN.start();
 
+		// al posto di resource_mn_path ci vuole la resource_in_path del controller dal quale vuoi prendere i dati
 		DiVi_ADN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ server_coap_port +"/" + resource_name + "_pat",resource_name + "_monitor");
 	}
 	
@@ -97,13 +93,19 @@ public class Resource extends Thread {
 	public void run() {
 		while(true) {
 			observingStep();
+			// look if the resource is in automatic mode
+			automatic_mode = controller_IN.isAutomaticMode();
 			
-			
-			// Chiedi se in modalità manuale o no il modo e setta la variabile automatic_mode
-			
+if (ProxyClient.debug)
+	controller_IN.debugPrintContentStr();
+
+			// if it isn't in automatic mode get value from IN
+			if (!automatic_mode)
+				//sendValue(controller_IN.getValue());
+						
 			try {
 				currentThread();
-				Thread.sleep(200);
+				Thread.sleep(ProxyClient.T_resource);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -111,12 +113,12 @@ public class Resource extends Thread {
 		
 	}
 	
-	public void setValue(int value) {
+	public synchronized void setValue(int value) {
 		if (automatic_mode)
 			sendValue(value);
 	}
 	
-	private void sendValue(int value) {
+	private synchronized void sendValue(int value) {
 		String message = "e=" + String.valueOf(value);
 		CoapClient pclient = new CoapClient(uri_mote);
 		CoapResponse post_response = pclient.post(message,MediaTypeRegistry.TEXT_PLAIN);

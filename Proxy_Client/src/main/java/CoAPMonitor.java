@@ -16,6 +16,8 @@ public class CoAPMonitor extends CoapServer
 {
   private int coap_port;
   private String resourceName;
+  protected String contentStr;
+  protected boolean working;
   
   void addEndpoints()
   {
@@ -32,9 +34,18 @@ public class CoAPMonitor extends CoapServer
   {
 	  coap_port = port;
 	  resourceName = rn;
+	  contentStr = null;
+	  working = false;
 	  add(new Resource[] { new Monitor(resourceName) });
   }
   
+  public synchronized String getContentStr() {
+	  return contentStr;
+  }
+  
+  protected synchronized void setContentStr(String str) {
+	  contentStr = str;
+  }
   class Monitor extends CoapResource
   {
     public Monitor(String rn)
@@ -47,9 +58,10 @@ public class CoAPMonitor extends CoapServer
     public void handlePOST(CoapExchange exchange)
     {
     	exchange.respond(ResponseCode.CREATED);
-    	byte[] content = exchange.getRequestPayload();
-        String contentStr = new String(content);
-        System.out.println(contentStr);
+    	//byte[] content = exchange.getRequestText();
+    	if (working)
+    		setContentStr(exchange.getRequestText());
+    	working = true;
     }
   }
 }
