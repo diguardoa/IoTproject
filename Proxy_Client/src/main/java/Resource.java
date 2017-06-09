@@ -12,15 +12,15 @@ public class Resource extends Thread {
 	private int server_coap_port;
 	private ServerSubscriber controller_IN;
 	
-	protected int current_value;
-	protected int next_value;
+	private int current_value;
+	private int next_value;
 	
-	protected String resource_mn_path;
-	protected Container res_container;
-	protected String uri_mote;
-	protected String rt;
+	private String resource_mn_path;
+	private Container res_container;
+	private String uri_mote;
+	private String rt;
 	
-	protected boolean automatic_mode;
+	private boolean automatic_mode;
 	
 	private CoapResponse to_publish;
 	private boolean ready_to_publish;
@@ -119,9 +119,12 @@ if (ProxyClient.debug)
 	}
 	
 	private synchronized void sendValue(int value) {
-		String message = "e=" + String.valueOf(value);
-		CoapClient pclient = new CoapClient(uri_mote);
-		CoapResponse post_response = pclient.post(message,MediaTypeRegistry.TEXT_PLAIN);
+		if (current_value != value)
+		{
+			String message = "e=" + String.valueOf(value);
+			CoapClient pclient = new CoapClient(uri_mote);
+			CoapResponse post_response = pclient.post(message,MediaTypeRegistry.TEXT_PLAIN);
+		}
 	}
 	
 	private synchronized void setCurrentValue(int value) {
