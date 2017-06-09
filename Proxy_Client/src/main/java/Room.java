@@ -10,9 +10,12 @@ public class Room extends Thread{
 	
 	public int seqNumber;
 	
+	private int e_Temp;
+	private int e_Temp_int;
+	
 	private int resNumber;
 	// Sensors
-	private Resource Temp;
+	private Resource TempR;
 	// Actuators (true ones)
 	private Resource FireAl;
 	private Resource AirCon;
@@ -27,7 +30,7 @@ public class Room extends Thread{
 		resNumber = 0;
 		// Create a patient$seqNumber container into /Patients conteiner
 		
-		String parent_container = "coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/"
+		String parent_container = ProxyClient.MN_address + "/DiViProject-mn-name/"
 				+ "SmartHospitalization/Rooms";
 		String my_container_name = "Room"+String.valueOf(seqNumber);
 		
@@ -44,9 +47,9 @@ public class Room extends Thread{
 		String res_title = link.getAttributes().getTitle();
 				
 		switch (res_title) {
-		case "Temp":
-			Temp = new Resource(link,my_container_long_name,res_uri);
-			Temp.start();
+		case "TempR":
+			TempR = new Resource(link,my_container_long_name,res_uri);
+			TempR.start();
 			resNumber++;
 			break;
 		case "AirCon":
@@ -71,14 +74,21 @@ public class Room extends Thread{
 		while (true) {
 			
 			if (resNumber == 3) {
-				System.out.println("thread started" + String.valueOf(Temp.getValue()));
-				if ((Temp.getValue() > ProxyClient.treshold_temp_room_high) || 
-						(Temp.getValue() < ProxyClient.treshold_temp_room_low))
+				int t_temp = TempR.getValue();
+				System.out.println("thread started" + String.valueOf(t_temp));
+				
+				// Adjust Temperature (PI)
+				e_Temp = ProxyClient.temp_room_optimal - t_temp;
+				e_Temp_int += e_Temp;
+				int u = ProxyClient.Kp_temp * e_Temp + (int) (ProxyClient.Ki_temp*e_Temp_int);
+				TempR.setValue(u);
+				AirCon.setValue(u);				
+				
+				
+				if ((t_temp > ProxyClient.treshold_temp_room_high) || 
+						(t_temp < ProxyClient.treshold_temp_room_low))
 				{
 					DiVi_ADN.general_alarm.set();
-					// every time a "post" alarm (it is very important)
-					System.out.println("Alarm Setted");
-					
 				}
 			}
 			

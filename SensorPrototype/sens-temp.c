@@ -27,7 +27,7 @@ void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void temp_periodic_handler();
 
-PERIODIC_RESOURCE(temp_sens,"title=\"Temp\";rt=\"S\";obs", temp_get_handler,temp_post_handler,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
+PERIODIC_RESOURCE(temp_sens,"title=\"TempR\";rt=\"S\";obs", temp_get_handler,temp_post_handler,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
@@ -126,7 +126,7 @@ PROCESS_THREAD(temperature_process, ev, data)
 	rest_init_engine();
 
 	/* Activate the application-specific resources */
-	rest_activate_resource(&temp_sens, "temp");
+	rest_activate_resource(&temp_sens, "tempr");
 		
 	//rest_activate_resource(&set_temp_environment, "set_t");
 	rest_activate_resource(&Id, "id");

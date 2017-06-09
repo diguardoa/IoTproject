@@ -69,7 +69,7 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   int len, temp_temp;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "temp", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      temp_temp = atoi(val);	

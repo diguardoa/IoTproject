@@ -15,7 +15,10 @@ public class Patient extends Thread {
 	// Actuators (true ones)
 	private Resource OxyValve;
 	private Resource LedA;
-
+	
+	// Control Variables
+	private int e_Oxy;
+	private int e_Oxy_int;
 	
 	private Container single_patient_container;
 	private String my_container_long_name;
@@ -23,10 +26,12 @@ public class Patient extends Thread {
 	public Patient(int id) {
 		seqNumber = id;
 		resNumber = 0;
+		e_Oxy = 0;
+		e_Oxy_int = 0;
 		
 		// Create a patient$seqNumber container into /Patients conteiner
 		
-		String parent_container = "coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/"
+		String parent_container = ProxyClient.MN_address + "/DiViProject-mn-name/"
 				+ "SmartHospitalization/Patients";
 		String my_container_name = "Patient"+String.valueOf(seqNumber);
 		
@@ -90,12 +95,13 @@ public class Patient extends Thread {
 						(t_OxyS < ProxyClient.treshold_OxyS_low) || (t_OxyS > ProxyClient.treshold_OxyS_high) ||
 						(t_temp < ProxyClient.treshold_temp_pat_low) || (t_temp > ProxyClient.treshold_temp_pat_high))
 				{
-					LedA.setValue(1);;
+					LedA.setValue(1);
 				}
 				
-				// Adjust Oxigen
-				int e = ProxyClient.oxygen_optimal - t_OxyS;
-				int u = ProxyClient.Kp_oxy * e;
+				// Adjust Oxigen (PI)
+				e_Oxy = ProxyClient.oxygen_optimal - t_OxyS;
+				e_Oxy_int += e_Oxy;
+				int u = ProxyClient.Kp_oxy * e_Oxy + (int) (ProxyClient.Ki_oxy*e_Oxy_int);
 				OxyS.setValue(u);
 				OxyValve.setValue(u);
 			}

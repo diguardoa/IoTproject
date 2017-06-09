@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.swing.UIDefaults.ProxyLazyValue;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -48,19 +50,19 @@ public class DiVi_ADN extends Thread{
 		// Create the application entity
 		
 		SmartHospital = DiVi_ADN.createAE(
-				"coap://127.0.0.1:5684/~/DiViProject-mn-cse", 
+				ProxyClient.MN_address, 
 				"SmartHospitalization");
 	
 		// Create Patients Container
 		
 		Patients = DiVi_ADN.createContainer(
-				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
+				ProxyClient.MN_address + "/DiViProject-mn-name/SmartHospitalization", 
 				"Patients");
 		
 		// Create Rooms Container
 		
 		Rooms = DiVi_ADN.createContainer(
-				"coap://127.0.0.1:5684/~/DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization", 
+				ProxyClient.MN_address + "/DiViProject-mn-name/SmartHospitalization", 
 				"Rooms");
 			
 		// Create the Alarm
@@ -233,8 +235,9 @@ public class DiVi_ADN extends Thread{
 		
 		return uri_created;
 	}
-	/*
+	
 	static AE createAE(String cse, String rn){
+if (ProxyClient.oM2M_active) {
 		AE ae = new AE();
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
@@ -250,11 +253,14 @@ public class DiVi_ADN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:ae", obj);
 		String body = root.toString();
-		System.out.println(body);
+if (ProxyClient.debug)
+	System.out.println(body);
+
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		String response = new String(responseBody.getPayload());
-		System.out.println(response);
+if (ProxyClient.debug)
+	System.out.println(response);
 		JSONObject resp = new JSONObject(response);
 		JSONObject container = (JSONObject) resp.get("m2m:ae");
 		ae.setRn((String) container.get("rn"));
@@ -265,9 +271,13 @@ public class DiVi_ADN extends Thread{
 		ae.setLt((String) container.get("lt"));
 		
 		return ae;
+} else
+		return null;
 	}
 	
 	static Container createContainer(String cse, String rn){
+if (ProxyClient.oM2M_active) {
+
 		Container container = new Container();
 
 		URI uri = createUri(cse);
@@ -282,12 +292,18 @@ public class DiVi_ADN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:cnt", obj);
 		String body = root.toString();
-		System.out.println(body);
+		
+if (ProxyClient.debug)
+	System.out.println(body);
+		
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		
 		String response = new String(responseBody.getPayload());
-		System.out.println(response);
+		
+if (ProxyClient.debug)
+	System.out.println(response);
+		
 		JSONObject resp = new JSONObject(response);
 		JSONObject cont = (JSONObject) resp.get("m2m:cnt");
 		container.setRn((String) cont.get("rn"));
@@ -301,8 +317,12 @@ public class DiVi_ADN extends Thread{
 		container.setLa((String) cont.get("la"));
 		
 		return container;
+} else
+	return null;
 	}
+	
 	static void createContentInstance(String cse, String cnf, String con){
+if (ProxyClient.oM2M_active) {
 		
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
@@ -318,17 +338,22 @@ public class DiVi_ADN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:cin", content);
 		String body = root.toString();
-		System.out.println(uri);
-		System.out.println(body);
+if (ProxyClient.debug) {
+	System.out.println(uri);
+	System.out.println(body);
+}
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		
 		String response = new String(responseBody.getPayload());
-		System.out.println(response);
-			
+if (ProxyClient.debug)
+	System.out.println(response);
+} 			
 	}
 	
 	static String Discovery(String cse) {
+if (ProxyClient.oM2M_active) {
+
 		URI uri = null;
 		try {
 			uri = new URI(cse);
@@ -346,22 +371,51 @@ public class DiVi_ADN extends Thread{
 		JSONObject content = new JSONObject(response);
 		String path = content.getString("m2m:uril");
 		return path;
+} else
+	return null;
 	}
-*/
-	static void createContentInstance(String cse, String cnf, String con){
+
+	static void createSubscription(String cse, String notificationUrl, String nameSub){
+if (ProxyClient.oM2M_active) {
+		CoapClient client = new CoapClient(cse);
+		Request req = Request.newPost();
+		req.getOptions().addOption(new Option(267, 23));
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		JSONObject content = new JSONObject();
+		content.put("rn", nameSub);
+		content.put("nu", notificationUrl);
+		content.put("nct", 2);
+		JSONObject root = new JSONObject();
+		root.put("m2m:sub", content);
+		String body = root.toString();
+		req.setPayload(body);
+		CoapResponse responseBody = client.advanced(req);
+//		String response = new String(responseBody.getPayload());
+//		System.out.println(response);
 		
-	}
-	
-	static AE createAE(String cse, String rn){
-		return null;
-	}
-	
-	static String Discovery(String cse,String cnf, String con) {
-		return null;
-	}
-	
-	static Container createContainer(String cse, String rn){
-		return null;
+		/*JSONObject content = new JSONObject();
+		content.put("rn", "Monitor");
+		content.put("nu", notificationUrl);
+		content.put("nct", 2);
+		JSONObject root = new JSONObject();
+		root.put("m2m:sub", content);
+		String body = root.toString();
+		try {
+			System.out.println(Request.Post(cse)
+					.addHeader("X-M2M-Origin", "admin:admin")
+					.bodyString(body, ContentType.APPLICATION_JSON)
+					.setHeader("Content-Type", "application/json;ty=23")
+					.execute().returnContent().asString());
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+}		
 	}
 
 }

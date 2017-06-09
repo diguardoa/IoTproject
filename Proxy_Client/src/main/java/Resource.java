@@ -1,3 +1,4 @@
+import java.net.SocketException;
 import java.net.URI;
 import java.util.Set;
 
@@ -12,6 +13,9 @@ import org.json.JSONObject;
 
 public class Resource extends Thread {
 	public String resource_name;
+	
+	private int server_coap_port;
+	private ServerSubscriber controller_IN;
 	
 	protected int current_value;
 	protected int next_value;
@@ -70,7 +74,11 @@ public class Resource extends Thread {
 		}
 		
 		// Fai partire l'oggetto server coap che fa la subscription su IN
-		
+		server_coap_port = ++ProxyClient.COAP_PORT;
+		controller_IN = new ServerSubscriber(resource_name + "_pat", server_coap_port);
+		controller_IN.start();
+
+		DiVi_ADN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ server_coap_port +"/" + resource_name + "_pat",resource_name + "_monitor");
 	}
 	
 	public void observingStep() {
