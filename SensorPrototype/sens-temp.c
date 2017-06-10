@@ -3,6 +3,7 @@
 #include <string.h>
 #include "contiki.h"
 #include "contiki-net.h"
+#include "net/rpl/rpl.h"
 #include "rest-engine.h"
 //#include "project-conf.h"
 

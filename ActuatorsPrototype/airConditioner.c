@@ -1,6 +1,7 @@
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
+#include "net/rpl/rpl.h"
 
 #define MAX_TEMP 100
 #define MIN_TEMP 10

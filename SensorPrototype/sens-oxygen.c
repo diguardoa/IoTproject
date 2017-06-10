@@ -4,6 +4,7 @@
 #include "contiki.h"
 #include "contiki-net.h"
 #include "rest-engine.h"
+#include "net/rpl/rpl.h"
 
 #define TIME_SAMPLING 100
 #define STARTING_OXY 20

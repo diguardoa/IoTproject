@@ -32,18 +32,14 @@ import org.json.JSONObject;
 
 public class Configuration {
 	private String[] room1 = {"5", "8", "9"};
-	private String[] pat1 = {"2", "4", "6", "7", "a"};
-	private String[] pat2 = {"e", "f", "10", "11", "12"};
+	private String[] room2 = {"b", "c", "d"};
+	private String[] pat1 = {"2", "4", "6", "7", "a"};	
+	private String[] pat2 = {"f", "e", "10", "11", "12"};	
+	private String uri_base_prefix = "coap://[aaaa::c30c:0:0:";
+	private String uri_base_suffix = "]:5683/id";
 	
-	
-	/*
-	 * DiViADN publishes on the MN
-	 */
-	
-	public Configuration() {
-		String uri_base_prefix = "coap://[aaaa::c30c:0:0:";
-		String uri_base_suffix = "]:5683/id";
-		
+	public void simulation4() {
+
 		// Configure Rooms
 		for (int i = 0; i < room1.length; i++) {
 			String message = "e=" + String.valueOf(1);
@@ -94,5 +90,56 @@ public class Configuration {
 			}
 		}
 	}
+	public void simulation5() {
 
+		// Configure Rooms
+		for (int i = 0; i < room1.length; i++) {
+			String message = "e=" + String.valueOf(1);
+			String address = uri_base_prefix + room1[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// Configure Patients
+		
+		// pat1
+		for (int i = 0; i < pat1.length; i++) {
+			String message = "e=" + String.valueOf(1);
+			String address = uri_base_prefix + pat1[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// pat2
+		for (int i = 0; i < room2.length; i++) {
+			String message = "e=" + String.valueOf(2);
+			String address = uri_base_prefix + room2[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
