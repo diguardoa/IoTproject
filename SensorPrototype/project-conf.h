@@ -1,7 +1,7 @@
 /* IP buffer size must match all other hops, in particular the border router. */
 
 #undef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE           280
+#define UIP_CONF_BUFFER_SIZE           380
  
 #undef NETSTACK_CONF_RDC
 #define NETSTACK_CONF_RDC              nullrdc_driver

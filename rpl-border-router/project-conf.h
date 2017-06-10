@@ -36,12 +36,13 @@
 #endif
 
 #ifndef QUEUEBUF_CONF_NUM
-#define QUEUEBUF_CONF_NUM          4
+#define QUEUEBUF_CONF_NUM          5
 #endif
 
 #ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE    280
+#define UIP_CONF_BUFFER_SIZE    380
 #endif
+
 
 /*
 #ifndef UIP_CONF_RECEIVE_WINDOW

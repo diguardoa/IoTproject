@@ -162,7 +162,7 @@ frag_sender         0x8               contiki-z1.a(sicslowpan.o)
 transmit_data1      0x1               contiki-z1.a(i2cmaster.o)
 uip_lladdr          0x8               contiki-z1.a(uip6.o)
 rx_byte_ctr         0x1               contiki-z1.a(i2cmaster.o)
-uip_aligned_buf     0x118             contiki-z1.a(uip6.o)
+uip_aligned_buf     0x17c             contiki-z1.a(uip6.o)
 uip_flags           0x1               contiki-z1.a(uip6.o)
 int2_event          0x1               contiki-z1.a(adxl345.o)
 uip_ds6_timer_periodic
@@ -2274,54 +2274,54 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x0000e0fa                _unexpected_
                 0x0000e0fc                . = ALIGN (0x2)
 
-.rodata         0x0000e0fc      0x4a8
+.rodata         0x0000e0fc      0x4a2
                 0x0000e0fc                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000e0fc       0x8c airConditioner.co
-                0x0000e146                autostart_processes
- .rodata        0x0000e188      0x115 obj_z1/contiki-z1-main.o
- *fill*         0x0000e29d        0x1 00
- .rodata        0x0000e29e       0xec contiki-z1.a(er-coap-engine.)
-                0x0000e2f8                coap_rest_implementation
- .rodata        0x0000e38a       0x11 contiki-z1.a(er-coap-observe)
- .rodata        0x0000e39b       0x19 contiki-z1.a(er-coap-res-wel)
- .rodata        0x0000e3b4        0xc contiki-z1.a(rest-engine.o)
- .rodata        0x0000e3c0       0x5a contiki-z1.a(cc2420.o)
-                0x0000e3dc                cc2420_aes_128_driver
-                0x0000e3e0                cc2420_driver
- .rodata        0x0000e41a        0x8 contiki-z1.a(sensors.o)
- .rodata        0x0000e422       0x10 contiki-z1.a(button-sensor.o)
-                0x0000e42a                button_sensor
- .rodata        0x0000e432       0x16 contiki-z1.a(adxl345.o)
- .rodata        0x0000e448        0xf contiki-z1.a(ctimer.o)
- .rodata        0x0000e457        0xc contiki-z1.a(etimer.o)
- *fill*         0x0000e463        0x1 00
- .rodata        0x0000e464       0x24 contiki-z1.a(sicslowpan.o)
-                0x0000e470                sicslowpan_driver
-                0x0000e476                llprefix
-                0x0000e478                unc_mxconf
-                0x0000e47c                unc_ctxconf
-                0x0000e480                unc_llconf
- .rodata        0x0000e488        0xd contiki-z1.a(tcpip.o)
- .rodata        0x0000e495       0x29 contiki-z1.a(uip-debug.o)
- .rodata        0x0000e4be        0x8 contiki-z1.a(linkaddr.o)
-                0x0000e4be                linkaddr_null
- .rodata        0x0000e4c6        0x8 contiki-z1.a(framer-802154.o)
-                0x0000e4c6                framer_802154
- .rodata        0x0000e4ce       0x16 contiki-z1.a(nullmac.o)
-                0x0000e4d6                nullmac_driver
- .rodata        0x0000e4e4       0x18 contiki-z1.a(nullrdc.o)
-                0x0000e4ec                nullrdc_driver
- .rodata        0x0000e4fc       0x14 contiki-z1.a(nullsec.o)
-                0x0000e504                nullsec_driver
- .rodata        0x0000e510       0x8a contiki-z1.a(er-coap.o)
- .rodata        0x0000e59a        0x2 contiki-z1.a(frame802154.o)
- .rodata        0x0000e59c        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
-                0x0000e5a4                . = ALIGN (0x2)
- *fill*         0x0000e5a3        0x1 00
-                0x0000e5a4                _etext = .
+ .rodata        0x0000e0fc       0x86 airConditioner.co
+                0x0000e140                autostart_processes
+ .rodata        0x0000e182      0x115 obj_z1/contiki-z1-main.o
+ *fill*         0x0000e297        0x1 00
+ .rodata        0x0000e298       0xec contiki-z1.a(er-coap-engine.)
+                0x0000e2f2                coap_rest_implementation
+ .rodata        0x0000e384       0x11 contiki-z1.a(er-coap-observe)
+ .rodata        0x0000e395       0x19 contiki-z1.a(er-coap-res-wel)
+ .rodata        0x0000e3ae        0xc contiki-z1.a(rest-engine.o)
+ .rodata        0x0000e3ba       0x5a contiki-z1.a(cc2420.o)
+                0x0000e3d6                cc2420_aes_128_driver
+                0x0000e3da                cc2420_driver
+ .rodata        0x0000e414        0x8 contiki-z1.a(sensors.o)
+ .rodata        0x0000e41c       0x10 contiki-z1.a(button-sensor.o)
+                0x0000e424                button_sensor
+ .rodata        0x0000e42c       0x16 contiki-z1.a(adxl345.o)
+ .rodata        0x0000e442        0xf contiki-z1.a(ctimer.o)
+ .rodata        0x0000e451        0xc contiki-z1.a(etimer.o)
+ *fill*         0x0000e45d        0x1 00
+ .rodata        0x0000e45e       0x24 contiki-z1.a(sicslowpan.o)
+                0x0000e46a                sicslowpan_driver
+                0x0000e470                llprefix
+                0x0000e472                unc_mxconf
+                0x0000e476                unc_ctxconf
+                0x0000e47a                unc_llconf
+ .rodata        0x0000e482        0xd contiki-z1.a(tcpip.o)
+ .rodata        0x0000e48f       0x29 contiki-z1.a(uip-debug.o)
+ .rodata        0x0000e4b8        0x8 contiki-z1.a(linkaddr.o)
+                0x0000e4b8                linkaddr_null
+ .rodata        0x0000e4c0        0x8 contiki-z1.a(framer-802154.o)
+                0x0000e4c0                framer_802154
+ .rodata        0x0000e4c8       0x16 contiki-z1.a(nullmac.o)
+                0x0000e4d0                nullmac_driver
+ .rodata        0x0000e4de       0x18 contiki-z1.a(nullrdc.o)
+                0x0000e4e6                nullrdc_driver
+ .rodata        0x0000e4f6       0x14 contiki-z1.a(nullsec.o)
+                0x0000e4fe                nullsec_driver
+ .rodata        0x0000e50a       0x8a contiki-z1.a(er-coap.o)
+ .rodata        0x0000e594        0x2 contiki-z1.a(frame802154.o)
+ .rodata        0x0000e596        0x7 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
+                0x0000e59e                . = ALIGN (0x2)
+ *fill*         0x0000e59d        0x1 00
+                0x0000e59e                _etext = .
 
-.data           0x00001100      0x150 load address 0x0000e5a4
+.data           0x00001100      0x150 load address 0x0000e59e
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                PROVIDE (__data_start, .)
  *(.data .data.* .gnu.linkonce.d.*)
@@ -2372,10 +2372,10 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  .data          0x0000124c        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(rand.o)
                 0x00001250                . = ALIGN (0x2)
                 0x00001250                _edata = .
-                0x0000e5a4                PROVIDE (__data_load_start, LOADADDR (.data))
+                0x0000e59e                PROVIDE (__data_load_start, LOADADDR (.data))
                 0x00000150                PROVIDE (__data_size, SIZEOF (.data))
 
-.bss            0x00001250     0x1656 load address 0x0000e6f4
+.bss            0x00001250     0x171e load address 0x0000e6ee
                 0x00001250                PROVIDE (__bss_start, .)
  *(.bss .bss.*)
  .bss           0x00001250        0x4 airConditioner.co
@@ -2402,115 +2402,115 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
                 0x00001744                process_current
                 0x00001746                process_list
  .bss           0x00001786        0x2 contiki-z1.a(rtimer.o)
- .bss           0x00001788      0x14c contiki-z1.a(sicslowpan.o)
- .bss           0x000018d4        0xa contiki-z1.a(uip6.o)
-                0x000018d4                uip_ext_opt_offset
-                0x000018d6                uip_ext_len
-                0x000018d8                uip_ext_bitmap
- .bss           0x000018de       0x18 contiki-z1.a(uip-ds6.o)
- .bss           0x000018f6      0x23a contiki-z1.a(uip-ds6-nbr.o)
- .bss           0x00001b30      0x29c contiki-z1.a(uip-ds6-route.o)
- .bss           0x00001dcc       0x14 contiki-z1.a(uip-icmp6.o)
- .bss           0x00001de0        0xa contiki-z1.a(uip-nd6.o)
- .bss           0x00001dea        0xe contiki-z1.a(tcpip.o)
- .bss           0x00001df8        0x2 contiki-z1.a(rpl.o)
- .bss           0x00001dfa       0xb4 contiki-z1.a(rpl-dag.o)
- .bss           0x00001eae       0x18 contiki-z1.a(rpl-timers.o)
- .bss           0x00001ec6       0xda contiki-z1.a(nbr-table.o)
- .bss           0x00001fa0       0xb8 contiki-z1.a(packetbuf.o)
- .bss           0x00002058      0x2d0 contiki-z1.a(queuebuf.o)
- .bss           0x00002328        0x2 contiki-z1.a(framer-802154.o)
- .bss           0x0000232a        0x6 contiki-z1.a(er-coap.o)
-                0x0000232a                erbium_status_code
- .bss           0x00002330        0x4 contiki-z1.a(i2cmaster.o)
-                0x00002330                prescale_msb
- .bss           0x00002334        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(sprintf.o)
+ .bss           0x00001788      0x1b0 contiki-z1.a(sicslowpan.o)
+ .bss           0x00001938        0xa contiki-z1.a(uip6.o)
+                0x00001938                uip_ext_opt_offset
+                0x0000193a                uip_ext_len
+                0x0000193c                uip_ext_bitmap
+ .bss           0x00001942       0x18 contiki-z1.a(uip-ds6.o)
+ .bss           0x0000195a      0x23a contiki-z1.a(uip-ds6-nbr.o)
+ .bss           0x00001b94      0x29c contiki-z1.a(uip-ds6-route.o)
+ .bss           0x00001e30       0x14 contiki-z1.a(uip-icmp6.o)
+ .bss           0x00001e44        0xa contiki-z1.a(uip-nd6.o)
+ .bss           0x00001e4e        0xe contiki-z1.a(tcpip.o)
+ .bss           0x00001e5c        0x2 contiki-z1.a(rpl.o)
+ .bss           0x00001e5e       0xb4 contiki-z1.a(rpl-dag.o)
+ .bss           0x00001f12       0x18 contiki-z1.a(rpl-timers.o)
+ .bss           0x00001f2a       0xda contiki-z1.a(nbr-table.o)
+ .bss           0x00002004       0xb8 contiki-z1.a(packetbuf.o)
+ .bss           0x000020bc      0x2d0 contiki-z1.a(queuebuf.o)
+ .bss           0x0000238c        0x2 contiki-z1.a(framer-802154.o)
+ .bss           0x0000238e        0x6 contiki-z1.a(er-coap.o)
+                0x0000238e                erbium_status_code
+ .bss           0x00002394        0x4 contiki-z1.a(i2cmaster.o)
+                0x00002394                prescale_msb
+ .bss           0x00002398        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(sprintf.o)
  *(COMMON)
- COMMON         0x00002338        0x2 obj_z1/contiki-z1-main.o
-                0x00002338                sensors_flags
- COMMON         0x0000233a       0x10 contiki-z1.a(cc2420.o)
-                0x0000233a                cc2420_last_rssi
-                0x0000233c                cc2420_sfd_start_time
-                0x0000233e                cc2420_time_of_departure
-                0x00002340                cc2420_time_of_arrival
-                0x00002342                cc2420_last_correlation
-                0x00002344                cc2420_authority_level_of_sender
-                0x00002346                cc2420_sfd_counter
-                0x00002348                cc2420_sfd_end_time
- COMMON         0x0000234a        0x8 contiki-z1.a(node-id.o)
-                0x0000234a                node_mac
- COMMON         0x00002352        0x1 contiki-z1.a(sensors.o)
-                0x00002352                sensors_event
- *fill*         0x00002353        0x1 00
- COMMON         0x00002354        0x7 contiki-z1.a(adxl345.o)
-                0x00002354                accm_int2_cb
-                0x00002356                int2_event
-                0x00002358                accm_int1_cb
-                0x0000235a                int1_event
- *fill*         0x0000235b        0x1 00
- COMMON         0x0000235c       0x56 contiki-z1.a(energest.o)
-                0x0000235c                energest_total_time
-                0x0000238c                energest_total_count
-                0x0000238e                energest_current_mode
-                0x0000239a                energest_current_time
- COMMON         0x000023b2        0x1 contiki-z1.a(process.o)
-                0x000023b2                process_maxevents
- *fill*         0x000023b3        0x1 00
- COMMON         0x000023b4        0x8 contiki-z1.a(sicslowpan.o)
-                0x000023b4                frag_sender
- COMMON         0x000023bc      0x268 contiki-z1.a(uip6.o)
-                0x000023bc                uip_len
-                0x000023be                uip_sappdata
-                0x000023c0                uip_lladdr
-                0x000023c8                uip_aligned_buf
-                0x000024e0                uip_flags
-                0x000024e2                uip_next_hdr
-                0x000024e4                uip_udp_conn
-                0x000024e6                uip_appdata
-                0x000024e8                uip_conn
-                0x000024ea                uip_slen
-                0x000024ec                uip_udp_conns
- COMMON         0x00002624      0x15c contiki-z1.a(uip-ds6.o)
-                0x00002624                uip_ds6_timer_ra
-                0x0000262c                uip_ds6_if
-                0x00002718                uip_ds6_netif_addr_list_offset
-                0x00002719                uip_ds6_addr_size
-                0x0000271a                uip_ds6_prefix_list
-                0x00002774                uip_ds6_timer_periodic
- COMMON         0x00002780        0x1 contiki-z1.a(tcpip.o)
-                0x00002780                tcpip_event
- *fill*         0x00002781        0x1 00
- COMMON         0x00002782       0xde contiki-z1.a(rpl-dag.o)
-                0x00002782                default_instance
-                0x00002784                instance_table
- COMMON         0x00002860        0x8 contiki-z1.a(linkaddr.o)
-                0x00002860                linkaddr_node_addr
- COMMON         0x00002868       0x2e contiki-z1.a(packetbuf.o)
-                0x00002868                packetbuf_addrs
-                0x00002878                packetbuf_attrs
- COMMON         0x00002896       0x10 contiki-z1.a(i2cmaster.o)
-                0x00002896                transmit_data1
-                0x00002897                rx_byte_ctr
-                0x00002898                tx_buf_ptr
-                0x0000289a                tx_byte_ctr
-                0x0000289c                i
-                0x0000289e                receive_data
-                0x000028a0                rx_buf
-                0x000028a2                transmit_data2
-                0x000028a4                rx_buf_ptr
-                0x000028a6                . = ALIGN (0x2)
-                0x000028a6                PROVIDE (__bss_end, .)
-                0x00001656                PROVIDE (__bss_size, SIZEOF (.bss))
+ COMMON         0x0000239c        0x2 obj_z1/contiki-z1-main.o
+                0x0000239c                sensors_flags
+ COMMON         0x0000239e       0x10 contiki-z1.a(cc2420.o)
+                0x0000239e                cc2420_last_rssi
+                0x000023a0                cc2420_sfd_start_time
+                0x000023a2                cc2420_time_of_departure
+                0x000023a4                cc2420_time_of_arrival
+                0x000023a6                cc2420_last_correlation
+                0x000023a8                cc2420_authority_level_of_sender
+                0x000023aa                cc2420_sfd_counter
+                0x000023ac                cc2420_sfd_end_time
+ COMMON         0x000023ae        0x8 contiki-z1.a(node-id.o)
+                0x000023ae                node_mac
+ COMMON         0x000023b6        0x1 contiki-z1.a(sensors.o)
+                0x000023b6                sensors_event
+ *fill*         0x000023b7        0x1 00
+ COMMON         0x000023b8        0x7 contiki-z1.a(adxl345.o)
+                0x000023b8                accm_int2_cb
+                0x000023ba                int2_event
+                0x000023bc                accm_int1_cb
+                0x000023be                int1_event
+ *fill*         0x000023bf        0x1 00
+ COMMON         0x000023c0       0x56 contiki-z1.a(energest.o)
+                0x000023c0                energest_total_time
+                0x000023f0                energest_total_count
+                0x000023f2                energest_current_mode
+                0x000023fe                energest_current_time
+ COMMON         0x00002416        0x1 contiki-z1.a(process.o)
+                0x00002416                process_maxevents
+ *fill*         0x00002417        0x1 00
+ COMMON         0x00002418        0x8 contiki-z1.a(sicslowpan.o)
+                0x00002418                frag_sender
+ COMMON         0x00002420      0x2cc contiki-z1.a(uip6.o)
+                0x00002420                uip_len
+                0x00002422                uip_sappdata
+                0x00002424                uip_lladdr
+                0x0000242c                uip_aligned_buf
+                0x000025a8                uip_flags
+                0x000025aa                uip_next_hdr
+                0x000025ac                uip_udp_conn
+                0x000025ae                uip_appdata
+                0x000025b0                uip_conn
+                0x000025b2                uip_slen
+                0x000025b4                uip_udp_conns
+ COMMON         0x000026ec      0x15c contiki-z1.a(uip-ds6.o)
+                0x000026ec                uip_ds6_timer_ra
+                0x000026f4                uip_ds6_if
+                0x000027e0                uip_ds6_netif_addr_list_offset
+                0x000027e1                uip_ds6_addr_size
+                0x000027e2                uip_ds6_prefix_list
+                0x0000283c                uip_ds6_timer_periodic
+ COMMON         0x00002848        0x1 contiki-z1.a(tcpip.o)
+                0x00002848                tcpip_event
+ *fill*         0x00002849        0x1 00
+ COMMON         0x0000284a       0xde contiki-z1.a(rpl-dag.o)
+                0x0000284a                default_instance
+                0x0000284c                instance_table
+ COMMON         0x00002928        0x8 contiki-z1.a(linkaddr.o)
+                0x00002928                linkaddr_node_addr
+ COMMON         0x00002930       0x2e contiki-z1.a(packetbuf.o)
+                0x00002930                packetbuf_addrs
+                0x00002940                packetbuf_attrs
+ COMMON         0x0000295e       0x10 contiki-z1.a(i2cmaster.o)
+                0x0000295e                transmit_data1
+                0x0000295f                rx_byte_ctr
+                0x00002960                tx_buf_ptr
+                0x00002962                tx_byte_ctr
+                0x00002964                i
+                0x00002966                receive_data
+                0x00002968                rx_buf
+                0x0000296a                transmit_data2
+                0x0000296c                rx_buf_ptr
+                0x0000296e                . = ALIGN (0x2)
+                0x0000296e                PROVIDE (__bss_end, .)
+                0x0000171e                PROVIDE (__bss_size, SIZEOF (.bss))
 
-.noinit         0x000028a6        0x2 load address 0x0000e6f4
-                0x000028a6                PROVIDE (__noinit_start, .)
+.noinit         0x0000296e        0x2 load address 0x0000e6ee
+                0x0000296e                PROVIDE (__noinit_start, .)
  *(.noinit .noinit.*)
- .noinit.crt0   0x000028a6        0x2 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a(__watchdog_support.o)
-                0x000028a6                __wdt_clear_value
-                0x000028a8                . = ALIGN (0x2)
-                0x000028a8                PROVIDE (__noinit_end, .)
-                0x000028a8                . = ALIGN (0x2)
-                0x000028a8                _end = .
+ .noinit.crt0   0x0000296e        0x2 /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a(__watchdog_support.o)
+                0x0000296e                __wdt_clear_value
+                0x00002970                . = ALIGN (0x2)
+                0x00002970                PROVIDE (__noinit_end, .)
+                0x00002970                . = ALIGN (0x2)
+                0x00002970                _end = .
 
 .infomem        0x00001000        0x0
  *(.infomem)
@@ -2924,6 +2924,6 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mcpu-430x/mmpy-16/libcrt0.a
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mcpu-430x/mmpy-16/libc.a(vuprintf.o)
                 0x00003100                PROVIDE (__stack, (ORIGIN (ram) + 0x2000))
-                0x0000e5a4                PROVIDE (__data_start_rom, _etext)
-                0x0000e6f4                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
+                0x0000e59e                PROVIDE (__data_start_rom, _etext)
+                0x0000e6ee                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
 OUTPUT(airConditioner.z1 elf32-msp430)

@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -85,7 +86,15 @@ public class DiVi_ADN extends Thread{
 			
 	}
 	
-	public void getResources(String add) {
+	public void start_pat_rooms() {
+		for (Patient pat : patients) 
+			pat.start();
+
+		for (Room rom: rooms)
+			rom.start();
+	}
+	
+	private void getResources(String add) {
 		URI uri_mote = DiVi_ADN.createUri(add);	
 		CoapClient mote_c = new CoapClient(uri_mote);
 		mote_c.setTimeout(0);	// infinite timeout
@@ -124,10 +133,11 @@ public class DiVi_ADN extends Thread{
 				else if (jsonOBJ.getString("type").compareTo("room") == 0 )
 					getRoomResource(links, jsonOBJ.getInt("id"), uri_mote);
 			}
-		}
+		} else
+			System.out.println(add + " not found");
 	}
 	
-	public void getRoomResource(Set<WebLink> res_set, int room_id, URI uri_mote) {
+	private void getRoomResource(Set<WebLink> res_set, int room_id, URI uri_mote) {
 		Room current_room;
 		
 		// Look if the room exist. If it doesn't create it
@@ -137,7 +147,7 @@ public class DiVi_ADN extends Thread{
 		if (look_for_room.isEmpty())
 		{
 			current_room = new Room(room_id);
-			current_room.start();
+			//current_room.start();
 			rooms.add(current_room);
 		}
 		else
@@ -151,7 +161,7 @@ public class DiVi_ADN extends Thread{
 		}
 		
 	}
-	public void getPatientResource(Set<WebLink> res_set, int pat_id, URI uri_mote) {
+	private void getPatientResource(Set<WebLink> res_set, int pat_id, URI uri_mote) {
 		Patient current_pat;
 		
 		// Look for the patient, if it exist. If it is not create it
@@ -162,7 +172,7 @@ public class DiVi_ADN extends Thread{
 		if (look_for_patient.isEmpty())
 		{
 			current_pat = new Patient(pat_id);
-			current_pat.start();
+			//current_pat.start();
 			patients.add(current_pat);
 		}
 		else
@@ -177,7 +187,7 @@ public class DiVi_ADN extends Thread{
 	}
 	
 	
-	public List<String> getNodeAddress() {
+	private List<String> getNodeAddress() {
 		
 		HttpClient client = new DefaultHttpClient();
 				
@@ -195,7 +205,8 @@ public class DiVi_ADN extends Thread{
 		}
 		try {
 			String temp = EntityUtils.toString(response.getEntity());
-			String[] parts = temp.split("</pre>Routes<pre>");
+			String[] parts = temp.split("</pre>Routes<pre>");			
+			
 			parts = parts[1].split("</pre></body></html>");
 			
 			// divido per righe
@@ -216,7 +227,6 @@ public class DiVi_ADN extends Thread{
 		// Print all the addresses
 		for (String row: addresses)
 			System.out.println(row);
-		
 		return addresses;
 		
 	}

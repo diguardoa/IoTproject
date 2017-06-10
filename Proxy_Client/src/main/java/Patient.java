@@ -4,9 +4,6 @@ import org.eclipse.californium.core.WebLink;
 public class Patient extends Thread {
 	public int seqNumber;
 	private int resNumber;
-	
-
-
 		
 	// Sensors
 	private Resource Temp;
@@ -89,7 +86,7 @@ public class Patient extends Thread {
 				int t_HRS = HRS.getValue();
 				int t_OxyS = OxyS.getValue();
 				int t_temp = Temp.getValue();
-				System.out.println("thread patient" + String.valueOf(t_OxyS));
+				System.out.println("thread patient " + seqNumber);
 				// look for errors
 				if ((t_HRS < ProxyClient.treshold_HRS_low) || (t_HRS > ProxyClient.treshold_HRS_low) ||
 						(t_OxyS < ProxyClient.treshold_OxyS_low) || (t_OxyS > ProxyClient.treshold_OxyS_high) ||

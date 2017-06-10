@@ -42,7 +42,7 @@ public class ProxyClient {
 		
 		// sarebbe utile fare un Thread a livello di ADN che "ogni tot" fa la discovery e aggiorna
 		// i pazienti/stanze
-		// br.start();
+		br.start_pat_rooms();
 		
 		while(true) {
         	try {

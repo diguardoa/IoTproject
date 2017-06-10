@@ -36,7 +36,7 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
   int new_id, len;
   const char *val = NULL;
      
-  len=REST.get_post_variable(request, "value", &val);
+  len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
      new_id = atoi(val);	

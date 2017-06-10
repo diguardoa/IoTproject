@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import org.eclipse.californium.core.WebLink;
 
 public class Room extends Thread{
-
-	
 	public int seqNumber;
 	
 	private int e_Temp;
@@ -19,8 +17,6 @@ public class Room extends Thread{
 	// Actuators (true ones)
 	private Resource FireAl;
 	private Resource AirCon;
-
-
 	
 	private Container single_room_container;
 	private String my_container_long_name;
@@ -75,7 +71,7 @@ public class Room extends Thread{
 			
 			if (resNumber == 3) {
 				int t_temp = TempR.getValue();
-				System.out.println("thread started" + String.valueOf(t_temp));
+				System.out.println("thread started " + seqNumber);
 				
 				// Adjust Temperature (PI)
 				e_Temp = ProxyClient.temp_room_optimal - t_temp;
