@@ -8,7 +8,6 @@
   <project EXPORT="discard">[APPS_DIR]/powertracker</project>
   <simulation>
     <title>Project3.0</title>
-    <speedlimit>1.0</speedlimit>
     <randomseed>123456</randomseed>
     <motedelay_us>1000000</motedelay_us>
     <radiomedium>
@@ -261,8 +260,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>186.3702935362101</x>
-        <y>6.473051248123634</y>
+        <x>183.49933546283108</x>
+        <y>7.190790766468387</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -297,8 +296,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>260.1691531365057</x>
-        <y>-74.6978630064943</y>
+        <x>260.52802289567813</x>
+        <y>-42.39958468098042</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -315,8 +314,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>168.465370302037</x>
-        <y>-83.91733113577433</y>
+        <x>193.22738368493097</x>
+        <y>-81.04637306239533</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -351,8 +350,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>100.16906196437114</x>
-        <y>-61.01526530913807</y>
+        <x>234.74522165401234</x>
+        <y>-66.7571814558961</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -369,8 +368,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>219.25900660998147</x>
-        <y>34.74285553813358</y>
+        <x>230.38396914432514</x>
+        <y>37.97268337068497</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -387,8 +386,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>240.45915753637124</x>
-        <y>-20.08741037325813</y>
+        <x>149.3062387065876</x>
+        <y>9.339909878876746</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -423,8 +422,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>275.5689580197452</x>
-        <y>-42.71320125140709</y>
+        <x>260.4964281345054</x>
+        <y>-15.080229795134098</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -441,7 +440,7 @@
   <plugin>
     org.contikios.cooja.plugins.SimControl
     <width>280</width>
-    <z>1</z>
+    <z>0</z>
     <height>160</height>
     <location_x>622</location_x>
     <location_y>35</location_y>
@@ -457,10 +456,10 @@
       <skin>org.contikios.cooja.plugins.skins.MoteTypeVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.AddressVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.LEDVisualizerSkin</skin>
-      <viewport>2.7865262381154503 0.0 0.0 2.7865262381154503 -163.78922284124585 296.51298324919696</viewport>
+      <viewport>2.7865262381154503 0.0 0.0 2.7865262381154503 -254.7892228412459 324.51298324919696</viewport>
     </plugin_config>
     <width>663</width>
-    <z>0</z>
+    <z>1</z>
     <height>511</height>
     <location_x>1</location_x>
     <location_y>1</location_y>
@@ -473,10 +472,10 @@
       <coloring />
     </plugin_config>
     <width>680</width>
-    <z>3</z>
-    <height>240</height>
-    <location_x>400</location_x>
-    <location_y>160</location_y>
+    <z>2</z>
+    <height>344</height>
+    <location_x>638</location_x>
+    <location_y>150</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.TimeLine
@@ -499,7 +498,7 @@
       <zoomfactor>500.0</zoomfactor>
     </plugin_config>
     <width>1080</width>
-    <z>5</z>
+    <z>3</z>
     <height>166</height>
     <location_x>0</location_x>
     <location_y>534</location_y>
@@ -511,7 +510,7 @@
       <decorations>true</decorations>
     </plugin_config>
     <width>400</width>
-    <z>4</z>
+    <z>5</z>
     <height>160</height>
     <location_x>669</location_x>
     <location_y>150</location_y>
@@ -524,7 +523,7 @@
       <bound>true</bound>
     </plugin_config>
     <width>362</width>
-    <z>2</z>
+    <z>4</z>
     <height>116</height>
     <location_x>697</location_x>
     <location_y>-2</location_y>

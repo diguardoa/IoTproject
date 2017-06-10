@@ -1,9 +1,6 @@
 package Configuration.Configuration;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main( String[] args )
