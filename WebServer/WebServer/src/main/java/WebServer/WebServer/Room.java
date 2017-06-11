@@ -16,10 +16,13 @@ public class Room {
 		DiVi_ADN_IN.createContainer(parents_ct, new String("Room" + id));
 		my_container_long_name = parents_ct + "/Room"+id ;
 		
-		System.out.println(aircon);
-		AirCon = new Resource(aircon, my_container_long_name, null);
-		FireAl= new Resource(fireal, my_container_long_name, null);
-		TE = new Resource(te, my_container_long_name, null);
-		TRS = new Resource(trs, my_container_long_name, null);
+		if(aircon != null)
+			AirCon = new Resource(aircon, my_container_long_name, null);
+		if(fireal != null)
+			FireAl= new Resource(fireal, my_container_long_name, null);
+		if(te != null)
+			TE = new Resource(te, my_container_long_name, null);
+		if(trs != null)
+			TRS = new Resource(trs, my_container_long_name, null);
 	}
 }

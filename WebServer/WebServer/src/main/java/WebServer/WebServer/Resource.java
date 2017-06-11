@@ -81,6 +81,12 @@ public class Resource extends Thread {
 		controller_IN.start();
 		
 		String resource_mn_path = resource_in_path.replace("in", "mn");
+		try {
+			sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		DiVi_ADN_IN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ WebServer.server_coap_port +"/" + mn_name + "_pat",resource_name + "_monitor");
 
 	}
