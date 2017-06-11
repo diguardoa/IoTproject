@@ -15,7 +15,7 @@ public class WebServer {
 		LinkedList<Room> ro = new LinkedList<Room>();
 		
 		String parents_ct = "coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms";
-		WebLink aircon = null, fireal = null, trs = null, tempr = null, link = null; 
+		WebLink aircon = null, fireal = null, tempr = null, link = null; 
 		int id = -1;
 		int count_room = 0;
 		int count = ("DiViProject-mn-cse/DiViProject-mn-name/SmartHospitalization/rooms/RoomX").length();
@@ -44,10 +44,8 @@ public class WebServer {
 				if(s.contains("AirCon")) aircon = link;
 				if(s.contains("FireAl")) fireal = link;
 				if(s.contains("TempR")) tempr = link;
-				//if(s.contains("TRS")) trs = link;
 			}
 		
-			//Room r1 = new Room(id, aircon, fireal, tempr, trs, parents_ct);
 			Room r1 = new Room(id, aircon, fireal, tempr, parents_ct);
 			if(!ro.contains(r1))
 				ro.add(r1);
@@ -75,7 +73,7 @@ public class WebServer {
 		int i = 1;
 		for(String s: pat_container){
 			if(s.contains("/Patient"+i) && (!s.contains("/Patient"+i+"/"))){
-				pats[i-1] = new String("Patient"+i);
+				pats[i-1] = new String("Patient"+ i);
 				i++;
 			}
 		}
@@ -96,6 +94,7 @@ public class WebServer {
 			}
 			
 			Patient p = new Patient(id, hrs, la, oxyval, temp, oxys, parents_ct);
+			System.out.println("Patient" + id + " created");
 			if(!pt_list.contains(p))
 				pt_list.add(p);
 		}
