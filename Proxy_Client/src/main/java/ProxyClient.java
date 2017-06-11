@@ -9,6 +9,7 @@ public class ProxyClient {
 	public static final boolean debug = false;
 	
 	public static final int delay_get_resources = 500;
+	public static final int delay_subscription_IN = 500;
 	
 	public static final String MN_address = "coap://127.0.0.1:5684/~/DiViProject-mn-cse";
 	
@@ -38,6 +39,9 @@ public class ProxyClient {
 	public static void main(String[] args) {		
 		
 		DiVi_ADN br = new DiVi_ADN("http://[aaaa::212:7401:1:101]");
+		
+		// discovery lato oM2M finta per vedere come si comporta
+
 
 		// faccio la discovery e faccio partire il sistema
 		br.discovery();

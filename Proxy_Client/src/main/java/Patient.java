@@ -17,7 +17,6 @@ public class Patient extends Thread {
 	private int e_Oxy;
 	private int e_Oxy_int;
 	
-	private Container single_patient_container;
 	private String my_container_long_name;
 	
 	public Patient(int id) {
@@ -32,7 +31,7 @@ public class Patient extends Thread {
 				+ "SmartHospitalization/Patients";
 		String my_container_name = "Patient"+String.valueOf(seqNumber);
 		
-		single_patient_container = DiVi_ADN.createContainer(parent_container, my_container_name);		
+		DiVi_ADN.createContainer(parent_container, my_container_name);		
 		
 		my_container_long_name = parent_container + "/" + my_container_name;
 				
