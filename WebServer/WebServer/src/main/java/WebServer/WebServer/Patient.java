@@ -6,13 +6,13 @@ public class Patient {
 	public int id;
 	public Resource HRS;
 	public Resource LA;
-	public Resource OxyValv;
-	public Resource TE;
-	public Resource TRS;
+	public Resource OXYVALV;
+	public Resource TEMP;
+	public Resource OXYS;
 	
 	private String my_container_long_name;
 	
-	public Patient(int i, WebLink hrs, WebLink la, WebLink oxyvalv, WebLink te, WebLink trs, String parents_ct){
+	public Patient(int i, WebLink hrs, WebLink la, WebLink oxyvalv, WebLink temp, WebLink oxys, String parents_ct){
 		id = i;
 		DiVi_ADN_IN.createContainer(parents_ct, new String("Patient" + id));
 		my_container_long_name = parents_ct + "/Patient"+id ;
@@ -22,11 +22,11 @@ public class Patient {
 		if(la != null)
 			LA = new Resource(la, my_container_long_name, null);
 		if(oxyvalv != null)
-			OxyValv = new Resource(oxyvalv, my_container_long_name, null);
-		if(te != null)
-			TE = new Resource(te, my_container_long_name, null);
-		if(trs != null)	
-			TRS = new Resource(trs, my_container_long_name, null);
+			OXYVALV = new Resource(oxyvalv, my_container_long_name, null);
+		if(temp != null)
+			TEMP = new Resource(temp, my_container_long_name, null);
+		if(oxys != null)	
+			OXYS = new Resource(oxys, my_container_long_name, null);
 		
 	}
 	

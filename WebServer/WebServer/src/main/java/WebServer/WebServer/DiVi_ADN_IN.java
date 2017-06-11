@@ -25,7 +25,7 @@ public class DiVi_ADN_IN extends Thread{
 		SmartHospital = DiVi_ADN_IN.createAE(
 				"coap://127.0.0.1:5683/~/DiViProject-in-cse", 
 				"SmartHospitalization");
-		
+		//System.out.println(st_ae);
 		System.out.println("Search for Container");
 		String str_ae = "coap://127.0.0.1:5683/~" + st_ae + "?fu=1&rty=3";
 		String str_cont = discovery(str_ae);
@@ -42,16 +42,16 @@ public class DiVi_ADN_IN extends Thread{
 		for(String s: ll){
 			if(s.equals(str)){
 				index = x;
-				if(ll.get(index+1).toString().equals(new String(str + "/Patient0"))){					
+				if(ll.get(index+1).toString().equals(new String(str + "/Patient1"))){					
 					int y = index+1;
-					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Patient0"))){
+					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Patient1"))){
 						container.add(ll.get(y));					
 						y++;
 					}
 				}
-				if(ll.get(index+1).toString().equals(new String(str + "/Room0"))){
+				if(ll.get(index+1).toString().equals(new String(str + "/Room1"))){
 					int y = index+1;
-					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Room0"))){
+					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Room1"))){
 						container.add(ll.get(y));					
 						y++;
 					}
