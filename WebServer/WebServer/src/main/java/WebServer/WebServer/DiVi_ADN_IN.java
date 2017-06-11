@@ -22,7 +22,7 @@ public class DiVi_ADN_IN extends Thread{
 		System.out.println("Search for AE");
 		String st_ae = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
 		
-		SmartHospital = DiVi_ADN_IN.createAE(
+		//SmartHospital = DiVi_ADN_IN.createAE(
 				"coap://127.0.0.1:5683/~/DiViProject-in-cse", 
 				"SmartHospitalization");
 		
