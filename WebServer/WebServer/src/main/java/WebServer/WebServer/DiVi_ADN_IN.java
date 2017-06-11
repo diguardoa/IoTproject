@@ -2,6 +2,8 @@ package WebServer.WebServer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -10,16 +12,54 @@ import org.eclipse.californium.core.coap.Option;
 import org.eclipse.californium.core.coap.Request;
 import org.json.JSONObject;
 
-public class DiVi_ADN_IN {
+public class DiVi_ADN_IN extends Thread{
 	
-	public void prova() {
-		String results = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
-		System.out.println(results);
-		results = "coap://127.0.0.1:5683/~" + results + "?fu=1&rty=3";
-		System.out.println(results);
-		String res2 = discovery(results);
-		System.out.println(res2);
-			
+	public AE SmartHospital;
+	public Container Patients;
+	public Container Rooms;
+	
+	public LinkedList<String> findContainer() {
+		System.out.println("Search for AE");
+		String st_ae = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
+		
+		SmartHospital = DiVi_ADN_IN.createAE(
+				"coap://127.0.0.1:5683/~/DiViProject-in-cse", 
+				"SmartHospitalization");
+		
+		System.out.println("Search for Container");
+		String str_ae = "coap://127.0.0.1:5683/~" + st_ae + "?fu=1&rty=3";
+		String str_cont = discovery(str_ae);
+		String[] containers = str_cont.split(" /");
+		LinkedList<String> ll = new LinkedList<String>(Arrays.asList(containers));
+		ll.addFirst(st_ae);
+		
+		return ll;
+	}
+	
+	public LinkedList<String> findPatientRoom(LinkedList<String> ll, String str){
+		int x = 0, index = -1;
+		LinkedList<String> container = new LinkedList<String>();
+		for(String s: ll){
+			if(s.equals(str)){
+				index = x;
+				if(ll.get(index+1).toString().equals(new String(str + "/Patient0"))){					
+					int y = index+1;
+					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Patient0"))){
+						container.add(ll.get(y));					
+						y++;
+					}
+				}
+				if(ll.get(index+1).toString().equals(new String(str + "/Room0"))){
+					int y = index+1;
+					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Room0"))){
+						container.add(ll.get(y));					
+						y++;
+					}
+				}
+			}
+			x++;
+		}
+		return container;
 	}
 	
 	static String discovery(String cse){
@@ -54,30 +94,8 @@ public class DiVi_ADN_IN {
 		String response = new String(responseBody.getPayload());
 		System.out.println(response);
 		
-		/*JSONObject content = new JSONObject();
-		content.put("rn", "Monitor");
-		content.put("nu", notificationUrl);
-		content.put("nct", 2);
-		JSONObject root = new JSONObject();
-		root.put("m2m:sub", content);
-		String body = root.toString();
-		try {
-			System.out.println(Request.Post(cse)
-					.addHeader("X-M2M-Origin", "admin:admin")
-					.bodyString(body, ContentType.APPLICATION_JSON)
-					.setHeader("Content-Type", "application/json;ty=23")
-					.execute().returnContent().asString());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		
-		
 	}
+	
 	static URI createUri(String uri_string) {
 		URI uri_created = null;
 		try {
@@ -109,6 +127,8 @@ public class DiVi_ADN_IN {
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		String response = new String(responseBody.getPayload());
+		if(response.contains("already"))
+			return null;
 		System.out.println(response);
 		JSONObject resp = new JSONObject(response);
 		JSONObject container = (JSONObject) resp.get("m2m:ae");
@@ -142,7 +162,10 @@ public class DiVi_ADN_IN {
 		CoapResponse responseBody = client.advanced(req);
 		
 		String response = new String(responseBody.getPayload());
+		if(response.contains("already"))
+			return null;
 		System.out.println(response);
+		
 		JSONObject resp = new JSONObject(response);
 		JSONObject cont = (JSONObject) resp.get("m2m:cnt");
 		container.setRn((String) cont.get("rn"));
@@ -202,21 +225,5 @@ public class DiVi_ADN_IN {
 		String path = content.getString("m2m:uril");
 		return path;
 	}
-/*	
-	static void createContentInstance(String cse, String cnf, String con){
-		
-	}
-	
-	static AE createAE(String cse, String rn){
-		return null;
-	}
-	
-	static String Discovery(String cse,String cnf, String con) {
-		return null;
-	}
-	
-	static Container createContainer(String cse, String rn){
-		return null;
-	}
-	*/
+
 }
