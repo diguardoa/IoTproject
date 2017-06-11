@@ -8,6 +8,8 @@ public class ProxyClient {
 	public static final boolean oM2M_active = true;
 	public static final boolean debug = false;
 	
+	public static final int delay_get_resources = 500;
+	
 	public static final String MN_address = "coap://127.0.0.1:5684/~/DiViProject-mn-cse";
 	
 	public static final int treshold_HRS_low = 60;
@@ -20,8 +22,8 @@ public class ProxyClient {
 	public static final int treshold_temp_room_low = 10;
 	public static final int treshold_temp_room_high = 50;
 	
-	public static final int oxygen_optimal = 120;
-	public static final int temp_room_optimal = 25;
+	public static final int oxygen_optimal = 1200;
+	public static final int temp_room_optimal = 250;
 	
 	public static final int T_patient = 2000;
 	public static final int T_room = 2000;
@@ -35,7 +37,7 @@ public class ProxyClient {
 
 	public static void main(String[] args) {		
 		
-		DiVi_ADN br = new DiVi_ADN("http://[aaaa::c30c:0:0:1]");
+		DiVi_ADN br = new DiVi_ADN("http://[aaaa::212:7401:1:101]");
 
 		// faccio la discovery e faccio partire il sistema
 		br.discovery();

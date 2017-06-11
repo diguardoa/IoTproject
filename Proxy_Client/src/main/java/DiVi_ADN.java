@@ -99,9 +99,9 @@ public class DiVi_ADN extends Thread{
 		CoapClient mote_c = new CoapClient(uri_mote);
 		mote_c.setTimeout(0);	// infinite timeout
 		
-		// Wait for 3000 ms
+		// Wait 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(ProxyClient.delay_get_resources);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}	
@@ -116,9 +116,9 @@ public class DiVi_ADN extends Thread{
 			CoapClient info_mote = new CoapClient(DiVi_ADN.createUri(uri_mote + "/id"));
 			mote_c.setTimeout(0);	// infinite timeout
 			
-			//Wait for 3000 ms
+			//Wait 
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(ProxyClient.delay_get_resources);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

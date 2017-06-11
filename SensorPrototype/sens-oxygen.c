@@ -7,16 +7,13 @@
 #include "net/rpl/rpl.h"
 
 #define TIME_SAMPLING 100
-#define STARTING_OXY 20
-#define A 0.9048
-// A = exp(-(TIME_SAMPLING/TIME_CONST)
-#define B (1 - A)
+#define STARTING_OXY 200
 
 // First order variable
 static int u_k_1 = STARTING_OXY;
 static int u_k = STARTING_OXY;
-static float oxy_k = STARTING_OXY;	// temperature at current time
-static float oxy_k_1 = STARTING_OXY;	// temperature last sample
+static int oxy_k = STARTING_OXY;	// temperature at current time
+static int oxy_k_1 = STARTING_OXY;	// temperature last sample
 
 int pat_id = 0;
 
@@ -100,8 +97,9 @@ void oxy_post_handler(void* request, void* response, uint8_t *buffer, uint16_t p
 static void oxy_periodic_handler()
 {
 	oxy_k_1 = oxy_k;
-	oxy_k = (A * oxy_k_1) + (B * u_k_1);
-	if (((int) oxy_k) != ((int) oxy_k_1))
+	oxy_k = (9 * oxy_k_1) + (u_k_1); // A = 0.9, B = 0.1
+	oxy_k = oxy_k / 10;
+	if ((oxy_k) != (oxy_k_1))
 		REST.notify_subscribers(&oxy_sens);
 	u_k_1 = u_k;
 }

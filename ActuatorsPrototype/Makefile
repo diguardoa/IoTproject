@@ -6,7 +6,7 @@ UIP_CONF_IPV6=1
 
 CFLAGS+= -DRPL_CONF_DIO_REDUNDANCY=10
 
-CONTIKI=/home/user/contiki
+CONTIKI=/home/user/contiki-3.0
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 CFLAGS += -DUIP_CONF_IPV6_RPL
 

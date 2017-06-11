@@ -8,7 +8,7 @@ public class App
         System.out.println( "Starting Configuration" );
         
 		Configuration c = new Configuration();
-		c.simulation5();
+		c.simulation7();
 		System.out.println("end");
 
     }

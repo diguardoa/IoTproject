@@ -1,7 +1,7 @@
 CONTIKI_PROJECT=border-router
 all: $(CONTIKI_PROJECT) 
 
-CONTIKI=/home/user/contiki
+CONTIKI=/home/user/contiki-3.0
 
 #linker optimizations
 SMALL=1

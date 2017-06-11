@@ -9,16 +9,14 @@
 
 
 #define TIME_SAMPLING 100
-#define STARTING_TEMPERATURE 20
-#define A 0.9048
-// A = exp(-(TIME_SAMPLING/TIME_CONST)
-#define B (1 - A)
+#define STARTING_TEMPERATURE 200
+
 
 // First order variable
 static int u_k_1 = (STARTING_TEMPERATURE+1);
 static int u_k = (STARTING_TEMPERATURE+1);
-static float temp_k = STARTING_TEMPERATURE;	// temperature at current time
-static float temp_k_1 = STARTING_TEMPERATURE;	// temperature last sample
+static int temp_k = STARTING_TEMPERATURE;	// temperature at current time
+static int temp_k_1 = STARTING_TEMPERATURE;	// temperature last sample
 
 int room_id = 0;
  
@@ -107,7 +105,8 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
 static void temp_periodic_handler()
 {
 	temp_k_1 = temp_k;
-	temp_k = (A * temp_k_1) + (B * u_k_1);
+	temp_k = (9 * temp_k_1) + (u_k_1);
+	temp_k = temp_k / 10;
 	if (((int) temp_k) != ((int) temp_k_1))
 		REST.notify_subscribers(&temp_sens);
 	u_k_1 = u_k;

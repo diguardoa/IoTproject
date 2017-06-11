@@ -3,6 +3,7 @@
 #include "rest-engine.h"
 #include "dev/leds.h"
 #include "sys/etimer.h"
+#include "net/rpl/rpl.h"
 
 #define ALARM_ON 1
 #define ALARM_OFF 0

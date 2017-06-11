@@ -1,4 +1,4 @@
-obj_sky/list.o: /home/user/contiki/core/lib/list.c \
- /home/user/contiki/core/./lib/list.h
-/home/user/contiki/core/lib/list.c :
- /home/user/contiki/core/./lib/list.h :
+obj_sky/list.o: /home/user/contiki-3.0/core/lib/list.c \
+ /home/user/contiki-3.0/core/./lib/list.h
+/home/user/contiki-3.0/core/lib/list.c :
+ /home/user/contiki-3.0/core/./lib/list.h :
