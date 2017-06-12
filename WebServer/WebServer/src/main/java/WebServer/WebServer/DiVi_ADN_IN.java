@@ -53,7 +53,11 @@ public class DiVi_ADN_IN extends Thread{
 		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
 		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
 		CoapResponse responseBody = client.advanced(req);
+		//System.out.println(responseBody.getResponseText());
+
+		//client.setTimeout(0);
 		String response = new String(responseBody.getPayload());
+		//System.out.println(response);
 		JSONObject content = new JSONObject(response);
 		String path = content.getString("m2m:uril");
 		return path;

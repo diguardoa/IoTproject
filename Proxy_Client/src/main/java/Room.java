@@ -36,8 +36,8 @@ public class Room extends Thread{
 	}
 	
 	public void addResource(WebLink link, String res_uri) {
-	
-		System.out.println(link.getURI());
+if (ProxyClient.debug)	
+	System.out.println(link.getURI());
 		
 		String res_title = link.getAttributes().getTitle();
 				
@@ -70,7 +70,8 @@ public class Room extends Thread{
 			
 			if (resNumber == 3) {
 				int t_temp = TempR.getValue();
-				System.out.println("thread started " + seqNumber);
+if (ProxyClient.debug)	
+	System.out.println("thread started " + seqNumber);
 				
 				// Adjust Temperature (PI)
 				e_Temp = ProxyClient.temp_room_optimal - t_temp;

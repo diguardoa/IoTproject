@@ -3,10 +3,8 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define MAX_TEMP 100
-#define MIN_TEMP 10
 
-static int current_temp;
+static int current_temp = 100;
 int room_id = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -74,13 +72,9 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
      
   if( len > 0 ){
      temp_temp = atoi(val);	
-     if ((temp_temp >= MIN_TEMP) && (temp_temp <= MAX_TEMP))
-     {
-     	current_temp = temp_temp;
-     	REST.set_response_status(response, REST.status.CREATED);
-     }
-     else
-     	REST.set_response_status(response, REST.status.BAD_REQUEST);
+ 	current_temp = temp_temp;
+ 	REST.set_response_status(response, REST.status.CREATED);
+    
 
      
   } else {
