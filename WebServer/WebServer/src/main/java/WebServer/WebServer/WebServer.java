@@ -1,14 +1,22 @@
 package WebServer.WebServer;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.websocket.server.WebSocketHandler;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+
 import java.util.LinkedList;
 
 import org.eclipse.californium.core.WebLink;
 
 public class WebServer {
+	
+	public static final int WebSocketPort = 8100;
+	
+	public static Server webAppServer;
 
 	public static LinkedList<Patient> patients;
 	public static LinkedList<Room> rooms;
-	
+		
 	public static int server_coap_port = 5800;
 	
 	private static LinkedList<Room> createRoom(LinkedList<String> room_container){
@@ -102,8 +110,10 @@ public class WebServer {
 		return pt_list;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
+
+
 		System.out.println("Start Web Server!");
 		
 		DiVi_ADN_IN adn = new DiVi_ADN_IN();
@@ -128,7 +138,16 @@ public class WebServer {
 				"Rooms");		
 		
 		rooms = createRoom(room_container);
-
+		
+		webAppServer = new Server(WebSocketPort);
+        WebSocketHandler wsHandler = new WebSocketHandler() {
+            @Override
+            public void configure(WebSocketServletFactory factory) {
+                factory.register(MyWebSocketHandler.class);
+            }
+        };
+        webAppServer.setHandler(wsHandler);
+        webAppServer.start();
+        webAppServer.join();
 	}
-
 }
