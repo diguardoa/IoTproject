@@ -38,6 +38,59 @@ public class Configuration {
 	private String uri_base_prefix = "coap://[aaaa::212:74";
 	private String uri_base_suffix = "]:5683/id";
 	
+	public void simulation8() {
+
+		// Configure Rooms
+		for (int i = 0; i < room1.length; i++) {
+			String message = "e=" + String.valueOf(1);
+			String address = uri_base_prefix + room1[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0; i < room2.length; i++) {
+			String message = "e=" + String.valueOf(2);
+			String address = uri_base_prefix + room2[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// Configure Patients
+		
+		// pat1
+		for (int i = 0; i < pat1.length; i++) {
+			String message = "e=" + String.valueOf(1);
+			String address = uri_base_prefix + pat1[i] + uri_base_suffix;
+			System.out.println(address);
+			CoapClient mote_c = new CoapClient(address);
+			mote_c.setTimeout(0);
+			CoapResponse post_response = mote_c.post(message,MediaTypeRegistry.TEXT_PLAIN);
+			
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
+	}
 	public void simulation7() {
 
 		// Configure Rooms

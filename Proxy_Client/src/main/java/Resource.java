@@ -13,7 +13,6 @@ public class Resource extends Thread {
 	private ServerSubscriber controller_IN;
 	
 	private int current_value;
-	private int next_value;
 	
 	private String resource_mn_path;
 	private String uri_mote;
@@ -77,9 +76,13 @@ public class Resource extends Thread {
 			// All msg are conformed with SenML standard
 			JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
 			String value = jsonOBJ.get("e").toString();
-			setCurrentValue(Integer.parseInt(value));			
-			String mes_unity = jsonOBJ.get("u").toString();
-			DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
+			int temp_value = Integer.parseInt(value);
+			if (current_value != temp_value)
+			{
+				setCurrentValue(temp_value);			
+				String mes_unity = jsonOBJ.get("u").toString();
+				DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
+			}
 			ready_to_publish = false;
 		}
 	}
