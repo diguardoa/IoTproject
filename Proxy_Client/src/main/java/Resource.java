@@ -16,7 +16,6 @@ public class Resource extends Thread {
 	private int next_value;
 	
 	private String resource_mn_path;
-	private Container res_container;
 	private String uri_mote;
 	private String rt;
 	
@@ -37,7 +36,7 @@ public class Resource extends Thread {
 		rt = link.getAttributes().getResourceTypes().get(0);
 
 		System.out.println("created");
-		res_container = DiVi_ADN.createContainer(parent_container, resource_name);		
+		DiVi_ADN.createContainer(parent_container, resource_name);		
 		resource_mn_path = parent_container + "/" + resource_name;
 
 		// Look if the resource is observable
@@ -68,13 +67,8 @@ public class Resource extends Thread {
 			System.out.println("the resource is non observable");
 		}
 		
-		// Fai partire l'oggetto server coap che fa la subscription su IN
-		server_coap_port = ++ProxyClient.COAP_PORT;	
-		controller_IN = new ServerSubscriber(resource_name + "_pat", server_coap_port);
-		controller_IN.start();
 
-		// al posto di resource_mn_path ci vuole la resource_in_path del controller dal quale vuoi prendere i dati
-		DiVi_ADN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ server_coap_port +"/" + resource_name + "_pat",resource_name + "_monitor");
+		
 	}
 	
 	public void observingStep() {
@@ -91,6 +85,20 @@ public class Resource extends Thread {
 	}
 	
 	public void run() {
+		// Fai partire l'oggetto server coap che fa la subscription su IN
+		server_coap_port = ++ProxyClient.COAP_PORT;	
+
+		controller_IN = new ServerSubscriber(resource_name + "_pat", 
+				server_coap_port,resource_mn_path.replaceAll("mn", "in"));
+		
+		controller_IN.start();
+		
+		try {
+			Thread.sleep(ProxyClient.delay_subscription_IN);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		while(true) {
 			observingStep();
 			// look if the resource is in automatic mode

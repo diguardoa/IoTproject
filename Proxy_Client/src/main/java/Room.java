@@ -18,7 +18,6 @@ public class Room extends Thread{
 	private Resource FireAl;
 	private Resource AirCon;
 	
-	private Container single_room_container;
 	private String my_container_long_name;
 	
 	public Room(int id) {
@@ -30,7 +29,7 @@ public class Room extends Thread{
 				+ "SmartHospitalization/Rooms";
 		String my_container_name = "Room"+String.valueOf(seqNumber);
 		
-		single_room_container = DiVi_ADN.createContainer(parent_container, my_container_name);		
+		DiVi_ADN.createContainer(parent_container, my_container_name);		
 		
 		my_container_long_name = parent_container + "/" + my_container_name;
 				

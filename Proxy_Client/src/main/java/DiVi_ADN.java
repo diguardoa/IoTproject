@@ -34,9 +34,7 @@ public class DiVi_ADN extends Thread{
 	private List<String> addresses = new LinkedList<>();
 	private List<Patient> patients = new LinkedList<>();
 	private List<Room> rooms = new LinkedList<>();
-	private AE SmartHospital;
-	private Container Patients;
-	private Container Rooms;
+
 	
 	static public RoomsAlarm general_alarm;
 	
@@ -50,19 +48,19 @@ public class DiVi_ADN extends Thread{
 		
 		// Create the application entity
 		
-		SmartHospital = DiVi_ADN.createAE(
+		DiVi_ADN.createAE(
 				ProxyClient.MN_address, 
 				"SmartHospitalization");
 	
 		// Create Patients Container
 		
-		Patients = DiVi_ADN.createContainer(
+		DiVi_ADN.createContainer(
 				ProxyClient.MN_address + "/DiViProject-mn-name/SmartHospitalization", 
 				"Patients");
 		
 		// Create Rooms Container
 		
-		Rooms = DiVi_ADN.createContainer(
+		DiVi_ADN.createContainer(
 				ProxyClient.MN_address + "/DiViProject-mn-name/SmartHospitalization", 
 				"Rooms");
 			
@@ -246,9 +244,12 @@ public class DiVi_ADN extends Thread{
 		return uri_created;
 	}
 	
-	static AE createAE(String cse, String rn){
+	static void createAE(String cse, String rn){
 if (ProxyClient.oM2M_active) {
-		AE ae = new AE();
+	
+		if (isAlreadyCreated(cse+ "/DiViProject-mn-name/"+ rn,2))
+				return;
+		
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
 		Request req = Request.newPost();
@@ -271,25 +272,21 @@ if (ProxyClient.debug)
 		String response = new String(responseBody.getPayload());
 if (ProxyClient.debug)
 	System.out.println(response);
-		JSONObject resp = new JSONObject(response);
-		JSONObject container = (JSONObject) resp.get("m2m:ae");
-		ae.setRn((String) container.get("rn"));
-		ae.setTy((Integer) container.get("ty"));
-		ae.setRi((String) container.get("ri"));
-		ae.setPi((String) container.get("pi"));
-		ae.setCt((String) container.get("ct"));
-		ae.setLt((String) container.get("lt"));
+
+
 		
-		return ae;
+		return;
 } else
-		return null;
+		return;
 	}
 	
-	static Container createContainer(String cse, String rn){
+	static void createContainer(String cse, String rn){
+		
 if (ProxyClient.oM2M_active) {
 
-		Container container = new Container();
-
+		if (isAlreadyCreated(cse + "/" + rn,3))
+			return;
+	
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
 		Request req = Request.newPost();
@@ -313,22 +310,11 @@ if (ProxyClient.debug)
 		
 if (ProxyClient.debug)
 	System.out.println(response);
+
 		
-		JSONObject resp = new JSONObject(response);
-		JSONObject cont = (JSONObject) resp.get("m2m:cnt");
-		container.setRn((String) cont.get("rn"));
-		container.setTy((Integer) cont.get("ty"));
-		container.setRi((String) cont.get("ri"));
-		container.setPi((String) cont.get("pi"));
-		container.setCt((String) cont.get("ct"));
-		container.setLt((String) cont.get("lt"));
-		container.setSt((Integer) cont.get("st"));
-		container.setOl((String) cont.get("ol"));
-		container.setLa((String) cont.get("la"));
-		
-		return container;
+		return;
 } else
-	return null;
+	return;
 	}
 	
 	static void createContentInstance(String cse, String cnf, String con){
@@ -361,9 +347,18 @@ if (ProxyClient.debug)
 } 			
 	}
 	
-	static String Discovery(String cse) {
+	// AE = 2; CONT = 3
+	static boolean isAlreadyCreated(String cse, int type) {
+		String st_ae = DiVi_ADN.oM2Mdiscovery(cse + "?fu=1&rty=" + type);
+		if (st_ae == null)
+			return false;
+		else
+			return true;
+	}
+	
+	static String oM2Mdiscovery(String cse) {
 if (ProxyClient.oM2M_active) {
-
+	
 		URI uri = null;
 		try {
 			uri = new URI(cse);
@@ -378,6 +373,8 @@ if (ProxyClient.oM2M_active) {
 		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
 		CoapResponse responseBody = client.advanced(req);
 		String response = new String(responseBody.getPayload());
+		if (response.equals("Resource not found") || response.contains("Resource not found"))
+			return null;
 		JSONObject content = new JSONObject(response);
 		String path = content.getString("m2m:uril");
 		return path;
