@@ -1,0 +1,28 @@
+Messaggi: ID_MESSAGGIO:DESCRIZIONE_MESSAGGIO [: syntax]
+
+Server: WebSocket localhost:8100
+
+1) WhatPatients 	->	(ritorna una stringa di id separati da virgola [es NumeroPazienti:1,2])
+2) WhatRooms 		->	(ritorna una stringa di id separati da virgola [es NumeroPazienti:1,2])
+
+Id:
+	del paziente o della stanza
+
+ResName:
+	HRS
+	LedA
+	OxyValv
+	Temp
+	OxyS
+
+Type:
+	p -> patient
+	r -> risorsa
+
+3) GetAllValues 			Type:Id:ResName		-> stringa con NumeroValori:tempo,valore;tempo,valore;tempo,valore
+4) DeleteValues 			Type:Id:ResName 	-> 1 (ok) 0 (non ok)
+
+5) SetValue					Type:Id:ResName:Value
+6) SetAutomaticMode			Type:Id:ResName
+
+7) GetLastValue				Type:Id:ResName
