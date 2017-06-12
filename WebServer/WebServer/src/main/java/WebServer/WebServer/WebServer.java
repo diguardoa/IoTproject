@@ -9,7 +9,7 @@ public class WebServer {
 	public static LinkedList<Patient> patients;
 	public static LinkedList<Room> rooms;
 	
-	public static int server_coap_port = 5685;
+	public static int server_coap_port = 5800;
 	
 	private static LinkedList<Room> createRoom(LinkedList<String> room_container){
 		LinkedList<Room> ro = new LinkedList<Room>();
@@ -41,9 +41,9 @@ public class WebServer {
 			for(String s: room_container){
 				if(s.contains("/Rooms/Room" + id +"/"))
 					link = (new WebLink(s));
-				if(s.contains("AirCon")) aircon = link;
-				if(s.contains("FireAl")) fireal = link;
-				if(s.contains("TempR")) tempr = link;
+				if(s.endsWith("/Room" + id + "/AirCon")) aircon = link;
+				if(s.endsWith("/Room" + id + "/FireAl")) fireal = link;
+				if(s.endsWith("/Room" + id + "/TempR")) tempr = link;
 			}
 		
 			Room r1 = new Room(id, aircon, fireal, tempr, parents_ct);
@@ -80,21 +80,21 @@ public class WebServer {
 		
 		//For each patient we look for the proper resources
 		for(String pa: pats){
-			System.out.println(pa);
 			id = new Integer(pa.substring(7,8));
 			for(String s: pat_container){
-				if(s.contains("/Patients/Patient" + id + "/")){
+
+				if(s.contains("/Patients/Patient" + id + "/") ){
 					link = (new WebLink(s));
 				}
-				if(s.contains("HRS")) hrs = link;
-				if(s.contains("LA")) la = link;
-				if(s.contains("OxyValv")) oxyval = link;
-				if(s.contains("Temp")) temp = link;
-				if(s.contains("OxyS")) oxys = link;
+				
+				if(s.endsWith("/Patient"+ id + "/HRS")) hrs = link;
+				if(s.endsWith("/Patient"+ id + "/LedA")) la = link;
+				if(s.endsWith("/Patient"+ id + "/OxyValv")) oxyval = link;
+				if(s.endsWith("/Patient"+ id + "/Temp")) temp = link;
+				if(s.endsWith("/Patient"+ id + "/OxyS")) oxys = link;
 			}
 			
 			Patient p = new Patient(id, hrs, la, oxyval, temp, oxys, parents_ct);
-			System.out.println("Patient" + id + " created");
 			if(!pt_list.contains(p))
 				pt_list.add(p);
 		}
@@ -112,6 +112,9 @@ public class WebServer {
 		containers.removeFirst();
 		containers.set(0, containers.getFirst().substring(1));
 		LinkedList<String> pat_container = adn.findPatientRoom(containers, string_ae +"/Patients");
+		
+		//for(String s: pat_container)
+			//System.out.println(s);
 		
 		if(!pat_container.isEmpty())
 			DiVi_ADN_IN.createContainer("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization", 

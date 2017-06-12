@@ -30,6 +30,8 @@ public class DiVi_ADN_IN extends Thread{
 		String str_ae = "coap://127.0.0.1:5683/~" + st_ae + "?fu=1&rty=3";
 		String str_cont = discovery(str_ae);
 		String[] containers = str_cont.split(" /");
+		//for(String s: containers)
+				//System.out.println(s);
 		LinkedList<String> ll = new LinkedList<String>(Arrays.asList(containers));
 		ll.addFirst(st_ae);
 		

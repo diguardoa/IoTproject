@@ -2528,9 +2528,9 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a
  .stab          0x0002a990      0x1f8 contiki-sky.a(mac.o)
                                 0x4ec (size before relaxing)
 
-.stabstr        0x00000000    0x20075
+.stabstr        0x00000000    0x2009f
  *(.stabstr)
- .stabstr       0x00000000    0x20075 fireAlarm.co
+ .stabstr       0x00000000    0x2009f fireAlarm.co
 
 .stab.excl
  *(.stab.excl)
