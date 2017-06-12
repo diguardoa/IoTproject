@@ -42,7 +42,7 @@ public class ServerSubscriber extends Thread{
 		}
 		DiVi_ADN.createSubscription(resource_in_path, "coap://127.0.0.1:"+ port_number +"/" + nm_server_resource,nm_server_resource + "_monitor");
 
-		//System.out.println("observing " + resource_in_path );
+		System.out.println("observing " + resource_in_path );
 	}
 	
 	public boolean isAutomaticMode() {	
