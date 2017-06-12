@@ -139,9 +139,7 @@ public class DiVi_ADN extends Thread{
 		Room current_room;
 		
 		// Look if the room exist. If it doesn't create it
-		List<Room> look_for_room = rooms.stream()
-				.filter(a -> Objects.equals(a.seqNumber, room_id))
-				.collect(Collectors.toList());
+		List<Room> look_for_room = rooms.stream().filter(a -> Objects.equals(a.seqNumber, room_id)).collect(Collectors.toList());
 		if (look_for_room.isEmpty())
 		{
 			current_room = new Room(room_id);

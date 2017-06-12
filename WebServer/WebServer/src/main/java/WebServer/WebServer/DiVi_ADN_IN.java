@@ -37,27 +37,11 @@ public class DiVi_ADN_IN extends Thread{
 	}
 	
 	public LinkedList<String> findPatientRoom(LinkedList<String> ll, String str){
-		int x = 0, index = -1;
 		LinkedList<String> container = new LinkedList<String>();
 		for(String s: ll){
-			if(s.equals(str)){
-				index = x;
-				if(ll.get(index+1).toString().equals(new String(str + "/Patient0"))){					
-					int y = index+1;
-					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Patient0"))){
-						container.add(ll.get(y));					
-						y++;
-					}
-				}
-				if(ll.get(index+1).toString().equals(new String(str + "/Room0"))){
-					int y = index+1;
-					while(y < ll.size() && ll.get(y).toString().contains(new String(str + "/Room0"))){
-						container.add(ll.get(y));					
-						y++;
-					}
-				}
-			}
-			x++;
+			if(s.contains(str))
+				container.add(s);
+			
 		}
 		return container;
 	}
@@ -210,8 +194,7 @@ public class DiVi_ADN_IN extends Thread{
 		URI uri = null;
 		try {
 			uri = new URI(cse);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+		} catch (URISyntaxException e){
 			e.printStackTrace();
 		}
 		CoapClient client = new CoapClient(uri);
