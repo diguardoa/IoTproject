@@ -1,0 +1,23 @@
+body{
+  padding-top: 80px;
+}
+
+.navbar-brand, .navbar-nav > li > a{
+  height: 80px;
+  line-height: 50px;
+}
+
+.navbar-text{
+  line-height: 55px;
+  font-size: 18px;
+}
+
+.carousel-inner > .item{
+  min-height: 600px;
+  background-size: cover;
+  background-position: center center;
+}
+
+.big-padding{
+  padding: 100px;
+}
