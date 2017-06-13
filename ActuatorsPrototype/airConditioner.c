@@ -3,8 +3,10 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-
-static int current_temp = 100;
+#define TIME_SAMPLING 100
+#define STARTING_TEMP 100
+static int current_temp = STARTING_TEMP;
+static int next_temp = STARTING_TEMP;
 int room_id = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -12,7 +14,9 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(airConditioner, "title=\"AirCon\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL);
+static void air_periodic_handler();
+
+PERIODIC_RESOURCE(airConditioner, "title=\"AirCon\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL, TIME_SAMPLING, air_periodic_handler);
 RESOURCE(Id, "title=\"RoomId\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -71,8 +75,8 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   len=REST.get_post_variable(request, "e", &val);
      
   if( len > 0 ){
-     temp_temp = atoi(val);	
- 	current_temp = temp_temp;
+    temp_temp = atoi(val);	
+ 	next_temp = temp_temp;
  	REST.set_response_status(response, REST.status.CREATED);
     
 
@@ -80,6 +84,15 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   } else {
      REST.set_response_status(response, REST.status.BAD_REQUEST);
   }
+}
+
+static void air_periodic_handler()
+{
+	if (next_temp != current_temp)
+	{
+		current_temp = next_temp;
+		REST.notify_subscribers(&airConditioner);
+	}
 }
 
 PROCESS(airConditioner_main, "Air Conditioner Main");

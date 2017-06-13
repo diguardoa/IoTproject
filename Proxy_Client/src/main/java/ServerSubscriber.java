@@ -56,9 +56,12 @@ public class ServerSubscriber extends Thread{
 			JSONObject nev = (JSONObject) m2msgn.get("nev");
 			JSONObject rep = (JSONObject) nev.get("rep");
 			currentValue = rep.getInt("con");
+			
 		} 
 		if (currentValue < 0)
 			automaticMode = true;
+		else
+			automaticMode = false;
 		
 		return automaticMode;
 	}

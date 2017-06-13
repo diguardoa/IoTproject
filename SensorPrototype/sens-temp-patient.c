@@ -7,19 +7,21 @@
 #include "net/rpl/rpl.h"
 
 #define STARTING_TEMP 36
+#define TIME_SAMPLING 100
 
 int pat_id = 0;
 
-int temp_current = STARTING_TEMP;
-int temp_next = STARTING_TEMP;
- 
+static int temp_current = STARTING_TEMP;
+static int temp_next = STARTING_TEMP;
+static int fixed_value_cycles = 0;
+
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void temp_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void temp_periodic_handler();
 
-PERIODIC_RESOURCE(temp_sens,"title=\"Temp\";rt=\"S\";obs", temp_get_handler,temp_post_handler,NULL,NULL, 10*CLOCK_SECOND,temp_periodic_handler);
+PERIODIC_RESOURCE(temp_sens,"title=\"Temp\";rt=\"S\";obs", temp_get_handler,temp_post_handler,NULL,NULL, TIME_SAMPLING,temp_periodic_handler);
 
 /*
 *	Resource used only for simulations
@@ -84,7 +86,7 @@ void temp_post_handler(void* request, void* response, uint8_t *buffer, uint16_t 
      
   if( len > 0 ){
      new_value = atoi(val);	
-     temp_next = new_value + 1; 
+     temp_next = new_value;
      /* 
      * because it doesn't reach the final value. It's done only for the coherence of the
      * simulation
@@ -101,8 +103,14 @@ static void temp_periodic_handler()
 	{	
 		temp_current = temp_next;
 		REST.notify_subscribers(&temp_sens);
-	}
+	} else 
+		fixed_value_cycles++;
 
+	if (fixed_value_cycles == 20)
+	{
+		fixed_value_cycles = 0;
+		temp_next = temp_current + 1;
+	}
 }
 
 PROCESS(temperature_process, "Temperature sensor");

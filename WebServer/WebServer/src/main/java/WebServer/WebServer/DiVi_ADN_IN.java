@@ -48,6 +48,7 @@ public class DiVi_ADN_IN extends Thread{
 		return container;
 	}
 	
+	
 	static String discovery(String cse){
 		CoapClient client = new CoapClient(cse);
 		Request req = Request.newGet();
@@ -82,7 +83,8 @@ public class DiVi_ADN_IN extends Thread{
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		String response = new String(responseBody.getPayload());
-		System.out.println(response);
+if (WebServer.debug)
+	System.out.println(response);
 		
 	}
 	
@@ -113,14 +115,21 @@ public class DiVi_ADN_IN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:ae", obj);
 		String body = root.toString();
-		System.out.println(body);
+		
+if (WebServer.debug)
+	System.out.println(body);
+
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		String response = new String(responseBody.getPayload());
+		
 		if(response.contains("already"))
 			return null;
-		System.out.println(response);
-		JSONObject resp = new JSONObject(response);
+		
+if (WebServer.debug)
+	System.out.println(response);
+		
+JSONObject resp = new JSONObject(response);
 		JSONObject container = (JSONObject) resp.get("m2m:ae");
 		ae.setRn((String) container.get("rn"));
 		ae.setTy((Integer) container.get("ty"));
@@ -147,14 +156,19 @@ public class DiVi_ADN_IN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:cnt", obj);
 		String body = root.toString();
-		System.out.println(body);
+		
+if (WebServer.debug)
+	System.out.println(body);
+
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		
 		String response = new String(responseBody.getPayload());
 		if(response.contains("already"))
 			return null;
-		System.out.println(response);
+		
+if (WebServer.debug)
+	System.out.println(response);
 		
 		JSONObject resp = new JSONObject(response);
 		JSONObject cont = (JSONObject) resp.get("m2m:cnt");
@@ -186,13 +200,20 @@ public class DiVi_ADN_IN extends Thread{
 		JSONObject root = new JSONObject();
 		root.put("m2m:cin", content);
 		String body = root.toString();
-		System.out.println(uri);
-		System.out.println(body);
+		
+if (WebServer.debug)
+{
+	System.out.println(uri);
+	System.out.println(body);
+}
+		
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
 		
 		String response = new String(responseBody.getPayload());
-		System.out.println(response);
+
+if (WebServer.debug)
+	System.out.println(response);
 			
 	}
 	
