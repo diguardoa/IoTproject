@@ -2,7 +2,7 @@ var ws = new WebSocket("ws://127.0.0.1:8100/");
 
 ws.onopen = function() {
     alert("Opened!");
-    ws.send("Hello Server");
+    ws.send("{'id':6,'type':'p','id_ent':1,'res_name':'OxyS','value':800}");
 };
 
 ws.onmessage = function (evt) {

@@ -112,7 +112,7 @@ public class ValueManager {
 		resp.put("type", type);
 		resp.put("id_ent", id);
 		resp.put("res_name", rn);
-		resp.put("payload", values_db.get(values_db.length()));
+		resp.put("payload", values_db.get(values_db.length()-1));
 		
 		return resp;		
 	}
