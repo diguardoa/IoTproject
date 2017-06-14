@@ -3,18 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Smart Hospitalization WebApp</title>
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!--
     <script  src="index.js"></script>
-    -->
   </head>
 
-  <body data-spy="scroll" data-target="#navbar-example">
+  <body data-spy="scroll" data-target="#navbar-example" onload="show()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,14 +25,14 @@
           </a>
         </div>
 
-        <p class="navbar-text">testo</p>
+        <p class="navbar-text" id="status"></p>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-example">
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#myCarousel">Home <span class="sr-only">(current)</span></a></li>
-            <li><a href="#Patient">Patient</a></li>
-            <li><a href="#Room">Rooms</a></li>
+            <li><a href="#Patient" onclick="searchPatient()">Patient</a></li>
+            <li><a href="#Room" onclick="searchRoom()">Rooms</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elenco a comparsa <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -109,34 +104,13 @@
       </a>
     </div>
 
+    <hr>
+
     <div class="container">
-      <div class="row big-padding" id="Patient">
-        <div class="col-md-4">
-          <h3> Title 1</h3>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <div class="col-md-4">
-          <h3> Title 2</h3>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <div class="col-md-4">
-          <h3> Title 3</h3>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-      </div>
-
+      <p class="lead big-padding" id="demo"></p>
+      <div class="row big-padding" id="Patient"></div>
       <hr>
-
-      <div class="row big-padding" id="Room">
-        <div class="col-md-6">
-          <h3>Title 1</h3>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <div class="col-md-6">
-          <h3>Title 2</h3>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-      </div>
+      <div class="row big-padding" id="Room"></div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
