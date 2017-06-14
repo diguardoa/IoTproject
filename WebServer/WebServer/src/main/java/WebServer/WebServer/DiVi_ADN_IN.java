@@ -235,5 +235,15 @@ if (WebServer.debug)
 		String path = content.getString("m2m:uril");
 		return path;
 	}
+	
+	static void delete(String cse){
+		URI uri = createUri(cse);
+		CoapClient client = new CoapClient(uri);
+		Request req = Request.newDelete();
+		req.getOptions().addOption(new Option(256, "admin:admin"));
+		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
+		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
+		CoapResponse responseBody = client.advanced(req);
+	}
 
 }

@@ -59,7 +59,7 @@ class Monitor extends CoapResource
     		first_msg = false;
     	else {
 	        String contentStr = new String(content);
-	        System.out.println(contentStr);
+	        //System.out.println(contentStr);
 	        try {			
 				JSONObject root = new JSONObject(contentStr);
 				JSONObject m2msgn = (JSONObject) root.get("m2m:sgn");
@@ -69,9 +69,10 @@ class Monitor extends CoapResource
 				JSONObject to_save = new JSONObject();
 				to_save.put("e", rep.getInt("con"));
 				to_save.put("t", rep.get("ct").toString().subSequence(9, 15));
+	
 				manager.addValue(to_save);
 				
-				System.out.println(rep.getInt("con"));
+				//System.out.println(rep.getInt("con"));
 				
 if (WebServer.debug)
 	manager.printValues();

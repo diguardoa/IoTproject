@@ -51,6 +51,7 @@ public class Resource extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		manager.setMnPath(resource_mn_path);
 		DiVi_ADN_IN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ WebServer.server_coap_port +"/" + resource_name + "_pat",resource_name + "_monitor");
 
 		

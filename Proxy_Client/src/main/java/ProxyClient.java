@@ -24,7 +24,7 @@ public class ProxyClient {
 	public static final int treshold_temp_room_high = 500;
 	
 	public static final int oxygen_optimal = 1200;
-	public static final int temp_room_optimal = 250;
+	public static final int temp_room_optimal = 200;
 	
 	public static final int T_patient = 2000;
 	public static final int T_room = 2000;
@@ -40,16 +40,21 @@ public class ProxyClient {
 		
 		DiVi_ADN br = new DiVi_ADN("http://[aaaa::212:7401:1:101]");
 		
-		// discovery lato oM2M finta per vedere come si comporta
-
-
 		// faccio la discovery e faccio partire il sistema
 		br.discovery();
 		
-		// sarebbe utile fare un Thread a livello di ADN che "ogni tot" fa la discovery e aggiorna
-		// i pazienti/stanze
 		br.start_pat_rooms();
 		
+		/*
+		DiVi_ADN.delete(ProxyClient.MN_address + 
+				"/DiViProject-mn-name/SmartHospitalization/Patients");
+		DiVi_ADN.delete(ProxyClient.MN_address + 
+				"/DiViProject-mn-name/SmartHospitalization/Rooms");
+				*/
+		/*
+		DiVi_ADN.delete(ProxyClient.MN_address + 
+				"/DiViProject-mn-name/SmartHospitalization?rty=3");
+		*/
 		while(true) {
         	try {
 				System.in.read();

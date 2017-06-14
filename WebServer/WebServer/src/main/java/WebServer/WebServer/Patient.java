@@ -2,12 +2,14 @@ package WebServer.WebServer;
 
 import org.eclipse.californium.core.WebLink;
 
-public class Patient extends Hospital_Entity{
-	public Resource HRS;
-	public Resource LA;
-	public Resource OXYVALV;
-	public Resource TEMP;
-	public Resource OXYS;
+public class Patient {
+	public int id;
+	private String my_container_long_name;
+	private Resource HRS;
+	private Resource LA;
+	private Resource OXYVALV;
+	private Resource TEMP;
+	private Resource OXYS;
 	
 	
 	public Patient(int i, WebLink hrs, WebLink la, WebLink oxyvalv, WebLink temp, WebLink oxys, String parents_ct){

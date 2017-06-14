@@ -9,9 +9,14 @@ public class ValueManager {
 	private String in_path;
 	private JSONArray values_db;
 	private int id;
+	private String resource_mn_path;
 	
 	public ValueManager() {
 		values_db = new JSONArray();
+	}
+	
+	public void setMnPath(String path) {
+		this.resource_mn_path = path;
 	}
 	
 	public void setPatient() {
@@ -70,6 +75,12 @@ public class ValueManager {
 		resp.put("id_ent", id);
 		resp.put("res_name", rn);
 		resp.put("payload", "done");
+		
+		String to_delete_compact = DiVi_ADN_IN.Discovery(resource_mn_path + "?fu=1&rty=4");
+		
+		String[] to_delete = to_delete_compact.split(" ");
+		for (String s: to_delete)
+			DiVi_ADN_IN.delete("coap://127.0.0.1:5683/~" + s);
 		
 		return resp;
 	}
