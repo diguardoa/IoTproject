@@ -1,17 +1,53 @@
 var ws = new WebSocket("ws://127.0.0.1:8100/");
-var P_NUM = 3;
-var R_NUM = 2;
+var P_NUM = 0;
+var paz_array = new Array();
+var R_NUM = 0;
+var room_array = new Array();
+
+var ready_to_show = 2;
 
 //Messaggio di prova per codifica json
 var text = '{"name":"John","birth":"1986-12-14","city":"New York"}';
 
+var all_value = "{'id':3, 'type':'p', 'id_ent':1, 'res_name':'OxyS'}";
+var set_value = "{'id':5, 'type':'p', 'id_ent':1, 'res_name':'OxyS', 'value':800}";
+
 ws.onopen = function() {
-  alert("Opened!");
-  ws.send("Hello Server");
+  //alert("Opened!");
+  //ws.send("Hello Server");
+
 };
 
 ws.onmessage = function (evt) {
-  alert("Message: " + evt.data);
+  //alert("Message: " + evt.data);
+  var resp = JSON.parse(evt.data);
+  switch (resp.id) {
+    case 1:
+      for (var loc in resp.payload) {
+        paz_array[P_NUM] = resp.payload[loc].e;
+        P_NUM++;
+        //alert("P " + resp.payload[loc].e);
+      }
+      ready_to_show--;
+      break;
+   
+    case 2:
+      for (var loc in resp.payload) {
+        room_array[R_NUM] = resp.payload[loc].e;
+        R_NUM++;
+        //alert("R " + resp.payload[loc].e);
+      }
+      ready_to_show--;
+      break;
+    case 3:
+      alert("Message: " + evt.data);
+      break;
+
+
+    case 8:
+      alert("Message: " + evt.data);
+      break;
+  }
 };
 
 ws.onclose = function() {
@@ -29,26 +65,23 @@ function printstatus(){
 };
 
 function searchPatient(){
-  var obj = {name:"John",age:30,city:"New York"};
-  var myJSON = JSON.stringify(obj);
-  document.getElementById("demo").innerHTML = myJSON;
-
-  var msg = new Object();
-  msg.name = "Prova";
-  msg.size = "12";
-  msg.year = "45";
-  var msgJSON = JSON.stringify(msg);
-  document.getElementById("demo").innerHTML += msgJSON;
-  console.log(JSON.parse(msgJSON));
+  var last_value = "{'id':8, 'type':'p', 'id_ent':1, 'res_name':'all'}";
+  ws.send(last_value);
+  /*
+  HRS
+  LedA
+  OxyValv
+  Temp
+  OxyS
+  */
   //ws.send();
 };
 
 function searchRoom(){
-  var obj = JSON.parse(text);
-  obj.birth = new Date(obj.birth);
-
-  document.getElementById("demo").innerHTML = text + obj.name + ", " + obj.birth;
-  //ws.send();
+  for (var i=0; i < R_NUM; i++)   {
+    var last_value = "{'id':8, 'type':'r', 'id_ent':" + room_array[i] + ", 'res_name':'all'}";
+    ws.send(last_value);
+  }
 };
 
 function showPatient(){
@@ -88,6 +121,23 @@ function showRoom(){
 };
 
 function show(){
-  showPatient();
-  showRoom();
+  
+  
+  setTimeout(function() {
+  var WhatPatients = "{'id':1}";
+  ws.send(WhatPatients);
+  var WhatRooms = "{'id':2}";
+  ws.send(WhatRooms);
+
+  ws.send(set_value);
+  }, 200);
+
+  setTimeout(function() {
+    showPatient();
+    showRoom();
+  }, 500);
+
+  setTimeout(function() {
+    ws.send(all_value);
+  }, 1000);
 }
