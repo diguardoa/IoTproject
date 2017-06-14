@@ -82,6 +82,8 @@ public class ValueManager {
 		for (String s: to_delete)
 			DiVi_ADN_IN.delete("coap://127.0.0.1:5683/~" + s);
 		
+		//System.out.println(to_delete_compact);
+		
 		return resp;
 	}
 	
