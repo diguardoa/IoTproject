@@ -84,7 +84,9 @@ if (ProxyClient.debug)
 				if ((t_temp > ProxyClient.treshold_temp_room_high) || 
 						(t_temp < ProxyClient.treshold_temp_room_low))
 				{
-					DiVi_ADN.general_alarm.set();
+					DiVi_ADN.general_alarm.set(seqNumber);
+				} else {
+					DiVi_ADN.general_alarm.reset(seqNumber);
 				}
 			}
 			

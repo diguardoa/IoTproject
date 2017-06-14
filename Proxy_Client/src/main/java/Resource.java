@@ -30,6 +30,7 @@ public class Resource extends Thread {
 		uri_mote = uri_server;
 		resource_name = link.getAttributes().getTitle();
 		automatic_mode = true;
+		current_value = -1;
 		
 		// Create container (only if the resource is a sensor or an actuator)
 		rt = link.getAttributes().getResourceTypes().get(0);
@@ -73,16 +74,22 @@ public class Resource extends Thread {
 	public void observingStep() {
 
 		if (ready_to_publish==true) {
-			// All msg are conformed with SenML standard
-			JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
-			String value = jsonOBJ.get("e").toString();
-			int temp_value = Integer.parseInt(value);
-			if (current_value != temp_value)
-			{
-				setCurrentValue(temp_value);			
-				String mes_unity = jsonOBJ.get("u").toString();
-				DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
+			try {
+				// All msg are conformed with SenML standard
+				JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
+				String value = jsonOBJ.get("e").toString();
+				int temp_value = Integer.parseInt(value);
+				//if (current_value != temp_value)
+				//{
+					setCurrentValue(temp_value);			
+					String mes_unity = jsonOBJ.get("u").toString();
+					DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
+				//}
+			
+			} catch (Exception e) {
+				System.out.println("error in observing step");
 			}
+			
 			ready_to_publish = false;
 		}
 	}
@@ -95,6 +102,7 @@ public class Resource extends Thread {
 				server_coap_port,resource_mn_path.replaceAll("mn", "in"));
 		
 		controller_IN.start();
+		
 		
 		try {
 			Thread.sleep(ProxyClient.delay_subscription_IN);
@@ -112,7 +120,7 @@ if (ProxyClient.debug)
 
 			// if it isn't in automatic mode get value from IN
 			if (!automatic_mode)
-				//sendValue(controller_IN.getValue());
+				sendValue(controller_IN.getValue());
 						
 			try {
 				currentThread();
@@ -130,7 +138,7 @@ if (ProxyClient.debug)
 	}
 	
 	private synchronized void sendValue(int value) {
-		if (current_value != value)
+		if (current_value != value) 
 		{
 			String message = "e=" + String.valueOf(value);
 			CoapClient pclient = new CoapClient(uri_mote);
@@ -141,6 +149,7 @@ if (ProxyClient.debug)
 	private synchronized void setCurrentValue(int value) {
 		current_value = value;
 	}
+	
 	
 	public synchronized int getValue() {
 		return current_value;

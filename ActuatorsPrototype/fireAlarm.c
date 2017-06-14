@@ -8,8 +8,16 @@
 #define ALARM_ON 1
 #define ALARM_OFF 0
 
-static char alarm_status = ALARM_OFF;
+
+#define TIME_SAMPLING 100
+
+
+static int alarm_status = ALARM_OFF;
+static int next_status = ALARM_OFF;
+
 static struct etimer led_timer;
+static int cycles_without_notify = 0;
+
 int room_id = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -17,7 +25,10 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(fireAlarm, "title=\"FireAl\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL);
+static void fa_periodic_handler();
+
+
+PERIODIC_RESOURCE(fireAlarm, "title=\"FireAl\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL, TIME_SAMPLING, fa_periodic_handler);
 RESOURCE(Id, "title=\"RoomId\"rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -72,7 +83,7 @@ void get_handler(void* request, void* response, uint8_t *buffer, uint16_t prefer
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 
 
-  int next_status, len;
+  int len;
   const char *val = NULL;
      
   len=REST.get_post_variable(request, "e", &val);
@@ -91,14 +102,27 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
 		leds_off(LEDS_ALL);
 	}
 
-	alarm_status = (char) next_status;
-
      REST.set_response_status(response, REST.status.CREATED);
   } else {
      REST.set_response_status(response, REST.status.BAD_REQUEST);
   }
 }
 
+static void fa_periodic_handler()
+{
+	if (next_status != alarm_status)
+	{
+		alarm_status = next_status;
+		REST.notify_subscribers(&fireAlarm);
+	} else 
+		cycles_without_notify++;
+	
+	if (cycles_without_notify == 20) 
+	{
+		cycles_without_notify = 0;
+		REST.notify_subscribers(&fireAlarm);
+	}
+}
 PROCESS(fireAlarm_main, "Led Alarm Main");
 
 AUTOSTART_PROCESSES(&fireAlarm_main);

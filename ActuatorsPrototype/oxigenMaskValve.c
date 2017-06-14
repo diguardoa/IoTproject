@@ -3,9 +3,11 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
+#define TIME_SAMPLING 100
+#define STARTING_OXY 200
 
-
-static int current_status= 100;
+static int current_status= STARTING_OXY;
+static int next_status= STARTING_OXY;
 int pat_id = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -13,7 +15,9 @@ void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 void get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-RESOURCE(oxigenMaskValve, "title=\"OxyValv\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL);
+static void oxy_periodic_handler();
+
+PERIODIC_RESOURCE(oxigenMaskValve, "title=\"OxyValv\";rt=\"A\";obs", get_handler, post_handler, NULL, NULL, TIME_SAMPLING, oxy_periodic_handler);
 RESOURCE(Id, "title=\"PatientId\"rt=\"Id\"", id_get_handler, id_post_handler, NULL, NULL);
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
@@ -73,7 +77,7 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
      
   if( len > 0 ){
      temp_status = atoi(val);	
-     	current_status = temp_status;
+     	next_status = temp_status;
      	REST.set_response_status(response, REST.status.CREATED);
     
 
@@ -81,6 +85,15 @@ void post_handler(void* request, void* response, uint8_t *buffer, uint16_t prefe
   } else {
      REST.set_response_status(response, REST.status.BAD_REQUEST);
   }
+}
+
+static void oxy_periodic_handler()
+{
+	if (next_status != current_status)
+	{
+		current_status = next_status;
+		REST.notify_subscribers(&oxigenMaskValve);
+	}
 }
 
 PROCESS(oxigenMaskValve_main, "OxV Main");

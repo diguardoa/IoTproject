@@ -1,4 +1,9 @@
 Messaggi: ID_MESSAGGIO:DESCRIZIONE_MESSAGGIO [: syntax]
+{
+	'id': ID_MSG,
+	'desc': DESC_MSG,
+
+}
 
 Server: WebSocket localhost:8100
 
@@ -14,6 +19,10 @@ ResName:
 	OxyValv
 	Temp
 	OxyS
+	AirCon
+	FireAl
+	TempR
+
 
 Type:
 	p -> patient
@@ -21,6 +30,11 @@ Type:
 
 3) GetAllValues 			Type:Id:ResName		-> stringa con NumeroValori:tempo,valore;tempo,valore;tempo,valore
 4) DeleteValues 			Type:Id:ResName 	-> 1 (ok) 0 (non ok)
+
+	'type':										'type':
+	'id_ent':									'id_ent':
+	'res_name':									'res_name':
+												'payload': [{'t': , 'e': }, ... ]
 
 5) SetValue					Type:Id:ResName:Value
 6) SetAutomaticMode			Type:Id:ResName

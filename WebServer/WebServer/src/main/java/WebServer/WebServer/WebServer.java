@@ -3,14 +3,21 @@ package WebServer.WebServer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.eclipse.californium.core.WebLink;
 
 public class WebServer {
 	
+
 	public static final int WebSocketPort = 8100;
+	public static final boolean debug = false;
 	
 	public static Server webAppServer;
 
@@ -108,6 +115,58 @@ public class WebServer {
 		}
 		
 		return pt_list;
+	}
+	
+	static JSONObject whatPatients() {
+		JSONObject resp = new JSONObject();
+		JSONArray payload_array = new JSONArray();
+		
+		for(Patient p: patients)
+		{
+			JSONObject p_entity = new JSONObject();
+			p_entity.put("e", p.id);
+			payload_array.put(p_entity);
+		}
+		
+		resp.put("id", 1);
+		resp.put("desc", "WhatPatients");
+		resp.put("payload", payload_array);
+		
+		return resp;
+	}
+	
+	static JSONObject whatRooms() {
+		JSONObject resp = new JSONObject();
+		JSONArray payload_array = new JSONArray();
+		
+		for(Room r: rooms)
+		{
+			JSONObject p_entity = new JSONObject();
+			p_entity.put("e", r.id);
+			payload_array.put(p_entity);
+		}
+		
+		resp.put("id", 2);
+		resp.put("desc", "WhatRooms");
+		resp.put("payload", payload_array);
+		
+		return resp;
+	}
+	
+	static Patient getPatient(int id) {
+		List<Patient> look_for_patient = patients.stream()
+				.filter(a -> Objects.equals(a.id, id))
+				.collect(Collectors.toList());
+		
+		return look_for_patient.get(0);
+	}
+	
+	static Room getRoom(int id) {
+		List<Room> look_for_room = rooms.stream()
+				.filter(a -> Objects.equals(a.id, id))
+				.collect(Collectors.toList());
+		
+		return look_for_room.get(0);
 	}
 	
 	public static void main(String[] args) throws Exception {

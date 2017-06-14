@@ -6,12 +6,14 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define STARTING_HR 100
+#define STARTING_HR 80
+#define TIME_SAMPLING 100
 
 int pat_id = 0;
 
-int hr_current = STARTING_HR;
-int hr_next = STARTING_HR;
+static int hr_current = STARTING_HR;
+static int hr_next = STARTING_HR;
+static int fixed_value_cycles = 0;
 
 void id_get_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 void id_post_handler(void* request, void* response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -21,7 +23,7 @@ void hr_post_handler(void* request, void* response, uint8_t *buffer, uint16_t pr
 static void hr_periodic_handler();
 
 
-PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt\"S\";obs", hr_get_handler,hr_post_handler,NULL,NULL,10*CLOCK_SECOND,hr_periodic_handler);
+PERIODIC_RESOURCE(hr_sens,"title=\"HRS\";rt\"S\";obs", hr_get_handler,hr_post_handler,NULL,NULL,TIME_SAMPLING,hr_periodic_handler);
 
 //RESOURCE(set_temp_environment, "title=\"Set_HRS\";rt=\"P\"", NULL, hr_post_handler, NULL, NULL);
 
@@ -96,7 +98,14 @@ static void hr_periodic_handler()
 	{
 		hr_current = hr_next;
 		REST.notify_subscribers(&hr_sens);
-	}
+	} else 
+		fixed_value_cycles++;
+
+	if (fixed_value_cycles == 20)
+	{
+		fixed_value_cycles = 0;
+		hr_next = hr_current + 1;
+	} 
 }
 
 PROCESS(heartRate_process, "HeartRate sensor");
