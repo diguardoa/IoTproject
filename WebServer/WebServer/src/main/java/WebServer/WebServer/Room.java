@@ -1,6 +1,7 @@
 package WebServer.WebServer;
 
 import org.eclipse.californium.core.WebLink;
+import org.json.JSONObject;
 
 public class Room {
 	public int id;
@@ -40,5 +41,19 @@ public class Room {
 		}
 
 		return request;
+	}
+
+	public JSONObject getStatus() {
+		JSONObject resp = new JSONObject();
+		
+		resp.put("id", 8);
+		resp.put("desc", "GetLastStatus");
+		resp.put("type", "r");
+		resp.put("id_ent", id);
+		resp.put("AirCon", AIRCON.manager.simpleGetLastValue());
+		resp.put("FireAl", FIREAL.manager.simpleGetLastValue());
+		resp.put("TempR", TEMPR.manager.simpleGetLastValue());
+		
+		return resp;
 	}
 }

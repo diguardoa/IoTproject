@@ -1,6 +1,7 @@
 package WebServer.WebServer;
 
 import org.eclipse.californium.core.WebLink;
+import org.json.JSONObject;
 
 public class Patient {
 	public int id;
@@ -52,6 +53,22 @@ public class Patient {
 		}
 
 		return request;
+	}
+
+	public JSONObject getStatus() {
+		JSONObject resp = new JSONObject();
+		
+		resp.put("id", 8);
+		resp.put("desc", "GetLastStatus");
+		resp.put("type", "p");
+		resp.put("id_ent", id);
+		resp.put("HRS", HRS.manager.simpleGetLastValue());
+		resp.put("LedA", LA.manager.simpleGetLastValue());
+		resp.put("OxyValv", OXYVALV.manager.simpleGetLastValue());
+		resp.put("Temp", TEMP.manager.simpleGetLastValue());
+		resp.put("OxyS", OXYS.manager.simpleGetLastValue());
+		
+		return resp;
 	}
 
 }

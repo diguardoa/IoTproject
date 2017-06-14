@@ -40,3 +40,5 @@ Type:
 6) SetAutomaticMode			Type:Id:ResName
 
 7) GetLastValue				Type:Id:ResName
+
+8) GetStatus

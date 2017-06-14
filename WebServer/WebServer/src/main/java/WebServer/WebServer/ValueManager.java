@@ -117,6 +117,10 @@ public class ValueManager {
 		return resp;
 	}
 	
+	public synchronized JSONObject simpleGetLastValue() {
+		return (JSONObject) values_db.get(values_db.length()-1);
+	}
+	
 	public synchronized JSONObject getLastValue() {
 		JSONObject resp = new JSONObject();
 		

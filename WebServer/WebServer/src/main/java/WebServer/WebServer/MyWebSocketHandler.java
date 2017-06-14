@@ -39,6 +39,8 @@ public class MyWebSocketHandler {
     @OnWebSocketMessage
     public void onMessage(String message) {
     	try {
+    		
+    		System.out.println("req: " + message);
 			JSONObject request = new JSONObject(message);
 			JSONObject response = null;
 			int id_type_request = request.getInt("id");
@@ -72,6 +74,9 @@ public class MyWebSocketHandler {
 					case 7:
 						response = WebServer.getPatient(id_ent).getManager(res_name).getLastValue();
 						break;
+					case 8:
+						response = WebServer.getPatient(id_ent).getStatus();
+						break;
 					}
 				} else {
 					// look for a room
@@ -92,9 +97,13 @@ public class MyWebSocketHandler {
 					case 7:
 						response = WebServer.getRoom(id_ent).getManager(res_name).getLastValue();
 						break;
+					case 8:
+						response = WebServer.getRoom(id_ent).getStatus();
+						break;
 					}
 				}
 			}
+			System.out.println("response: " + response.toString());
 			curr_sess.getRemote().sendString(response.toString());
 		} catch (Exception e) {
 			System.out.println("the request is not well formed");
