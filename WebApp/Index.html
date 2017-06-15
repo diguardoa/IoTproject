@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/canvasjs.min.js"></script>
     <script  src="index.js"></script>
   </head>
 
@@ -20,29 +21,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="index.html" id="title">
             Smart Hospitalization
           </a>
         </div>
-
-        <p class="navbar-text" id="status"></p>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-example">
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#myCarousel">Home <span class="sr-only">(current)</span></a></li>
-            <li><a href="#Patient" onclick="searchPatient()">Patient</a></li>
-            <li><a href="#Room" onclick="searchRoom()">Rooms</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elenco a comparsa <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
+            <li><a href="#Patient" onclick="createTab('P')">Patient</a></li>
+            <li><a href="#Room" onclick="createTab('R')">Rooms</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -104,14 +93,25 @@
       </a>
     </div>
 
-    <hr>
-
     <div class="container">
-      <p class="lead big-padding" id="demo"></p>
       <div class="row big-padding" id="Patient"></div>
-      <hr>
       <div class="row big-padding" id="Room"></div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
