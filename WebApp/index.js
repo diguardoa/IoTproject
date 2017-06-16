@@ -16,12 +16,9 @@ var N_RES_ROOM = 3;
 var patArray = new Array();
 var roomArray = new Array();
 
-var value_graphs = [{ x: new Date(2012, 00, 1), y: 450 },
-      { x: new Date(2012, 01, 1), y: 414 },
-      { x: new Date(2012, 02, 1), y: 520 },
-      { x: new Date(2012, 03, 1), y: 460 },
-      { x: new Date(2012, 04, 1), y: 450 },
-      { x: new Date(2012, 05, 1), y: 500 },
+var value_graphs = [{ x: new Date(2012, 00, 1), y: 450 }, { x: new Date(2012, 01, 1), y: 414 },
+      { x: new Date(2012, 02, 1), y: 520 },{ x: new Date(2012, 03, 1), y: 460 },
+      { x: new Date(2012, 04, 1), y: 450 },{ x: new Date(2012, 05, 1), y: 500 },
       { x: new Date(2012, 06, 1), y: 480 },
       { x: new Date(2012, 07, 1), y: 480 },
       { x: new Date(2012, 08, 1), y: 410 },
@@ -29,15 +26,17 @@ var value_graphs = [{ x: new Date(2012, 00, 1), y: 450 },
       { x: new Date(2012, 10, 1), y: 480 },
       { x: new Date(2012, 11, 1), y: 510 }];
 
-class Resource {
-  constructor(desc, imgPath, type, value, unity, time) {
+class Resource{
+
+  constructor(desc, name, imgPath, type, value, unity, time) {
     this.desc = desc;
+    this.name = name;
     this.imgPath = imgPath;
     this.type = type;
     this.value = value;
     this.unity = unity;
     this.time = time;
-    this.history = 0;
+    this.history = [];
   }
 
   setValue(value, time){
@@ -45,8 +44,20 @@ class Resource {
     this.time = time;
   }
 
-  saveHistory(history){
-    this.history = history;
+  saveHistory(payload){
+    var hist = [];
+    for(var loc in payload)
+      //history += "{ x:" + parseInt(payload[loc].t) + ", y:" + parseInt(payload[loc].e) + " },";
+      //history += { x: " + loc + ", y: " + loc + " };
+    //history = history.replace(/, $/, ]);
+      hist.push({x: parseInt(payload[loc].t), y: parseInt(payload[loc].e)});
+    this.history = hist;
+    //alert(this.history.length);
+  }
+
+  deleteHistory(){
+    this.history = [];
+    //alert(this.history.length);
   }
 }
 
@@ -57,11 +68,11 @@ class Resource {
 class Patient {
   constructor(id) {
     this.id = id;
-    this.ledA = new Resource("Led", "images/led.png", "A", null, null, null);
-    this.temp = new Resource("Temperature", "images/temperature.png", "S", null, "°C", null);
-    this.oxyValv = new Resource("Oxygen Valve", "images/oxyValv.png", "A", null, null, null);
-    this.oxyS = new Resource("Oxygen Pressure", "images/oxySens.png", "S", 90, "%", null);
-    this.hrs = new Resource("Heart Rate", "images/hr.png", "S", 60, "hpm", null);
+    this.ledA = new Resource("Led", "LedA", "images/led.png", "A", null, null, null);
+    this.temp = new Resource("Temperature", "Temp", "images/temperature.png", "S", null, "°C", null);
+    this.oxyValv = new Resource("Oxygen Valve", "OxyValv", "images/oxyValv.png", "A", null, null, null);
+    this.oxyS = new Resource("Oxygen Pressure", "OxyS", "images/oxySens.png", "S", 90, "%", null);
+    this.hrs = new Resource("Heart Rate", "HRS", "images/hr.png", "S", 60, "hpm", null);
   }
 }
 
@@ -72,9 +83,9 @@ class Patient {
 class Room {
   constructor(id) {
     this.id = id;
-    this.tempR = new Resource("Temperature", "images/temperature.png", "S", null, "°C", null);
-    this.airCon = new Resource("Air Conditioner", "images/hr.png", "A", null, null, null);
-    this.fireAl = new Resource("Fire Alarm", "images/oxySens.png", "A", null, null, null);
+    this.tempR = new Resource("Temperature", "TempR", "images/temperature.png", "S", null, "°C", null);
+    this.airCon = new Resource("Air Conditioner", "AirCon", "images/hr.png", "A", null, null, null);
+    this.fireAl = new Resource("Fire Alarm", "FireAl", "images/oxySens.png", "A", null, null, null);
   }
 }
 
@@ -104,7 +115,7 @@ ws.onopen = function() {
 ws.onmessage = function (evt) {
   var resp = JSON.parse(evt.data);
   switch (resp.id) {
-    case 1:{
+    case 1:{ //DONE
       for (var loc in resp.payload){
         patArray[P_NUM] = new Patient(resp.payload[loc].e);
         P_NUM++;
@@ -112,7 +123,7 @@ ws.onmessage = function (evt) {
       //alert("Pats: " + P_NUM);
       break;
     }
-    case 2:{
+    case 2:{ //DONE
       for (var loc in resp.payload){
         roomArray[R_NUM] = new Room(resp.payload[loc].e);
         R_NUM++;
@@ -120,12 +131,98 @@ ws.onmessage = function (evt) {
       //alert("Rooms: " + R_NUM);
       break;
     }
-    case 3:{ //todo
-      alert("Message: " + evt.data);
+    case 3:{ //DONE
+      //alert("Message: " + evt.data);
+      var resource;
+      if(resp.type == "p"){
+        var i = 0;
+        for(var i = 0; i < P_NUM; i++){
+          if(patArray[i].id == resp.id_ent){
+            if(patArray[i].hrs.name == resp.res_name){
+              patArray[i].hrs.saveHistory(resp.payload);
+              resource = patArray[i].hrs;
+            }
+            if(patArray[i].temp.name == resp.res_name){
+              patArray[i].temp.saveHistory(resp.payload);
+              resource = patArray[i].temp;
+            }
+            if(patArray[i].oxyValv.name == resp.res_name){
+              patArray[i].oxyValv.saveHistory(resp.payload);
+              resource = patArray[i].oxyValv;
+            }
+            if(patArray[i].oxyS.name == resp.res_name){
+              patArray[i].oxyS.saveHistory(resp.payload);
+              resource = patArray[i].oxyS;
+            }
+            if(patArray[i].ledA.name == resp.res_name){
+              patArray[i].ledA.saveHistory(resp.payload);
+              resource = patArray[i].ledA;
+            }
+          }
+        }
+      } else{
+        var i = 0;
+        for(var i = 0; i < R_NUM; i++){
+          if(roomArray[i].id == resp.id_ent){
+            if(roomArray[i].airCon.name == resp.res_name){
+              roomArray[i].airCon.saveHistory(resp.payload);
+              resource = roomArray[i].airCon;
+            }
+            if(roomArray[i].tempR.name == resp.res_name){
+              roomArray[i].tempR.saveHistory(resp.payload);
+              resource = roomArray[i].tempR;
+            }
+            if(roomArray[i].fireAl.name == resp.res_name){
+              roomArray[i].fireAl.saveHistory(resp.payload);
+              resource = roomArray[i].fireAl;
+            }
+          }
+        }
+      }
+
+      graphs(resource.desc, resource.history);
       break;
     }
-    case 4:{ //todo
-      alert("Message: " + evt.data);
+    case 4:{ //DONE
+      //alert("Message: " + evt.data);
+      if(resp.payload == "done"){
+        if(resp.type == "p"){
+          var i = 0;
+          for(var i = 0; i < P_NUM; i++){
+            if(patArray[i].id == resp.id_ent){
+              if(patArray[i].hrs.name == resp.res_name)
+                patArray[i].hrs.deleteHistory();
+
+              if(patArray[i].temp.name == resp.res_name)
+                patArray[i].temp.deleteHistory();
+
+              if(patArray[i].oxyValv.name == resp.res_name)
+                patArray[i].oxyValv.deleteHistory();
+
+              if(patArray[i].oxyS.name == resp.res_name)
+                patArray[i].oxyS.deleteHistory();
+
+              if(patArray[i].ledA.name == resp.res_name)
+                patArray[i].ledA.deleteHistory();
+
+            }
+          }
+        } else{
+          var i = 0;
+          for(var i = 0; i < R_NUM; i++){
+            if(roomArray[i].id == resp.id_ent){
+              if(roomArray[i].airCon.name == resp.res_name)
+                roomArray[i].airCon.deleteHistory();
+
+              if(roomArray[i].tempR.name == resp.res_name)
+                roomArray[i].tempR.deleteHistory();
+
+              if(roomArray[i].fireAl.name == resp.res_name)
+                roomArray[i].fireAl.deleteHistory();
+            }
+          }
+        }
+      }
       break;
     }
     case 5:{ //todo
@@ -140,7 +237,7 @@ ws.onmessage = function (evt) {
       alert("Message: " + evt.data);
       break;
     }
-    case 8:{
+    case 8:{ //DONE
       if(resp.type == "p"){
         var i = 0;
         while(patArray[i].id != resp.id_ent)
@@ -198,8 +295,30 @@ function sendCreateTab(type){
   }
 };
 
-function prova() {
-  alert("prova");
+/*
+* Funzione invocata con l'evento "onclick" sul bottone "Display Graph"
+* La funzione prevede l'invio al WebServer di un messaggio per richiedere
+* l'invio dello storico dei valori disponibile per la risorsa selezionata
+*/
+function sendHistoryRequest(type, id, name){
+    var allValue = "{'id':3, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "'}";
+    ws.send(allValue);
+    setTimeout(function() {
+      ;
+    }, 100);
+};
+
+/*
+* Funzione invocata con l'evento "onclick" sul bottone "Delete History"
+* La funzione prevede l'invio al WebServer di un messaggio per richiedere
+* la cancellazione dello storico dei valori disponibile per la risorsa selezionata
+*/
+function sendDeleteHistory(type, id, name){
+    var deleteHistory = "{'id':4, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "'}";
+    ws.send(deleteHistory);
+    setTimeout(function() {
+      ;
+    }, 100);
 };
 
 /*
@@ -239,19 +358,17 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   button.setAttribute("class", "btn btn-primary");
   button.setAttribute("data-toggle", "modal");
   button.setAttribute("data-target", "#myModal");
-  //var fun = "graphs(" + resource.desc + ", " + resource.history + ");";
-  //alert(fun);
   if(type == "P")
-    //button.setAttribute('onclick', "graphs(" + resource.desc + ", " + resource.history + ")");
-    button.onclick = function(){graphs(resource.desc, resource.history);};
+    button.onclick = function(){sendHistoryRequest(type, id, resource.name);};
 
   button.innerHTML = "Display Graph";
 
   var a1 = document.createElement("a");
-  a1.setAttribute("href", "#");
+  //a1.setAttribute("href", "#");
   a1.setAttribute("class", "btn btn-default");
   a1.setAttribute("role", "button");
   a1.innerHTML = "Delete History";
+    a1.onclick = function(){sendDeleteHistory(type, id, resource.name);};
 
   p1.appendChild(button);
   p1.appendChild(a1);
@@ -396,24 +513,24 @@ function graphs(desc, value){
   document.getElementById("myModalLabel").innerHTML = desc;
   div.setAttribute("id", "chartContainer1");
   el.appendChild(div);
+  //alert(value);
 
   var chart = new CanvasJS.Chart("chartContainer1", {
     theme: "theme2",
     animationEnabled: true,
     axisX: {
-      valueFormatString: "MMM",
-      interval: 1,
-      intervalType: "month"
-
+      //valueFormatString: "MMM",
+      interval: 100,
+      //intervalType: "month"
     },
     axisY: {
+      interval: 10,
       includeZero: false
-
     },
     data: [{
       type: "line",
       //lineThickness: 3,
-      dataPoints: value_graphs
+      dataPoints: value
 
     }]
   });
