@@ -30,59 +30,53 @@ var value_graphs = [{ x: new Date(2012, 00, 1), y: 450 },
       { x: new Date(2012, 11, 1), y: 510 }];
 
 class Resource {
-  constructor(desc, imgPath, type, value, unity) {
+  constructor(desc, imgPath, type, value, unity, time) {
     this.desc = desc;
     this.imgPath = imgPath;
     this.type = type;
     this.value = value;
     this.unity = unity;
+    this.time = time;
+    this.history = 0;
+  }
+
+  setValue(value, time){
+    this.value = value;
+    this.time = time;
+  }
+
+  saveHistory(history){
+    this.history = history;
   }
 }
 
+/*
+* Si assume di conoscerle a priori le risorse per il paziente per esigenze
+* di progetto
+*/
 class Patient {
-  constructor(id, p_res) {
+  constructor(id) {
     this.id = id;
-    this.resources = new Array();
-    for(var i = 0; i < N_RES_PAT; i++)
-      this.resources[i] = new Resource(p_res[i].desc, p_res[i].imgPath,
-                                p_res[i].type, p_res[i].value, p_res[i].unity);
+    this.ledA = new Resource("Led", "images/led.png", "A", null, null, null);
+    this.temp = new Resource("Temperature", "images/temperature.png", "S", null, "°C", null);
+    this.oxyValv = new Resource("Oxygen Valve", "images/oxyValv.png", "A", null, null, null);
+    this.oxyS = new Resource("Oxygen Pressure", "images/oxySens.png", "S", 90, "%", null);
+    this.hrs = new Resource("Heart Rate", "images/hr.png", "S", 60, "hpm", null);
   }
 }
 
+/*
+* Si assume di conoscerle a priori le risorse per la stanza per esigenze
+* di progetto
+*/
 class Room {
-  constructor(id, r_res) {
+  constructor(id) {
     this.id = id;
-    this.resources = new Array();
-    for(var i = 0; i < N_RES_ROOM; i++)
-      this.resources[i] = new Resource(r_res[i].desc, r_res[i].imgPath,
-                                r_res[i].type, r_res[i].value, r_res[i].unity);
+    this.tempR = new Resource("Temperature", "images/temperature.png", "S", null, "°C", null);
+    this.airCon = new Resource("Air Conditioner", "images/hr.png", "A", null, null, null);
+    this.fireAl = new Resource("Fire Alarm", "images/oxySens.png", "A", null, null, null);
   }
 }
-
-/*
-* Array delle risorse che sono disponibile per ogni paziente. Si assume di
-* conoscerle a priori per esigenze di progetto
-*/
-p_res = new Array();
-p_res[0] = new Resource("Heart Rate", "images/hr.png", "S", 60, "hpm");
-p_res[1] = new Resource("Oxygen Pressure", "images/oxySens.png", "S", 90, "%");
-p_res[2] = new Resource("Temperature", "images/temperature.png", "S", 34, "°C");
-p_res[3] = new Resource("Led", "images/led.png", "A", "Off", null);
-p_res[4] = new Resource("Oxygen Valve", "images/oxyValv.png", "A", "Off", null);
-
-/*
-* Array delle risorse che sono disponibile per ogni stanza. Si assume di
-* conoscerle a priori per esigenze di progetto
-*/
-r_res = new Array();
-r_res[0] = new Resource("Air Conditioner", "images/hr.png", "A", "Off", null);
-r_res[1] = new Resource("Fire Alarm", "images/oxySens.png", "A", "Off", null);
-r_res[2] = new Resource("Temperature", "images/temperature.png", "S", 20, "°C");
-
-patArray[0] = new Patient(8, p_res);
-patArray[1] = new Patient(20, p_res);
-
-roomArray[0] = new Room(4, r_res);
 
 var all_value = "{'id':3, 'type':'p', 'id_ent':1, 'res_name':'OxyS'}";
 var set_value = "{'id':5, 'type':'p', 'id_ent':1, 'res_name':'OxyS', 'value':800}";
@@ -108,45 +102,63 @@ ws.onopen = function() {
 };
 
 ws.onmessage = function (evt) {
-  //alert("Message: " + evt.data);
   var resp = JSON.parse(evt.data);
   switch (resp.id) {
     case 1:{
       for (var loc in resp.payload){
-        patArray[P_NUM] = new Patient(resp.payload[loc].e, p_res);
+        patArray[P_NUM] = new Patient(resp.payload[loc].e);
         P_NUM++;
       }
+      //alert("Pats: " + P_NUM);
       break;
     }
     case 2:{
       for (var loc in resp.payload){
-        roomArray[R_NUM] = new Room(resp.payload[loc].e, r_res);
+        roomArray[R_NUM] = new Room(resp.payload[loc].e);
         R_NUM++;
       }
+      //alert("Rooms: " + R_NUM);
       break;
     }
-    case 3:{
+    case 3:{ //todo
       alert("Message: " + evt.data);
       break;
     }
-    case 4:{
+    case 4:{ //todo
       alert("Message: " + evt.data);
       break;
     }
-    case 5:{
+    case 5:{ //todo
       alert("Message: " + evt.data);
       break;
     }
-    case 6:{
+    case 6:{ //todo
       alert("Message: " + evt.data);
       break;
     }
-    case 7:{
+    case 7:{ //todo
       alert("Message: " + evt.data);
       break;
     }
     case 8:{
-      alert("Message: " + evt.data);
+      if(resp.type == "p"){
+        var i = 0;
+        while(patArray[i].id != resp.id_ent)
+          i++;
+        patArray[i].hrs.setValue(resp.HRS.e, resp.HRS.t);
+        patArray[i].temp.setValue(resp.Temp.e, resp.Temp.t);
+        patArray[i].oxyValv.setValue(resp.OxyValv.e, resp.OxyValv.t);
+        patArray[i].oxyS.setValue(resp.OxyS.e, resp.OxyS.t);
+        patArray[i].ledA.setValue(resp.LedA.e, resp.LedA.t);
+      } else{
+        var i = 0;
+        while(roomArray[i].id != resp.id_ent)
+          i++;
+        roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
+        roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
+        roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
+      }
+      createTab();
       break;
     }
   }
@@ -159,6 +171,99 @@ ws.onclose = function() {
 
 ws.onerror = function(err) {
   alert("Error: " + err);
+};
+
+/*
+* Funzione invocata con l'evento "onclick" sulla voce del menu "Paziente"
+* La funzione prevede l'invio al WebServer di un messaggio per richiedere
+* l'invio dell'ultimo valore disponibile per ogni sensore e attuatore in modo
+* da poter mostrare tramite l'intefaccia utente lo stato attuale del paziente
+* selezionato.
+*/
+function sendCreateTab(type){
+  if(type == "P"){
+    setTimeout(function() {
+      for(var i = 0; i < P_NUM; i++){
+        var last_value = "{'id':8, 'type':'p', 'id_ent':" + patArray[i].id + ", 'res_name':'all'}";
+        ws.send(last_value);
+      }
+    }, 50);
+  } else{
+    setTimeout(function() {
+      for(var i = 0; i < R_NUM; i++){
+        var last_value = "{'id':8, 'type':'r', 'id_ent':" + roomArray[i].id + ", 'res_name':'all'}";
+        ws.send(last_value);
+      }
+    }, 50);
+  }
+};
+
+function prova() {
+  alert("prova");
+};
+
+/*
+* Funzione che crea dinamicamente le icone per le risorse. In particolare
+* crea un incona contenente il nome della risorsa, una immagine, l'ultimo valore
+* acquisito, e due bottoni, uno per visualizzare il grafico e l'altro per
+* eliminare lo storico del sensore dall'archivio
+*/
+function createResourceIcon(stringId, index, id, resource, type, el, row) {
+
+  var column = document.createElement("div");
+  column.setAttribute("class", "col-sm-6 col-md-4");
+
+  var thumbnail = document.createElement("div");
+  thumbnail.setAttribute("class", "thumbnail");
+
+  var img = document.createElement("img");
+  img.setAttribute("src", resource.imgPath);
+  img.setAttribute("alt", "");
+
+  var caption = document.createElement("div");
+  caption.setAttribute("class", "caption");
+
+  var h2 = document.createElement("h2");
+  h2.innerHTML = resource.desc;
+
+  var h3 = document.createElement("h3");
+  if(resource.type == "S")
+    h3.innerHTML = resource.value + " " + resource.unity;
+  else
+    h3.innerHTML = resource.value;
+
+  var p1 = document.createElement("p");
+
+  var button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-primary");
+  button.setAttribute("data-toggle", "modal");
+  button.setAttribute("data-target", "#myModal");
+  //var fun = "graphs(" + resource.desc + ", " + resource.history + ");";
+  //alert(fun);
+  if(type == "P")
+    //button.setAttribute('onclick', "graphs(" + resource.desc + ", " + resource.history + ")");
+    button.onclick = function(){graphs(resource.desc, resource.history);};
+
+  button.innerHTML = "Display Graph";
+
+  var a1 = document.createElement("a");
+  a1.setAttribute("href", "#");
+  a1.setAttribute("class", "btn btn-default");
+  a1.setAttribute("role", "button");
+  a1.innerHTML = "Delete History";
+
+  p1.appendChild(button);
+  p1.appendChild(a1);
+  caption.appendChild(h2);
+  caption.appendChild(h3);
+  caption.appendChild(p1);
+  thumbnail.appendChild(img);
+  thumbnail.appendChild(caption);
+  column.appendChild(thumbnail);
+  row.appendChild(column);
+
+  el.appendChild(row);
 };
 
 /*
@@ -175,97 +280,30 @@ ws.onerror = function(err) {
 */
 function buildInterface(index, id, type){
 
-  var N, NR, stringId;
-  var tempArray = new Array();
+  var stringId;
 
   if(type == "P"){
-    tempArray = patArray;
-    N = P_NUM;
-    NR = N_RES_PAT;
     stringId = "patient";
+    var el = document.getElementById(stringId + id);
+    var row = document.createElement("div");
+    row.setAttribute("class", "row");
+    createResourceIcon(stringId, index, id, patArray[index].hrs, type, el, row);
+    createResourceIcon(stringId, index, id, patArray[index].oxyS, type, el, row);
+    createResourceIcon(stringId, index, id, patArray[index].temp, type, el, row);
+    createResourceIcon(stringId, index, id, patArray[index].ledA, type, el, row);
+    createResourceIcon(stringId, index, id, patArray[index].oxyValv, type, el, row);
   } else {
-    tempArray = roomArray;
-    N = R_NUM;
-    NR = N_RES_ROOM;
     stringId = "room";
+    var el = document.getElementById(stringId + id);
+    var row = document.createElement("div");
+    row.setAttribute("class", "row");
+    createResourceIcon(stringId, index, id, roomArray[index].tempR, type, el, row);
+    createResourceIcon(stringId, index, id, roomArray[index].airCon, type, el, row);
+    createResourceIcon(stringId, index, id, roomArray[index].fireAl, type, el, row);
   }
-
-  var el = document.getElementById(stringId + id);
-
-  var row = document.createElement("div");
-  row.setAttribute("class", "row");
-
-  for(var i = 0; i < NR; i++){
-    var column = document.createElement("div");
-    column.setAttribute("class", "col-sm-6 col-md-4");
-
-    var thumbnail = document.createElement("div");
-    thumbnail.setAttribute("class", "thumbnail");
-
-    var img = document.createElement("img");
-    img.setAttribute("src", tempArray[index].resources[i].imgPath);
-    img.setAttribute("alt", "");
-
-    var caption = document.createElement("div");
-    caption.setAttribute("class", "caption");
-
-    var h2 = document.createElement("h2");
-    h2.innerHTML = tempArray[index].resources[i].desc;
-
-    var h3 = document.createElement("h3");
-    if(patArray[index].resources[i].type == "S")
-      h3.innerHTML = tempArray[index].resources[i].value + " " + tempArray[index].resources[i].unity;
-    else
-      h3.innerHTML = tempArray[index].resources[i].value;
-
-    var p1 = document.createElement("p");
-
-    var button = document.createElement("button");
-    button.setAttribute("type", "button");
-    button.setAttribute("class", "btn btn-primary");
-    button.setAttribute("data-toggle", "modal");
-    button.setAttribute("data-target", "#myModal");
-    button.setAttribute("onclick", "graphs("+ index + ", " + i + ", " + "'P')");
-    button.innerHTML = "Display Graph";
-
-    var a1 = document.createElement("a");
-    a1.setAttribute("href", "#");
-    a1.setAttribute("class", "btn btn-default");
-    a1.setAttribute("role", "button");
-    a1.innerHTML = "Delete History";
-
-    p1.appendChild(button);
-    p1.appendChild(a1);
-    caption.appendChild(h2);
-    caption.appendChild(h3);
-    caption.appendChild(p1);
-    thumbnail.appendChild(img);
-    thumbnail.appendChild(caption);
-    column.appendChild(thumbnail);
-    row.appendChild(column);
-  }
-  el.appendChild(row);
 };
 
-/*
-* Funzione invocata con l'evento "onclick" sulla voce del menu "Paziente"
-* La funzione prevede l'invio al WebServer di un messaggio per richiedere
-* l'invio dell'ultimo valore disponibile per ogni sensore e attuatore in modo
-* da poter mostrare tramite l'intefaccia utente lo stato attuale del paziente
-* selezionato.
-*/
-function createTab(type){
-  var last_value = "{'id':8, 'type':'p', 'id_ent':1, 'res_name':'all'}";
-  //ws.send(last_value);
-  /*
-  HRS
-  LedA
-  OxyValv
-  Temp
-  OxyS
-  */
-  //ws.send();
-
+function createTab(){
   /*
   * Seleziono i div che andrò a popolare dinamicamente ogni volta che verrà
   * premuto il menu "Paziente".
@@ -351,24 +389,16 @@ function createTab(type){
 *   - l'indice della risorsa di cui si vuole il grafico
 *   - "P" o "R" per discriminare tra paziente e stanza
 */
-function graphs(pr_index, res_index, type){
-  var tempArray = new Array();
+function graphs(desc, value){
   var el = document.getElementById("modal-body");
   var div = document.createElement("div");
-  if(type == "P")
-    tempArray = patArray;
-  else
-    tempArray = roomArray;
 
-  document.getElementById("myModalLabel").innerHTML = tempArray[pr_index].resources[res_index].desc;
+  document.getElementById("myModalLabel").innerHTML = desc;
   div.setAttribute("id", "chartContainer1");
   el.appendChild(div);
 
   var chart = new CanvasJS.Chart("chartContainer1", {
     theme: "theme2",
-    //title: {
-      //text: "Earthquakes - per month"
-    //},
     animationEnabled: true,
     axisX: {
       valueFormatString: "MMM",
@@ -378,239 +408,17 @@ function graphs(pr_index, res_index, type){
     },
     axisY: {
       includeZero: false
+
     },
     data: [{
       type: "line",
       //lineThickness: 3,
       dataPoints: value_graphs
-      /*[
-      { x: new Date(2012, 00, 1), y: 450 },
-      { x: new Date(2012, 01, 1), y: 414 },
-      { x: new Date(2012, 02, 1), y: 520, indexLabel: "highest", markerColor: "red", markerType: "triangle" },
-      { x: new Date(2012, 03, 1), y: 460 },
-      { x: new Date(2012, 04, 1), y: 450 },
-      { x: new Date(2012, 05, 1), y: 500 },
-      { x: new Date(2012, 06, 1), y: 480 },
-      { x: new Date(2012, 07, 1), y: 480 },
-      { x: new Date(2012, 08, 1), y: 410, indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross" },
-      { x: new Date(2012, 09, 1), y: 500 },
-      { x: new Date(2012, 10, 1), y: 480 },
-      { x: new Date(2012, 11, 1), y: 510 }
-     ]*/
-    }
-    ]
+
+    }]
   });
 
   chart.render();
-
-  /*var chart = new CanvasJS.Chart("chartContainer2", {
-    title: {
-      text: "Share Value over a Year"
-    },
-    theme: "theme2",
-    animationEnabled: true,
-    axisX: {
-      valueFormatString: "MMM"
-    },
-    axisY: {
-      valueFormatString: "#0$"
-    },
-    data: [{
-      type: "line",
-      dataPoints: [
-      { x: new Date(2012, 01, 1), y: 71, indexLabel: "gain", markerType: "triangle", markerColor: "#6B8E23", markerSize: 12 },
-      { x: new Date(2012, 02, 1), y: 55, indexLabel: "loss", markerType: "cross", markerColor: "tomato", markerSize: 12 },
-      { x: new Date(2012, 03, 1), y: 50, indexLabel: "loss", markerType: "cross", markerColor: "tomato", markerSize: 12 },
-      { x: new Date(2012, 04, 1), y: 65, indexLabel: "gain", markerType: "triangle", markerColor: "#6B8E23", markerSize: 12 },
-      { x: new Date(2012, 05, 1), y: 85, indexLabel: "gain", markerType: "triangle", markerColor: "#6B8E23", markerSize: 12 },
-      { x: new Date(2012, 06, 1), y: 68, indexLabel: "loss", markerType: "cross", markerColor: "tomato", markerSize: 12 },
-      { x: new Date(2012, 07, 1), y: 28, indexLabel: "loss", markerType: "cross", markerColor: "tomato", markerSize: 12 },
-      { x: new Date(2012, 08, 1), y: 34, indexLabel: "gain", markerType: "triangle", markerColor: "#6B8E23", markerSize: 12 },
-      { x: new Date(2012, 09, 1), y: 24, indexLabel: "loss", markerType: "cross", markerColor: "tomato", markerSize: 12 }
-      ]
-    }
-    ]
-  });
-
-  chart.render();
-
-  //var chart = new CanvasJS.Chart("chartContainer3", {
-    title: {
-      text: "Site Traffic",
-      fontSize: 30
-    },
-    animationEnabled: true,
-    axisX: {
-
-      gridColor: "Silver",
-      tickColor: "silver",
-      valueFormatString: "DD/MMM"
-
-    },
-    toolTip: {
-      shared: true
-    },
-    theme: "theme2",
-    axisY: {
-      gridColor: "Silver",
-      tickColor: "silver"
-    },
-    legend: {
-      verticalAlign: "bottom",
-      horizontalAlign: "center"
-    },
-    data: [{
-      type: "line",
-      showInLegend: true,
-      lineThickness: 2,
-      name: "Visits",
-      markerType: "square",
-      color: "#F08080",
-      dataPoints: [
-      { x: new Date(2010, 0, 3), y: 650 },
-      { x: new Date(2010, 0, 5), y: 700 },
-      { x: new Date(2010, 0, 7), y: 710 },
-      { x: new Date(2010, 0, 9), y: 658 },
-      { x: new Date(2010, 0, 11), y: 734 },
-      { x: new Date(2010, 0, 13), y: 963 },
-      { x: new Date(2010, 0, 15), y: 847 },
-      { x: new Date(2010, 0, 17), y: 853 },
-      { x: new Date(2010, 0, 19), y: 869 },
-      { x: new Date(2010, 0, 21), y: 943 },
-      { x: new Date(2010, 0, 23), y: 970 }
-      ]
-    },
-    {
-      type: "line",
-      showInLegend: true,
-      name: "Unique Visits",
-      color: "#20B2AA",
-      lineThickness: 2,
-
-      dataPoints: [
-      { x: new Date(2010, 0, 3), y: 510 },
-      { x: new Date(2010, 0, 5), y: 560 },
-      { x: new Date(2010, 0, 7), y: 540 },
-      { x: new Date(2010, 0, 9), y: 558 },
-      { x: new Date(2010, 0, 11), y: 544 },
-      { x: new Date(2010, 0, 13), y: 693 },
-      { x: new Date(2010, 0, 15), y: 657 },
-      { x: new Date(2010, 0, 17), y: 663 },
-      { x: new Date(2010, 0, 19), y: 639 },
-      { x: new Date(2010, 0, 21), y: 673 },
-      { x: new Date(2010, 0, 23), y: 660 }
-      ]
-    }
-    ],
-  });
-
-  chart.render();
-
-  var chart = new CanvasJS.Chart("chartContainer4", {
-    zoomEnabled: false,
-    animationEnabled: true,
-    title: {
-      text: "Mobile Phone Subscriptions"
-    },
-    axisY2: {
-      valueFormatString: "0.0 bn",
-
-      maximum: 1.2,
-      interval: .2,
-      interlacedColor: "#F5F5F5",
-      gridColor: "#D7D7D7",
-      tickColor: "#D7D7D7"
-    },
-    theme: "theme2",
-    toolTip: {
-      shared: true
-    },
-    legend: {
-      verticalAlign: "bottom",
-      horizontalAlign: "center",
-      fontSize: 15,
-      fontFamily: "Lucida Sans Unicode"
-    },
-    data: [{
-      type: "line",
-      lineThickness: 3,
-      axisYType: "secondary",
-      showInLegend: true,
-      name: "India",
-      dataPoints: [
-      { x: new Date(2001, 0), y: 0 },
-      { x: new Date(2002, 0), y: 0.001 },
-      { x: new Date(2003, 0), y: 0.01 },
-      { x: new Date(2004, 0), y: 0.05 },
-      { x: new Date(2005, 0), y: 0.1 },
-      { x: new Date(2006, 0), y: 0.15 },
-      { x: new Date(2007, 0), y: 0.22 },
-      { x: new Date(2008, 0), y: 0.38 },
-      { x: new Date(2009, 0), y: 0.56 },
-      { x: new Date(2010, 0), y: 0.77 },
-      { x: new Date(2011, 0), y: 0.91 },
-      { x: new Date(2012, 0), y: 0.94 }
-      ]
-    },
-    {
-      type: "line",
-      lineThickness: 3,
-      showInLegend: true,
-      name: "China",
-      axisYType: "secondary",
-      dataPoints: [
-      { x: new Date(2001, 00), y: 0.18 },
-      { x: new Date(2002, 00), y: 0.2 },
-      { x: new Date(2003, 0), y: 0.25 },
-      { x: new Date(2004, 0), y: 0.35 },
-      { x: new Date(2005, 0), y: 0.42 },
-      { x: new Date(2006, 0), y: 0.5 },
-      { x: new Date(2007, 0), y: 0.58 },
-      { x: new Date(2008, 0), y: 0.67 },
-      { x: new Date(2009, 0), y: 0.78 },
-      { x: new Date(2010, 0), y: 0.88 },
-      { x: new Date(2011, 0), y: 0.98 },
-      { x: new Date(2012, 0), y: 1.04 }
-      ]
-    },
-    {
-      type: "line",
-      lineThickness: 3,
-      showInLegend: true,
-      name: "USA",
-      axisYType: "secondary",
-      dataPoints: [
-      { x: new Date(2001, 00), y: 0.16 },
-      { x: new Date(2002, 0), y: 0.17 },
-      { x: new Date(2003, 0), y: 0.18 },
-      { x: new Date(2004, 0), y: 0.19 },
-      { x: new Date(2005, 0), y: 0.20 },
-      { x: new Date(2006, 0), y: 0.23 },
-      { x: new Date(2007, 0), y: 0.261 },
-      { x: new Date(2008, 0), y: 0.289 },
-      { x: new Date(2009, 0), y: 0.3 },
-      { x: new Date(2010, 0), y: 0.31 },
-      { x: new Date(2011, 0), y: 0.32 },
-      { x: new Date(2012, 0), y: 0.33 }
-      ]
-    }
-    ],
-    legend: {
-      cursor: "pointer",
-      itemclick: function (e) {
-        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-          e.dataSeries.visible = false;
-        }
-        else {
-          e.dataSeries.visible = true;
-        }
-        chart.render();
-      }
-    }
-  });
-
-  chart.render();
-  */
 };
 
 /*
@@ -619,27 +427,19 @@ function graphs(pr_index, res_index, type){
 *   - quanti e chi sono i pazienti
 *   - quante e quali sono le stanze
 */
-function show(){
-/*
-  setTimeout(function() {
-  var WhatPatients = "{'id':1}";
-  ws.send(WhatPatients);
-  var WhatRooms = "{'id':2}";
-  ws.send(WhatRooms);
-
-  ws.send(set_value);
-  }, 200);
-
-  setTimeout(function() {
-    showPatient();
-    showRoom();
-  }, 500);
-
-  setTimeout(function() {
-    ws.send(all_value);
-  }, 1000);
-*/
-
+function findPatientsRooms(){
   document.getElementById("Patient").style.display="none";
   document.getElementById("Room").style.display="none";
+
+  setTimeout(function() {
+    var WhatPatients = "{'id':1}";
+    ws.send(WhatPatients);
+    var WhatRooms = "{'id':2}";
+    ws.send(WhatRooms);
+  //ws.send(set_value);
+  }, 200);
+
+  //setTimeout(function() {
+    //ws.send(all_value);
+  //}, 1000);
 };

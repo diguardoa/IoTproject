@@ -10,7 +10,7 @@
     <script  src="index.js"></script>
   </head>
 
-  <body data-spy="scroll" data-target="#navbar-example" onload="show()">
+  <body data-spy="scroll" data-target="#navbar-example" onload="findPatientsRooms()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,8 +30,8 @@
         <div class="collapse navbar-collapse" id="navbar-example">
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#myCarousel">Home <span class="sr-only">(current)</span></a></li>
-            <li><a href="#Patient" onclick="createTab('P')">Patient</a></li>
-            <li><a href="#Room" onclick="createTab('R')">Rooms</a></li>
+            <li><a href="#Patient" onclick="sendCreateTab('P')">Patient</a></li>
+            <li><a href="#Room" onclick="sendCreateTab('R')">Rooms</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -111,7 +111,6 @@
         </div>
       </div>
     </div>
-    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
