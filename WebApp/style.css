@@ -30,9 +30,10 @@ body{
 }
 
 .canvasjs-chart-canvas{
-  min-width: 100%;
+  min-height: 400px;
+  /*min-width: 868px;*/
 }
 
 #myModalLabel{
-  font-size: 30px; 
+  font-size: 30px;
 }
