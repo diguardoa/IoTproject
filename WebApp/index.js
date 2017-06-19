@@ -8,6 +8,8 @@ var R_NUM = 0;
 var N_RES_PAT = 5;
 var N_RES_ROOM = 3;
 
+var chart;
+
 /*
 * I pazienti e le stanze presenti nell'ospedale vengono memorizzati
 * dinamicamente in due array separati dopo aver inviato una richiesta al Web
@@ -16,16 +18,6 @@ var N_RES_ROOM = 3;
 var patArray = new Array();
 var roomArray = new Array();
 
-/*var value_graphs = [{ x: new Date(2012, 00, 1), y: 450 }, { x: new Date(2012, 01, 1), y: 414 },
-      { x: new Date(2012, 02, 1), y: 520 },{ x: new Date(2012, 03, 1), y: 460 },
-      { x: new Date(2012, 04, 1), y: 450 },{ x: new Date(2012, 05, 1), y: 500 },
-      { x: new Date(2012, 06, 1), y: 480 },
-      { x: new Date(2012, 07, 1), y: 480 },
-      { x: new Date(2012, 08, 1), y: 410 },
-      { x: new Date(2012, 09, 1), y: 500 },
-      { x: new Date(2012, 10, 1), y: 480 },
-      { x: new Date(2012, 11, 1), y: 510 }];
-*/
 class Resource{
 
   constructor(desc, name, imgPath, type, value, unity, time) {
@@ -40,14 +32,22 @@ class Resource{
   }
 
   setValue(value, time){
-    this.value = value;
+    //alert("Old Value: " + this.value);
+    this.value = value/10;
+    //alert("New Value: " + this.value);
     this.time = time;
   }
 
   saveHistory(payload){
     var hist = [];
-    for(var loc in payload)
-      hist.push({x: parseInt(payload[loc].t), y: parseInt(payload[loc].e)});
+    for(var loc in payload){
+      var h = parseInt(payload[loc].t.slice(0,2));
+      var m = parseInt(payload[loc].t.slice(2,4));
+      var s = parseInt(payload[loc].t.slice(4,6));
+      var time = (h*3600 + m*60 +s)*1000;
+      //hist.push({x: parseInt(payload[loc].t), y: parseInt(payload[loc].e)});
+      hist.push({x: time, y: parseInt(payload[loc].e)/10});
+    }
     this.history = hist;
   }
 
@@ -65,9 +65,9 @@ class Patient {
     this.id = id;
     this.ledA = new Resource("Led", "LedA", "images/led.png", "A", null, null, null);
     this.temp = new Resource("Temperature", "Temp", "images/temperature.png", "S", null, "°C", null);
-    this.oxyValv = new Resource("Oxygen Valve", "OxyValv", "images/oxyValv.png", "A", null, null, null);
+    this.oxyValv = new Resource("Oxygen Valve", "OxyValv", "images/oxyValv.png", "A", null, "%", null);
     this.oxyS = new Resource("Oxygen Pressure", "OxyS", "images/oxySens.png", "S", 90, "%", null);
-    this.hrs = new Resource("Heart Rate", "HRS", "images/hr.png", "S", 60, "hpm", null);
+    this.hrs = new Resource("Heart Rate", "HRS", "images/hr.png", "S", 60, "bpm", null);
   }
 }
 
@@ -79,7 +79,7 @@ class Room {
   constructor(id) {
     this.id = id;
     this.tempR = new Resource("Temperature", "TempR", "images/temperature.png", "S", null, "°C", null);
-    this.airCon = new Resource("Air Conditioner", "AirCon", "images/airconditionar.png", "A", null, null, null);
+    this.airCon = new Resource("Air Conditioner", "AirCon", "images/airconditionar.png", "A", null, "°C", null);
     this.fireAl = new Resource("Fire Alarm", "FireAl", "images/firealarm.png", "A", null, null, null);
   }
 }
@@ -112,6 +112,7 @@ ws.onmessage = function (evt) {
         patArray[P_NUM] = new Patient(resp.payload[loc].e);
         P_NUM++;
       }
+      createTab("p");
       break;
     }
     case 2:{ //DONE
@@ -119,6 +120,7 @@ ws.onmessage = function (evt) {
         roomArray[R_NUM] = new Room(resp.payload[loc].e);
         R_NUM++;
       }
+      createTab("r");
       break;
     }
     case 3:{ //DONE
@@ -169,8 +171,8 @@ ws.onmessage = function (evt) {
         }
       }
 
-      graphs(resource.desc, resource.history);
-      break;
+    graphs(resource.desc, resource.history, resp.type, resp.id_ent, resp.res_name);
+    break;
     }
     case 4:{ //DONE
       if(resp.payload == "done"){
@@ -222,28 +224,66 @@ ws.onmessage = function (evt) {
       break;
     }
     case 7:{ //todo
-      alert("Message: " + evt.data);
+      if(resp.type == "p"){
+        for (var i = 0; i < P_NUM; i++) {
+          if(patArray[i].id == resp.id_ent){
+            var pat = patArray[i];
+            var res;
+            if(resp.res_name == pat.hrs.name)
+              res = pat.hrs;
+            if(resp.res_name == pat.oxyS.name)
+              res = pat.oxyS;
+            if(resp.res_name == pat.temp.name)
+              res = pat.temp;
+            if(resp.res_name == pat.oxyValv.name)
+              res = pat.oxyValv;
+            if(resp.res_name == pat.ledA.name)
+              res = pat.ledA;
+
+            //if(res.time != resp.payload.t){
+              //alert("OLD: " + res.time + " NEW: " + resp.payload.t);
+              updateGraphs(res, resp);
+            //}
+          }
+        }
+      } else{
+        for(var i = 0; i < R_NUM; i++){
+          if(roomArray[i].id == resp.id_ent){
+            roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
+            roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
+            roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
+            document.getElementById("Room").style.display="block";
+            updateTab(i, resp.type);
+          }
+        }
+      }
       break;
     }
     case 8:{ //DONE
       if(resp.type == "p"){
-        var i = 0;
-        while(patArray[i].id != resp.id_ent)
-          i++;
-        patArray[i].hrs.setValue(resp.HRS.e, resp.HRS.t);
-        patArray[i].temp.setValue(resp.Temp.e, resp.Temp.t);
-        patArray[i].oxyValv.setValue(resp.OxyValv.e, resp.OxyValv.t);
-        patArray[i].oxyS.setValue(resp.OxyS.e, resp.OxyS.t);
-        patArray[i].ledA.setValue(resp.LedA.e, resp.LedA.t);
+        for(var i = 0; i < P_NUM; i++){
+          if(patArray[i].id == resp.id_ent){
+            patArray[i].hrs.setValue(resp.HRS.e, resp.HRS.t);
+            patArray[i].temp.setValue(resp.Temp.e, resp.Temp.t);
+            patArray[i].oxyValv.setValue(resp.OxyValv.e, resp.OxyValv.t);
+            patArray[i].oxyS.setValue(resp.OxyS.e, resp.OxyS.t);
+            patArray[i].ledA.setValue(resp.LedA.e, resp.LedA.t);
+            document.getElementById("Patient").style.display="block";
+            updateTab(i,resp.type);
+          }
+        }
       } else{
-        var i = 0;
-        while(roomArray[i].id != resp.id_ent)
-          i++;
-        roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
-        roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
-        roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
+        for(var i = 0; i < R_NUM; i++){
+          if(roomArray[i].id == resp.id_ent){
+            roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
+            roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
+            roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
+            document.getElementById("Room").style.display="block";
+            updateTab(i, resp.type);
+          }
+        }
       }
-      createTab(resp.type);
+
       break;
     }
   }
@@ -255,7 +295,7 @@ ws.onclose = function() {
 };
 
 ws.onerror = function(err) {
-  alert("Error: " + err);
+  alert("Error: webServer Disconnected");
 };
 
 /*
@@ -272,14 +312,14 @@ function sendCreateTab(type){
         var last_value = "{'id':8, 'type':'p', 'id_ent':" + patArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
       }
-    }, 50);
+    }, 100);
   } else{
     setTimeout(function() {
       for(var i = 0; i < R_NUM; i++){
         var last_value = "{'id':8, 'type':'r', 'id_ent':" + roomArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
       }
-    }, 50);
+    }, 100);
   }
 };
 
@@ -294,6 +334,14 @@ function sendHistoryRequest(type, id, name){
     setTimeout(function() {
       ;
     }, 100);
+};
+
+function sendGetLastValue(type, id, name){
+    var lastValue = "{'id':7, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "'}";
+    ws.send(lastValue);
+    setTimeout(function() {
+      ;
+    }, 200);
 };
 
 /*
@@ -322,6 +370,29 @@ function sendSetValue(type, id, name){
     }, 100);
 };
 
+function updateTab(index, type){
+  if(type == "p"){
+    document.getElementById("h3"+patArray[index].hrs.name+patArray[index].id).innerHTML = patArray[index].hrs.value + " " + patArray[index].hrs.unity;
+    document.getElementById("h3"+patArray[index].oxyS.name+patArray[index].id).innerHTML = patArray[index].oxyS.value + " " + patArray[index].oxyS.unity;
+    document.getElementById("h3"+patArray[index].temp.name+patArray[index].id).innerHTML = patArray[index].temp.value + " " + patArray[index].temp.unity;
+    document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = patArray[index].ledA.value;
+    document.getElementById("h3"+patArray[index].oxyValv.name+patArray[index].id).innerHTML = patArray[index].oxyValv.value + " " + patArray[index].oxyValv.unity;
+    setTimeout(function() {
+      var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + patArray[index].id + ", 'res_name':'all'}";
+      ws.send(last_value);
+    }, 1000);
+  } else {
+    //alert("h3"+roomArray[index].tempR.name+roomArray[index].id);
+    document.getElementById("h3"+roomArray[index].tempR.name+roomArray[index].id).innerHTML = roomArray[index].tempR.value + " " + roomArray[index].tempR.unity;
+    document.getElementById("h3"+roomArray[index].airCon.name+roomArray[index].id).innerHTML = roomArray[index].airCon.value + " " + roomArray[index].airCon.unity;
+    document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = roomArray[index].fireAl.value;
+    setTimeout(function() {
+      var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + roomArray[index].id + ", 'res_name':'all'}";
+      ws.send(last_value);
+    }, 1000);
+  }
+};
+
 /*
 * Funzione che crea dinamicamente le icone per le risorse. In particolare
 * crea un incona contenente il nome della risorsa, una immagine, l'ultimo valore
@@ -347,7 +418,8 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   h2.innerHTML = resource.desc;
 
   var h3 = document.createElement("h3");
-  if(resource.type == "S")
+  h3.setAttribute("id", "h3"+resource.name+id);
+  if(resource.unity != null)
     h3.innerHTML = resource.value + " " + resource.unity;
   else
     h3.innerHTML = resource.value;
@@ -364,7 +436,6 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   button.innerHTML = "Display Graph";
 
   var a1 = document.createElement("a");
-  //a1.setAttribute("href", "#");
   a1.setAttribute("class", "btn btn-default");
   a1.setAttribute("role", "button");
   if(resource.type == "S"){
@@ -387,6 +458,7 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   row.appendChild(column);
 
   el.appendChild(row);
+
 };
 
 /*
@@ -590,6 +662,24 @@ function createTab(type){
   }
 };
 
+function updateGraphs(res, resp){
+  //alert("new value");
+  var h = parseInt(resp.payload.t.slice(0,2));
+  var m = parseInt(resp.payload.t.slice(2,4));
+  var s = parseInt(resp.payload.t.slice(4,6));
+  var time = (h*3600 + m*60 +s)*1000;
+
+  res.history.push({x: time, y: (parseInt(resp.payload.e)/10)});
+
+  chart.render();
+  //graphs(res.desc, res.history, res.type, res.id_ent, res.res_name);
+
+  setTimeout(function(){
+    sendGetLastValue(resp.type, resp.id_ent, res.name);
+  }, 300);
+
+}
+
 /*
 * Funzione per stampare il grafico all'interno dell'elemento Modal di bootstrap
 * prende 3 argomenti in ingresso:
@@ -597,25 +687,25 @@ function createTab(type){
 *   - l'indice della risorsa di cui si vuole il grafico
 *   - "P" o "R" per discriminare tra paziente e stanza
 */
-function graphs(desc, value){
+function graphs(desc, value, type, id_ent, res_name){
   var el = document.getElementById("modal-body");
   var div = document.createElement("div");
 
   document.getElementById("myModalLabel").innerHTML = desc;
   div.setAttribute("id", "chartContainer1");
   el.appendChild(div);
-  //alert(value);
 
-  var chart = new CanvasJS.Chart("chartContainer1", {
+  chart = new CanvasJS.Chart("chartContainer1", {
     theme: "theme2",
     animationEnabled: true,
     axisX: {
+      xValueType: "dateTime",
       //valueFormatString: "MMM",
-      interval: 100,
+      //interval: 100,
       //intervalType: "month"
     },
     axisY: {
-      interval: 10,
+      interval: 5,
       includeZero: false
     },
     data: [{
@@ -627,6 +717,10 @@ function graphs(desc, value){
   });
 
   chart.render();
+
+  setTimeout(function(){
+    sendGetLastValue(type, id_ent, res_name);
+  }, 300);
 };
 
 /*
@@ -636,13 +730,19 @@ function graphs(desc, value){
 *   - quante e quali sono le stanze
 */
 function findPatientsRooms(){
-  document.getElementById("Patient").style.display="none";
-  document.getElementById("Room").style.display="none";
 
-  setTimeout(function() {
+  setTimeout(function(){
     var WhatPatients = "{'id':1}";
     ws.send(WhatPatients);
+  }, 100);
+
+  setTimeout(function(){
     var WhatRooms = "{'id':2}";
     ws.send(WhatRooms);
+  }, 100);
+
+  setTimeout(function(){
+    document.getElementById("Patient").style.display="none";
+    document.getElementById("Room").style.display="none";
   }, 200);
 };
