@@ -45,6 +45,7 @@ class Resource{
       var m = parseInt(payload[loc].t.slice(2,4));
       var s = parseInt(payload[loc].t.slice(4,6));
       var time = (h*3600 + m*60 +s)*1000;
+      time = new Date(time);
       //hist.push({x: parseInt(payload[loc].t), y: parseInt(payload[loc].e)});
       hist.push({x: time, y: parseInt(payload[loc].e)/10});
     }
@@ -239,21 +240,21 @@ ws.onmessage = function (evt) {
               res = pat.oxyValv;
             if(resp.res_name == pat.ledA.name)
               res = pat.ledA;
-
-            //if(res.time != resp.payload.t){
-              //alert("OLD: " + res.time + " NEW: " + resp.payload.t);
-              updateGraphs(res, resp);
-            //}
+            updateGraphs(res, resp);
           }
         }
       } else{
         for(var i = 0; i < R_NUM; i++){
           if(roomArray[i].id == resp.id_ent){
-            roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
-            roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
-            roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
-            document.getElementById("Room").style.display="block";
-            updateTab(i, resp.type);
+            var room = roomArray[i];
+            var res;
+            if(resp.res_name == room.fireAl.name)
+              res = room.fireAl;
+            if(resp.res_name == room.tempR.name)
+              res = room.tempR;
+            if(resp.res_name == room.airCon.name)
+              res = room.airCon;
+            updateGraphs(res, resp);
           }
         }
       }
@@ -298,12 +299,18 @@ ws.onerror = function(err) {
   alert("Error: webServer Disconnected");
 };
 
+/*
+* Funzione invocata con l'evento "onclick" sul bottone "Automatic Mode"
+* La funzione prevede l'invio al WebServer di un messaggio per richiedere
+* l'attivazione della modalità automatica per il paziente o per la stanza
+*/
 function sendAutomaticMode(type, id){
   var auto = "{'id':9, 'type':'"+ type +"', 'id_ent':" + id + ", 'res_name':'all'}";
-
   ws.send(auto);
 
-  setTimeout(function(){;}, 100);
+  setTimeout(function(){
+    ;
+  }, 100);
 };
 
 /*
@@ -344,6 +351,11 @@ function sendHistoryRequest(type, id, name){
     }, 100);
 };
 
+/*
+* Funzione invocata cdurante la visualizzazione del grafico.
+* Invia al webServer un pacchetto per richiedere l'ultimo valore in modo da
+* aggiornare il grafico quando è stato ricevuto un nuovo dato
+*/
 function sendGetLastValue(type, id, name){
     var lastValue = "{'id':7, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "'}";
     ws.send(lastValue);
@@ -371,18 +383,53 @@ function sendDeleteHistory(type, id, name){
 * il settaggio del valore inviato nel messaggio dei valori
 */
 function sendSetValue(type, id, name){
-    var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':800}";
-    ws.send(setValue);
-    setTimeout(function() {
-      ;
-    }, 100);
-    setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'TempR', 'value':800}";
-    ws.send(setValue);
-    setTimeout(function() {
-      ;
-    }, 100);
+    if(name == "AirCon"){
+      var value = document.getElementById("NewValue").value*10;
+      var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
+      ws.send(setValue);
+      setTimeout(function() {
+        setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'TempR', 'value':" + value + "}";
+        ws.send(setValue);
+      }, 100);
+    }
+
+    if(name == "OxyValv"){
+      var value = document.getElementById("NewValue").value*10;
+      var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
+      ws.send(setValue);
+      setTimeout(function() {
+        setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'OxyS', 'value':" + value + "}";
+        ws.send(setValue);
+      }, 100);
+    }
+
+    if(name == "FireAl"){
+      var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':0}";
+      ws.send(setValue);
+      setTimeout(function() {
+        ;
+      }, 100);
+    }
+
+    if(name == "LedA"){
+      var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':0}";
+      ws.send(setValue);
+      setTimeout(function() {
+        setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'HRS', 'value':800}";
+        ws.send(setValue);
+        setTimeout(function() {
+          setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'Temp', 'value':360}";
+          ws.send(setValue);
+        }, 20);
+      }, 100);
+    }
 };
 
+/*
+* Funzione invocata dopo aver ricevuto un messaggio di riposta al messaggio con
+* id = 8. Serve per aggiornare i valori visualizzati per ogni risorsa sia nel
+* caso dei pazienti sia nel caso delle stanze
+*/
 function updateTab(index, type){
   if(type == "p"){
     document.getElementById("h3"+patArray[index].hrs.name+patArray[index].id).innerHTML = patArray[index].hrs.value + " " + patArray[index].hrs.unity;
@@ -395,7 +442,6 @@ function updateTab(index, type){
       ws.send(last_value);
     }, 1000);
   } else {
-    //alert("h3"+roomArray[index].tempR.name+roomArray[index].id);
     document.getElementById("h3"+roomArray[index].tempR.name+roomArray[index].id).innerHTML = roomArray[index].tempR.value + " " + roomArray[index].tempR.unity;
     document.getElementById("h3"+roomArray[index].airCon.name+roomArray[index].id).innerHTML = roomArray[index].airCon.value + " " + roomArray[index].airCon.unity;
     document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = roomArray[index].fireAl.value;
@@ -446,25 +492,57 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   button.setAttribute("data-target", "#myModal");
   button.onclick = function(){sendHistoryRequest(type, id, resource.name);};
 
-  button.innerHTML = "Display Graph";
+  button.innerHTML = "Draw Graph";
 
   var a1 = document.createElement("a");
   a1.setAttribute("class", "btn btn-default");
   a1.setAttribute("role", "button");
-  if(resource.type == "S"){
-    a1.innerHTML = "Delete History";
-    a1.onclick = function(){sendDeleteHistory(type, id, resource.name);};
-  }
-  else{
-    a1.innerHTML = "Set/Reset";
-    a1.onclick = function(){sendSetValue(type, id, resource.name);};
-  }
+  a1.innerHTML = "Del. History";
+  a1.onclick = function(){sendDeleteHistory(type, id, resource.name);};
 
   p1.appendChild(button);
   p1.appendChild(a1);
+
+  if(resource.name == "FireAl" || resource.name == "LedA"){
+    var a2 = document.createElement("a");
+    a2.setAttribute("class", "btn btn-default");
+    a2.setAttribute("role", "button");
+    a2.innerHTML = "Reset";
+    a2.onclick = function(){sendSetValue(type, id, resource.name);};
+    p1.appendChild(a2);
+  }
+
   caption.appendChild(h2);
   caption.appendChild(h3);
   caption.appendChild(p1);
+
+  if(resource.name == "AirCon" || resource.name == "OxyValv"){
+    var dform = document.createElement("div");
+    dform.setAttribute("class", "form-group");
+    var label = document.createElement("label");
+    label.setAttribute("for", "NewValue");
+    label.innerHTML = "Insert the new value";
+
+    var input = document.createElement("input");
+    input.setAttribute("class", "form-control");
+    input.setAttribute("id", "NewValue");
+    input.setAttribute("placeholder", "Insert a value");
+
+    var p = document.createElement("p");
+    dform.appendChild(label);
+    dform.appendChild(input);
+    p.appendChild(dform);
+
+    var button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "btn btn-primary");
+    button.onclick = function(){sendSetValue(type, id, resource.name);};
+
+    button.innerHTML = "Set New Value";
+    p.appendChild(button);
+    caption.appendChild(p);
+  }
+
   thumbnail.appendChild(img);
   thumbnail.appendChild(caption);
   column.appendChild(thumbnail);
@@ -473,6 +551,63 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
   el.appendChild(row);
 
 };
+
+
+function createIconSimulation(type, id, el, row){
+  var column = document.createElement("div");
+  column.setAttribute("class", "col-sm-6 col-md-4");
+
+  var thumbnail = document.createElement("div");
+  thumbnail.setAttribute("class", "thumbnail");
+
+  var caption = document.createElement("div");
+  caption.setAttribute("class", "caption");
+
+  var h = document.createElement("h3");
+  h.innerHTML = "Working Mode";
+
+  var p0 = document.createElement("p");
+
+  button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-primary");
+  button.onclick = function(){sendAutomaticMode(type.toLowerCase(), id);};
+  button.innerHTML = "Automatic mode";
+  p0.appendChild(button);
+  caption.appendChild(h);
+  caption.appendChild(p0);
+
+  var h3 = document.createElement("h3");
+  h3.innerHTML = "Simulation Error";
+
+  var p = document.createElement("p");
+
+  button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-primary");
+  button.onclick = function(){error(1);};
+
+  button.innerHTML = "Generate Error 1";
+  p.appendChild(button);
+
+  var p1 = document.createElement("p");
+
+  button = document.createElement("button");
+  button.setAttribute("type", "button");
+  button.setAttribute("class", "btn btn-primary");
+  button.onclick = function(){error(2);};
+
+  button.innerHTML = "Generate Error 2";
+  p1.appendChild(button);
+
+  caption.appendChild(h3);
+  caption.appendChild(p);
+  caption.appendChild(p1);
+  thumbnail.appendChild(caption);
+  column.appendChild(thumbnail);
+  row.appendChild(column);
+  el.appendChild(row);
+}
 
 /*
 * Funzione utilizzata per generare dinamicamente il contenuto da mostrare
@@ -501,11 +636,7 @@ function buildInterface(index, id, type){
     createResourceIcon(stringId, index, id, patArray[index].ledA, type, el, row);
     createResourceIcon(stringId, index, id, patArray[index].oxyValv, type, el, row);
 
-    var button = document.createElement("button");
-    button.setAttribute("type", "button");
-    button.setAttribute("class", "btn btn-primary");
-    button.onclick = function(){sendAutomaticMode(type.toLowerCase(), id);};
-    el.appendChild(button);
+    createIconSimulation(type, id, el, row);
 
   } else {
     stringId = "room";
@@ -520,6 +651,7 @@ function buildInterface(index, id, type){
     button.setAttribute("type", "button");
     button.setAttribute("class", "btn btn-primary");
     button.onclick = function(){sendAutomaticMode(type.toLowerCase(), id);};
+    button.innerHTML = "Automatic mode";
     el.appendChild(button);
   }
 };
@@ -724,19 +856,53 @@ function graphs(desc, value, type, id_ent, res_name){
   chart = new CanvasJS.Chart("chartContainer1", {
     theme: "theme2",
     animationEnabled: true,
+    backgroundColor: null,
     axisX: {
+      title: "Time",
+      titleFontColor: "black",
+      titleFontSize: 20,
+      titleFontFamily: "tahoma",
+      titleFontStyle: "italic",
+      labelFontStyle: "italic",
+      labelAutoFit: true,
+      labelFontFamily: "tahoma",
+      labelFontColor: "black",
+      labelFontSize: 10,
       xValueType: "dateTime",
-      //valueFormatString: "MMM",
-      //interval: 100,
-      //intervalType: "month"
+      interval: 30,
+      intervalType: "minute",
+      lineColor: "black",
+      lineThickness: 3,
+      tickLength: 5,
+      tickColor: "black"
+
     },
     axisY: {
-      interval: 5,
+      title: "Value",
+      titleFontColor: "black",
+      titleFontSize: 20,
+      titleFontFamily: "tahoma",
+      titleFontStyle: "italic",
+      labelFontStyle: "italic",
+      labelAutoFit: true,
+      labelFontFamily: "tahoma",
+      labelFontColor: "black",
+      labelFontSize: 10,
+      lineColor: "black",
+      lineThickness: 3,
+      tickLength: 5,
+      tickColor: "black",
+      gridThickness: 1,
+      gridDashType: "dash",
+      interval: 10,
       includeZero: false
     },
     data: [{
-      type: "line",
-      //lineThickness: 3,
+      type: "spline",
+      cursor: "defualt",
+      color: "green",
+      lineColor: "green",
+      lineThickness: 2,
       dataPoints: value
 
     }]

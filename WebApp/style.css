@@ -17,7 +17,7 @@ body{
   padding: 100px;
 }
 
-.caption > h3, .caption > h2{
+.caption > h3, .caption > h2, .caption > p{
   text-align: center;
 }
 
