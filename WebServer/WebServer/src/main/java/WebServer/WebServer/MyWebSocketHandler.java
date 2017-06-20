@@ -77,6 +77,9 @@ public class MyWebSocketHandler {
 					case 8:
 						response = WebServer.getPatient(id_ent).getStatus();
 						break;
+					case 9:
+						response = WebServer.getPatient(id_ent).SetAutomaticModeAll();
+						break;
 					}
 				} else {
 					// look for a room
@@ -99,6 +102,9 @@ public class MyWebSocketHandler {
 						break;
 					case 8:
 						response = WebServer.getRoom(id_ent).getStatus();
+						break;
+					case 9:
+						response = WebServer.getRoom(id_ent).SetAutomaticModeAll();
 						break;
 					}
 				}

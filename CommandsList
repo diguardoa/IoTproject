@@ -42,3 +42,5 @@ Type:
 7) GetLastValue				Type:Id:ResName
 
 8) GetStatus
+
+9) SetAutomaticModeAll		Type:Id

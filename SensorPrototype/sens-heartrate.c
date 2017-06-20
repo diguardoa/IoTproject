@@ -6,7 +6,7 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define STARTING_HR 80
+#define STARTING_HR 800
 #define TIME_SAMPLING 100
 
 int pat_id = 0;
@@ -104,7 +104,7 @@ static void hr_periodic_handler()
 	if (fixed_value_cycles == 20)
 	{
 		fixed_value_cycles = 0;
-		hr_next = hr_current + 1;
+		REST.notify_subscribers(&hr_sens);
 	} 
 }
 

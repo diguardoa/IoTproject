@@ -6,7 +6,7 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define STARTING_TEMP 36
+#define STARTING_TEMP 360
 #define TIME_SAMPLING 100
 
 int pat_id = 0;
@@ -109,7 +109,7 @@ static void temp_periodic_handler()
 	if (fixed_value_cycles == 20)
 	{
 		fixed_value_cycles = 0;
-		temp_next = temp_current + 1;
+		REST.notify_subscribers(&temp_sens);
 	}
 }
 

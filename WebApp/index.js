@@ -298,6 +298,14 @@ ws.onerror = function(err) {
   alert("Error: webServer Disconnected");
 };
 
+function sendAutomaticMode(type, id){
+  var auto = "{'id':9, 'type':'"+ type +"', 'id_ent':" + id + ", 'res_name':'all'}";
+
+  ws.send(auto);
+
+  setTimeout(function(){;}, 100);
+};
+
 /*
 * Funzione invocata con l'evento "onclick" sulla voce del menu "Paziente"
 * La funzione prevede l'invio al WebServer di un messaggio per richiedere
@@ -354,7 +362,7 @@ function sendDeleteHistory(type, id, name){
     ws.send(deleteHistory);
     setTimeout(function() {
       ;
-    }, 100);
+    }, 200);
 };
 
 /*
@@ -364,6 +372,11 @@ function sendDeleteHistory(type, id, name){
 */
 function sendSetValue(type, id, name){
     var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':800}";
+    ws.send(setValue);
+    setTimeout(function() {
+      ;
+    }, 100);
+    setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'TempR', 'value':800}";
     ws.send(setValue);
     setTimeout(function() {
       ;
@@ -487,6 +500,13 @@ function buildInterface(index, id, type){
     createResourceIcon(stringId, index, id, patArray[index].temp, type, el, row);
     createResourceIcon(stringId, index, id, patArray[index].ledA, type, el, row);
     createResourceIcon(stringId, index, id, patArray[index].oxyValv, type, el, row);
+
+    var button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "btn btn-primary");
+    button.onclick = function(){sendAutomaticMode(type.toLowerCase(), id);};
+    el.appendChild(button);
+
   } else {
     stringId = "room";
     var el = document.getElementById(stringId + id);
@@ -495,6 +515,12 @@ function buildInterface(index, id, type){
     createResourceIcon(stringId, index, id, roomArray[index].tempR, type, el, row);
     createResourceIcon(stringId, index, id, roomArray[index].airCon, type, el, row);
     createResourceIcon(stringId, index, id, roomArray[index].fireAl, type, el, row);
+
+    var button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("class", "btn btn-primary");
+    button.onclick = function(){sendAutomaticMode(type.toLowerCase(), id);};
+    el.appendChild(button);
   }
 };
 

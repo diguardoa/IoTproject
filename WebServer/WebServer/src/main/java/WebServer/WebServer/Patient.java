@@ -55,6 +55,22 @@ public class Patient {
 		return request;
 	}
 
+	public JSONObject SetAutomaticModeAll() {
+		JSONObject resp = new JSONObject();
+		
+		resp.put("id", 9);
+		resp.put("desc", "SetAutomaticModeAll");
+		resp.put("type", "p");
+		resp.put("id_ent", id);
+		HRS.manager.setAutomaticMode();
+		LA.manager.setAutomaticMode();
+		OXYVALV.manager.setAutomaticMode();
+		TEMP.manager.setAutomaticMode();
+		OXYS.manager.setAutomaticMode();
+		
+		return resp;
+	}
+	
 	public JSONObject getStatus() {
 		JSONObject resp = new JSONObject();
 		

@@ -42,6 +42,19 @@ public class Room {
 
 		return request;
 	}
+	public JSONObject SetAutomaticModeAll() {
+		JSONObject resp = new JSONObject();
+		
+		resp.put("id", 9);
+		resp.put("desc", "SetAutomaticModeAll");
+		resp.put("type", "r");
+		resp.put("id_ent", id);
+		AIRCON.manager.setAutomaticMode();
+		FIREAL.manager.setAutomaticMode();
+		TEMPR.manager.setAutomaticMode();
+		
+		return resp;
+	}
 
 	public JSONObject getStatus() {
 		JSONObject resp = new JSONObject();
