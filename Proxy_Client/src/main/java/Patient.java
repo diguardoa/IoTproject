@@ -99,6 +99,13 @@ if (ProxyClient.debug)
 				e_Oxy = ProxyClient.oxygen_optimal - t_OxyS;
 				e_Oxy_int += e_Oxy;
 				int u = ProxyClient.Kp_oxy * e_Oxy + (int) (ProxyClient.Ki_oxy*e_Oxy_int);
+				
+				// PID saturation
+				if (u < ProxyClient.oxy_min)
+					u = ProxyClient.oxy_min;
+				if (u > ProxyClient.oxy_max)
+					u = ProxyClient.oxy_max;
+				
 				OxyS.setValue(u);
 				OxyValve.setValue(u);
 				

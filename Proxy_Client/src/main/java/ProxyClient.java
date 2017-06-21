@@ -23,8 +23,13 @@ public class ProxyClient {
 	public static final int treshold_temp_room_low = 100;
 	public static final int treshold_temp_room_high = 500;
 	
-	public static final int oxygen_optimal = 1200;
+	public static final int oxygen_optimal = 1000;
+	public static final int oxy_min = 0;
+	public static final int oxy_max = 200;
+	
 	public static final int temp_room_optimal = 200;
+	public static final int temp_room_min = 0;
+	public static final int temp_room_max = 450;
 	
 	public static final int T_patient = 2000;
 	public static final int T_room = 2000;
