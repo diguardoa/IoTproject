@@ -8,7 +8,6 @@
 //#include "project-conf.h"
 
 
-#define TIME_SAMPLING 100
 #define STARTING_TEMPERATURE 200
 
 

@@ -7,7 +7,6 @@
 #include "net/rpl/rpl.h"
 
 #define STARTING_HR 800
-#define TIME_SAMPLING 100
 
 int pat_id = 0;
 

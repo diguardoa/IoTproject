@@ -3,8 +3,7 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define TIME_SAMPLING 100
-#define STARTING_OXY 200
+#define STARTING_OXY 800
 
 static int current_status= STARTING_OXY;
 static int next_status= STARTING_OXY;

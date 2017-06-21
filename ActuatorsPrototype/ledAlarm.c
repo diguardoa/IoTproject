@@ -8,8 +8,6 @@
 #define ALARM_ON 1
 #define ALARM_OFF 0
 
-#define TIME_SAMPLING 100
-
 
 static int alarm_status = ALARM_OFF;
 static int next_status = ALARM_OFF;
