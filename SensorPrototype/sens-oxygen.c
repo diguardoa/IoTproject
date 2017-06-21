@@ -6,8 +6,8 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define TIME_SAMPLING 100
-#define STARTING_OXY 200
+
+#define STARTING_OXY 800
 
 // First order variable
 static int u_k_1 = STARTING_OXY;
@@ -69,7 +69,7 @@ void oxy_get_handler(void* request, void* response, uint8_t* buffer, uint16_t pr
 	int length = 23;
 	int t_oxy = (int) oxy_k;
 
-	sprintf(message, "{'e':'%03d','u':'%'}", t_oxy);
+	sprintf(message, "{'e':'%d','u':'%'}", t_oxy);
 	length = strlen(message);
 	memcpy(buffer, message, length);
 
@@ -117,7 +117,6 @@ PROCESS_THREAD(oxygen_process, ev, data)
 	/* Activate the application-specific resources */
 	rest_activate_resource(&oxy_sens, "oxygen");
 	rest_activate_resource(&Id, "id");
-
 	while(1) {
 		PROCESS_WAIT_EVENT();
 	}

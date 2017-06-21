@@ -3,7 +3,6 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define TIME_SAMPLING 100
 #define STARTING_TEMP 100
 static int current_temp = STARTING_TEMP;
 static int next_temp = STARTING_TEMP;

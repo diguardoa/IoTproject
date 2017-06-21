@@ -1,10 +1,15 @@
 /* IP buffer size must match all other hops, in particular the border router. */
 
+#define TIME_SAMPLING 0.7*CLOCK_SECOND
+
 #undef UIP_CONF_BUFFER_SIZE
 #define UIP_CONF_BUFFER_SIZE           380
  
 #undef NETSTACK_CONF_RDC
 #define NETSTACK_CONF_RDC              nullrdc_driver
+
+#undef RPL_CONF_DIO_REDUNDANCY
+#define RPL_CONF_DIO_REDUNDANCY	3
 
 /* Disabling TCP on CoAP nodes. */
 #undef UIP_CONF_TCP
