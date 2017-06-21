@@ -77,6 +77,13 @@ if (ProxyClient.debug)
 				e_Temp = ProxyClient.temp_room_optimal - t_temp;
 				e_Temp_int += e_Temp;
 				int u = ProxyClient.Kp_temp * e_Temp + (int) (ProxyClient.Ki_temp*e_Temp_int);
+				
+				// PID saturation
+				if (u < ProxyClient.temp_room_min)
+					u = ProxyClient.temp_room_min;
+				if (u > ProxyClient.temp_room_max)
+					u = ProxyClient.temp_room_max;
+				
 				TempR.setValue(u);
 				AirCon.setValue(u);				
 				

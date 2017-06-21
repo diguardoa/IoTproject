@@ -49,6 +49,7 @@ public class Room {
 		resp.put("desc", "SetAutomaticModeAll");
 		resp.put("type", "r");
 		resp.put("id_ent", id);
+		resp.put("payload","done");
 		AIRCON.manager.setAutomaticMode();
 		FIREAL.manager.setAutomaticMode();
 		TEMPR.manager.setAutomaticMode();
