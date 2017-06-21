@@ -384,7 +384,7 @@ function sendDeleteHistory(type, id, name){
 */
 function sendSetValue(type, id, name){
     if(name == "AirCon"){
-      var value = document.getElementById("NewValue").value*10;
+      var value = document.getElementById("NewValueAirCon").value*10;
       var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
       ws.send(setValue);
       setTimeout(function() {
@@ -394,7 +394,7 @@ function sendSetValue(type, id, name){
     }
 
     if(name == "OxyValv"){
-      var value = document.getElementById("NewValue").value*10;
+      var value = document.getElementById("NewValueOxyValv").value*10;
       var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
       ws.send(setValue);
       setTimeout(function() {
@@ -520,12 +520,12 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
     var dform = document.createElement("div");
     dform.setAttribute("class", "form-group");
     var label = document.createElement("label");
-    label.setAttribute("for", "NewValue");
+    label.setAttribute("for", "NewValue"+resource.name);
     label.innerHTML = "Insert the new value";
 
     var input = document.createElement("input");
     input.setAttribute("class", "form-control");
-    input.setAttribute("id", "NewValue");
+    input.setAttribute("id", "NewValue"+resource.name);
     input.setAttribute("placeholder", "Insert a value");
 
     var p = document.createElement("p");
