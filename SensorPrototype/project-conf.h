@@ -1,5 +1,12 @@
 /* IP buffer size must match all other hops, in particular the border router. */
 
+/*
+#undef UIP_CONF_IPV6_RPL
+#define UIP_CONF_IPV6_RPL	0
+
+#undef UIP_CONF_ND6_SEND_NA 
+#define UIP_CONF_ND6_SEND_NA	1
+§*/
 #define TIME_SAMPLING 0.7*CLOCK_SECOND
 
 #undef UIP_CONF_BUFFER_SIZE

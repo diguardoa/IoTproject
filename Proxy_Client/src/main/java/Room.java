@@ -80,9 +80,15 @@ if (ProxyClient.debug)
 				
 				// PID saturation
 				if (u < ProxyClient.temp_room_min)
+				{
 					u = ProxyClient.temp_room_min;
+					e_Temp_int -= e_Temp;
+				}
 				if (u > ProxyClient.temp_room_max)
+				{
 					u = ProxyClient.temp_room_max;
+					e_Temp_int -= e_Temp;
+				}
 				
 				TempR.setValue(u);
 				AirCon.setValue(u);				

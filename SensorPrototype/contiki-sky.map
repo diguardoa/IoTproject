@@ -2524,9 +2524,9 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a
  .stab          0x0002a9cc      0x1f8 contiki-sky.a(mac.o)
                                 0x4ec (size before relaxing)
 
-.stabstr        0x00000000    0x20101
+.stabstr        0x00000000    0x200da
  *(.stabstr)
- .stabstr       0x00000000    0x20101 sens-temp.co
+ .stabstr       0x00000000    0x200da sens-temp.co
 
 .stab.excl
  *(.stab.excl)

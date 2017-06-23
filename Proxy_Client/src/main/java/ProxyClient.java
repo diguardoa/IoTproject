@@ -25,7 +25,7 @@ public class ProxyClient {
 	
 	public static final int oxygen_optimal = 1000;
 	public static final int oxy_min = 0;
-	public static final int oxy_max = 200;
+	public static final int oxy_max = 2000;
 	
 	public static final int temp_room_optimal = 200;
 	public static final int temp_room_min = 0;
