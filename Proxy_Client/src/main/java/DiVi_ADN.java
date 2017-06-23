@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +8,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.swing.UIDefaults.ProxyLazyValue;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -28,20 +26,19 @@ import org.eclipse.californium.core.coap.Request;
 import org.json.JSONObject;
 
 
+// DiVi ADN publish on MN oM2M node
 
-public class DiVi_ADN extends Thread{
+public class DiVi_ADN {
 	private URI uri;
 	private List<String> addresses = new LinkedList<>();
 	private List<Patient> patients = new LinkedList<>();
 	private List<Room> rooms = new LinkedList<>();
-
 	
 	static public RoomsAlarm general_alarm;
 	
 	/*
-	 * DiViADN publishes on the MN
+	 * The function registers the ADN on MN and create the main containers
 	 */
-	
 	public DiVi_ADN(String br_uri) {
 		
 		uri = DiVi_ADN.createUri(br_uri);
@@ -69,6 +66,9 @@ public class DiVi_ADN extends Thread{
 	}
 
 
+	/*
+	 * The function performs the Discovery procedure
+	 */
 	public void discovery() {
 		List<String> motes_add;
 		
@@ -77,13 +77,16 @@ public class DiVi_ADN extends Thread{
 		motes_add = getNodeAddress();
 
 
-		// Gets all resources
+		// Gets all resources and register them in the MN
 
 		for (String r: motes_add) 
 			getResources(r);
 			
 	}
 	
+	/*
+	 * The function starts all threads related with Patients and Rooms control
+	 */
 	public void start_pat_rooms() {
 		for (Patient pat : patients) 
 			pat.start();
@@ -91,6 +94,11 @@ public class DiVi_ADN extends Thread{
 		for (Room rom: rooms)
 			rom.start();
 	}
+	
+	/*
+	 * the function gets and register on MN all resources starting
+	 * from their IPv6 mode address
+	 */
 	
 	private void getResources(String add) {
 		URI uri_mote = DiVi_ADN.createUri(add);	
@@ -103,13 +111,21 @@ public class DiVi_ADN extends Thread{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}	
+		
+		/*
+		 *  Discovery process on the Mote: get all resources with their
+		 *  attributes (title, rt, obs flag)
+		 */
+		
 		Set<WebLink> links = mote_c.discover();	
 	
 		
 		if(links!=null){
 			
-			
-			 // Look if it is a Patient or a Room sensor
+			/*
+			 * Gets information about resource class from /id resource
+			 * (all motes have /id resource)
+			 */
 
 			CoapClient info_mote = new CoapClient(DiVi_ADN.createUri(uri_mote + "/id"));
 			mote_c.setTimeout(0);	// infinite timeout
@@ -126,6 +142,9 @@ public class DiVi_ADN extends Thread{
 			if (info_mote_resp != null) {
 				JSONObject jsonOBJ = new JSONObject(info_mote_resp.getResponseText());
 				
+				/*
+				 * Distinguish between patient and room resources
+				 */
 				if (jsonOBJ.getString("type").compareTo("pat") == 0 )
 					getPatientResource(links, jsonOBJ.getInt("id"), uri_mote);
 				else if (jsonOBJ.getString("type").compareTo("room") == 0 )
@@ -135,6 +154,9 @@ public class DiVi_ADN extends Thread{
 			System.out.println(add + " not found");
 	}
 	
+	/*
+	 * Configure resources belonging to room class
+	 */
 	private void getRoomResource(Set<WebLink> res_set, int room_id, URI uri_mote) {
 		Room current_room;
 		
@@ -143,12 +165,12 @@ public class DiVi_ADN extends Thread{
 		if (look_for_room.isEmpty())
 		{
 			current_room = new Room(room_id);
-			//current_room.start();
 			rooms.add(current_room);
 		}
 		else
 			current_room = look_for_room.get(0);
 		
+		// assign the resource to the correct room
 		for (WebLink link : res_set) {
 			final String resUri = link.getURI();	
 			if (!resUri.equalsIgnoreCase("/.well-known/core") && !resUri.equalsIgnoreCase("/id"))
@@ -157,6 +179,10 @@ public class DiVi_ADN extends Thread{
 		}
 		
 	}
+	
+	/*
+	 * Configure resources belonging to patient class
+	 */
 	private void getPatientResource(Set<WebLink> res_set, int pat_id, URI uri_mote) {
 		Patient current_pat;
 		
@@ -168,12 +194,12 @@ public class DiVi_ADN extends Thread{
 		if (look_for_patient.isEmpty())
 		{
 			current_pat = new Patient(pat_id);
-			//current_pat.start();
 			patients.add(current_pat);
 		}
 		else
 			current_pat = look_for_patient.get(0);
 
+		// assign the resource to the correct patient
 		for (WebLink link : res_set) {
 			final String resUri = link.getURI();	
 			if (!resUri.equalsIgnoreCase("/.well-known/core") && !resUri.equalsIgnoreCase("/id"))
@@ -183,29 +209,32 @@ public class DiVi_ADN extends Thread{
 	}
 	
 	
+	/*
+	 * The function performs an HTTP/Get to the BR router. Response contains 
+	 * all motes that belongs to its DODAG
+	 */
 	private List<String> getNodeAddress() {
 		
 		HttpClient client = new DefaultHttpClient();
 				
+		// Perform the get
 		HttpUriRequest request = new HttpGet(uri);
-		System.out.println(uri);
 		HttpResponse response = null;
 		try {
 			response = client.execute(request);
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// Extract addresses from the response
 		try {
 			String temp = EntityUtils.toString(response.getEntity());
 			String[] parts = temp.split("</pre>Routes<pre>");			
 			
 			parts = parts[1].split("</pre></body></html>");
 			
-			// divido per righe
 			String[] rows = parts[0].split(Pattern.quote("\n"));
 			for (String row: rows) 
 			{
@@ -213,10 +242,8 @@ public class DiVi_ADN extends Thread{
 				addresses.add("coap://[" + first_part_row[0] + "]:5683");
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -227,10 +254,10 @@ public class DiVi_ADN extends Thread{
 		
 	}
 	
-	public void run() {
-		
-	}
-	
+	/*
+	 * This function manages exception on URI creation 
+	 * (first version of the project, now quite useless)
+	 */
 	static URI createUri(String uri_string) {
 		URI uri_created = null;
 		try {
@@ -242,6 +269,15 @@ public class DiVi_ADN extends Thread{
 		return uri_created;
 	}
 	
+	/*
+	 * STATIC METHODS
+	 * They characterize application behavior as ADN on oM2M service infrastructure. 
+	 */
+	
+	/*
+	 * This function registers the ADN on MN (creation of the AE)
+	 * If the AE is already registered, do nothing
+	 */
 	static void createAE(String cse, String rn){
 if (ProxyClient.oM2M_active) {
 	
@@ -278,6 +314,10 @@ if (ProxyClient.debug)
 		return;
 	}
 	
+	/*
+	 * This function exploit RESTful interface of MN to delete resourcese. 
+	 * (in particular it is used to delete content instance)
+	 */
 	static void delete(String cse){
 		URI uri = createUri(cse);
 		CoapClient client = new CoapClient(uri);
@@ -288,6 +328,12 @@ if (ProxyClient.debug)
 		CoapResponse responseBody = client.advanced(req);
 	}
 	
+	/*
+	 * The function is used to create container.
+	 * 	rn: new container name
+	 * 	cse: ablosute hierarchical position in which I want to create the container.
+	 * If the container already exists, do nothing.
+	 */
 	static void createContainer(String cse, String rn){
 		
 if (ProxyClient.oM2M_active) {
@@ -325,6 +371,13 @@ if (ProxyClient.debug)
 	return;
 	}
 	
+	/*
+	 * The function is used to create a content instance.
+	 * 	cnf: content instance info ('cnf' field)
+	 *  con: content instance content ('con' field)
+	 * 	cse: ablosute hierarchical position in which I want to create the Content instance.
+	 * If the CI already exists, do nothing.
+	 */
 	static void createContentInstance(String cse, String cnf, String con){
 if (ProxyClient.oM2M_active) {
 		
@@ -355,7 +408,11 @@ if (ProxyClient.debug)
 } 			
 	}
 	
-	// AE = 2; CONT = 3
+	/*
+	 * The function return true if cse resource already exist.
+	 * 'type' specify the resource you're looking for
+	 * (remember: AE=2, CONT=4 ...)
+	 */
 	static boolean isAlreadyCreated(String cse, int type) {
 		String st_ae = DiVi_ADN.oM2Mdiscovery(cse + "?fu=1&rty=" + type);
 		if (st_ae == null)
@@ -364,6 +421,11 @@ if (ProxyClient.debug)
 			return true;
 	}
 	
+	/*
+	 * The function perform a COAP/Get on the address specified on cse (it can
+	 * contains query). It results in a oM2M/Discovery iff cse string represent
+	 * a well formed discovery query 
+	 */
 	static String oM2Mdiscovery(String cse) {
 if (ProxyClient.oM2M_active) {
 	
@@ -390,6 +452,14 @@ if (ProxyClient.oM2M_active) {
 	return null;
 	}
 
+	/*
+	 * The function create a subscription. It may generate errors if the 
+	 * subscription already exists. 
+	 * 	nameSub: name of the subscription
+	 *  notificationUrl: self explained
+	 *  cse: absolute path in which the subscription has to be created.
+	 */
+	
 	static void createSubscription(String cse, String notificationUrl, String nameSub){
 if (ProxyClient.oM2M_active) {
 		CoapClient client = new CoapClient(cse);
@@ -407,29 +477,7 @@ if (ProxyClient.oM2M_active) {
 		String body = root.toString();
 		req.setPayload(body);
 		CoapResponse responseBody = client.advanced(req);
-//		String response = new String(responseBody.getPayload());
-//		System.out.println(response);
-		
-		/*JSONObject content = new JSONObject();
-		content.put("rn", "Monitor");
-		content.put("nu", notificationUrl);
-		content.put("nct", 2);
-		JSONObject root = new JSONObject();
-		root.put("m2m:sub", content);
-		String body = root.toString();
-		try {
-			System.out.println(Request.Post(cse)
-					.addHeader("X-M2M-Origin", "admin:admin")
-					.bodyString(body, ContentType.APPLICATION_JSON)
-					.setHeader("Content-Type", "application/json;ty=23")
-					.execute().returnContent().asString());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
 }		
 	}
 

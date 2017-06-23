@@ -8,7 +8,7 @@
 //#include "project-conf.h"
 
 
-#define STARTING_TEMPERATURE 200
+#define STARTING_TEMPERATURE 0
 
 
 // First order variable

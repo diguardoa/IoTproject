@@ -3,7 +3,7 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define STARTING_OXY 800
+#define STARTING_OXY 0
 
 static int current_status= STARTING_OXY;
 static int next_status= STARTING_OXY;

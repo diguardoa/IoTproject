@@ -24,47 +24,39 @@ public class ProxyClient {
 	public static final int treshold_temp_room_high = 500;
 	
 	public static final int oxygen_optimal = 1000;
-	public static final int oxy_min = 0;
-	public static final int oxy_max = 2000;
+	public static final int oxy_min = 800;
+	public static final int oxy_max = 1300;
 	
 	public static final int temp_room_optimal = 200;
-	public static final int temp_room_min = 0;
-	public static final int temp_room_max = 450;
+	public static final int temp_room_min = 180;
+	public static final int temp_room_max = 300;
 	
 	public static final int T_patient = 2000;
 	public static final int T_room = 2000;
 	public static final int T_resource = 500;
 	
 	public static final int Kp_oxy = 1;
-	public static final double Ki_oxy = 0.1;
+	public static final double Ki_oxy = 0.2;
 	public static final int Kp_temp = 1;
-	public static final double Ki_temp = 0.1;
+	public static final double Ki_temp = 0.2;
 	
 
 	public static void main(String[] args) {		
 		
+		// Set Border Router Ipv6 address in constructor
 		DiVi_ADN br = new DiVi_ADN("http://[aaaa::212:7401:1:101]");
 		
-		// faccio la discovery e faccio partire il sistema
+		// Discovery procedure
 		br.discovery();
 		
+		// Start patients and rooms control threads
 		br.start_pat_rooms();
-		
-		/*
-		DiVi_ADN.delete(ProxyClient.MN_address + 
-				"/DiViProject-mn-name/SmartHospitalization/Patients");
-		DiVi_ADN.delete(ProxyClient.MN_address + 
-				"/DiViProject-mn-name/SmartHospitalization/Rooms");
-				*/
-		/*
-		DiVi_ADN.delete(ProxyClient.MN_address + 
-				"/DiViProject-mn-name/SmartHospitalization?rty=3");
-		*/
+	
+		// Infinite cycle
 		while(true) {
         	try {
 				System.in.read();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
