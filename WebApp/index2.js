@@ -70,11 +70,11 @@ class Resource{
 class Patient {
   constructor(id) {
     this.id = id;
-    this.ledA = new Resource("Led", "LedA", "images/led.png", "A", null, null, null);
-    this.temp = new Resource("Temperature", "Temp", "images/temperature.png", "S", null, "°C", null);
-    this.oxyValv = new Resource("Oxygen Valve", "OxyValv", "images/oxyValv.png", "A", null, "%", null);
-    this.oxyS = new Resource("Oxygen Pressure", "OxyS", "images/oxySens.png", "S", 90, "%", null);
-    this.hrs = new Resource("Heart Rate", "HRS", "images/hr.png", "S", 60, "bpm", null);
+    this.ledA = new Resource("Led", "LedA", "images/led.png", "A", 0, null, null);
+    this.temp = new Resource("Temperature", "Temp", "images/temperature.png", "S", 36, "°C", null);
+    this.oxyValv = new Resource("Oxygen Valve", "OxyValv", "images/oxyValv.png", "A", 100, "%", null);
+    this.oxyS = new Resource("Oxygen Pressure", "OxyS", "images/oxySens.png", "S", 100, "%", null);
+    this.hrs = new Resource("Heart Rate", "HRS", "images/hr.png", "S", 80, "bpm", null);
   }
 }
 
@@ -85,9 +85,9 @@ class Patient {
 class Room {
   constructor(id) {
     this.id = id;
-    this.tempR = new Resource("Temperature", "TempR", "images/temperature.png", "S", null, "°C", null);
-    this.airCon = new Resource("Air Conditioner", "AirCon", "images/airconditionar.png", "A", null, "°C", null);
-    this.fireAl = new Resource("Fire Alarm", "FireAl", "images/firealarm.png", "A", null, null, null);
+    this.tempR = new Resource("Temperature", "TempR", "images/temperature.png", "S", 20, "°C", null);
+    this.airCon = new Resource("Air Conditioner", "AirCon", "images/airconditionar.png", "A", 20, "°C", null);
+    this.fireAl = new Resource("Fire Alarm", "FireAl", "images/firealarm.png", "A", 0, null, null);
   }
 }
 
