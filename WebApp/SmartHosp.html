@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/canvasjs.min.js"></script>
-    <script  src="index.js"></script>
+    <script  src="index2.js"></script>
   </head>
 
   <body data-spy="scroll" data-target="#navbar-example" onload="findPatientsRooms()">
@@ -31,7 +31,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#myCarousel">Home <span class="sr-only">(current)</span></a></li>
             <li><a href="#Patient" class = "big-padding" onclick="sendCreateTab('P')">Patient</a></li>
-            <li><a href="#Room" class = "big-padding" onclick="sendCreateTab('R')">Rooms</a></li>
+            <li><a href="#Room" class = "big-padding" onclick="sendCreateTab('R')">Room</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -50,34 +50,36 @@
         <div class="item active" style="background-image: url(images/logo.png)">
           <div class="carousel-caption">
             <h3>Smart Hospitalization</h3>
-            <p>WebApp that allows to monitor the patients and the rooms in the
-            hospital through sensors and actuator</p>
+            <p>The "Smart Hospitalization" web application allows you to observe
+              and monitor the progress of vital patient parameters. It allows you
+              to work on some environmental parameters to improve patient care.
+              To start the application, click on the top left corner on
+              "Smart Hospitalization Connected"</p>
           </div>
         </div>
 
         <div class="item" style="background-image: url(images/Paziente.png)">
           <div class="carousel-caption">
             <h3>Patient</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>For each patient, information about vital parameters such as heart
+              rate, oxygen pressure, and temperature can be displayed. It will
+              be possible to actuate some instrument such as oxygen tank to
+              change the patient's oxygen pressure. An auxiliary led will be
+              used to notify that one of the vital parameters will be out of
+              the safe values. To view the patient's card, click on "Patient"
+              on the top-right menu.</p>
           </div>
         </div>
 
         <div class="item" style="background-image: url(images/Stanza.png)">
           <div class="carousel-caption">
             <h3>Room</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>For each room, you can see information about the parameters such
+              as room temperature and air conditioning level. It will be possible
+              to actuate some instruments as I am conditioning to change the
+              room temperature. An alarm will be used to notify that the
+              temperature will be outside the safety values. To view the room's
+              card, click on "Room" on the top-right menu.</p>
           </div>
         </div>
       </div>

@@ -16,7 +16,10 @@ public class Resource extends Thread {
 	protected String rt;
 	
 	
-	
+	//Class constructor
+	//Create a Containers for each Resource as child of a Room or a Patient according to the parent_container link
+	//Once the container is created a CoapServer is assigned to the resource in order to manage the subscription on the 
+	//corresponding resource on MN
 	public Resource(WebLink link, String parent_container,int id) {
 		this.id = id;
 		
@@ -53,12 +56,6 @@ public class Resource extends Thread {
 		}
 		manager.setMnPath(resource_mn_path);
 		DiVi_ADN_IN.createSubscription(resource_mn_path, "coap://127.0.0.1:"+ WebServer.server_coap_port +"/" + resource_name + "_pat",resource_name + "_monitor");
-
-		
+	
 	}
-	
-	
-
-	
-
 }

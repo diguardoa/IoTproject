@@ -9,9 +9,9 @@ public class Room {
 	private Resource AIRCON;
 	private Resource FIREAL;
 	private Resource TEMPR;
-	private Resource TRS;
 	
-	
+	//Class Contructor
+	//Create a container for each room in IN
 	public Room(int i, WebLink aircon, WebLink fireal, WebLink tempr, String parents_ct){
 		id = i;
 		DiVi_ADN_IN.createContainer(parents_ct, new String("Room" + id));
@@ -42,6 +42,10 @@ public class Room {
 
 		return request;
 	}
+	
+	//Manager for incoming message with id = 9
+	//Set the automatic mode to each resource
+	//Return a message to notify if everything goes well
 	public JSONObject SetAutomaticModeAll() {
 		JSONObject resp = new JSONObject();
 		
@@ -57,6 +61,8 @@ public class Room {
 		return resp;
 	}
 
+	//Manager for incoming message with id = 8
+	//return the actual value of each resource
 	public JSONObject getStatus() {
 		JSONObject resp = new JSONObject();
 		

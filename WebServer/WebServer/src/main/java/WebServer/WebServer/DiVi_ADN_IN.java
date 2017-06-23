@@ -18,6 +18,7 @@ public class DiVi_ADN_IN extends Thread{
 	public Container Patients;
 	public Container Rooms;
 	
+	//Search for Containers in the MN
 	public LinkedList<String> findContainer() {
 		System.out.println("Search for AE");
 		String st_ae = discovery("coap://127.0.0.1:5683/~/DiViProject-mn-cse?fu=1&rty=2");
@@ -30,14 +31,14 @@ public class DiVi_ADN_IN extends Thread{
 		String str_ae = "coap://127.0.0.1:5683/~" + st_ae + "?fu=1&rty=3";
 		String str_cont = discovery(str_ae);
 		String[] containers = str_cont.split(" /");
-		//for(String s: containers)
-				//System.out.println(s);
+		
 		LinkedList<String> ll = new LinkedList<String>(Arrays.asList(containers));
 		ll.addFirst(st_ae);
 		
 		return ll;
 	}
 	
+	//Search in the GET response on the MN if there is a str that represents a Client o a Room
 	public LinkedList<String> findPatientRoom(LinkedList<String> ll, String str){
 		LinkedList<String> container = new LinkedList<String>();
 		for(String s: ll){
@@ -56,11 +57,8 @@ public class DiVi_ADN_IN extends Thread{
 		req.getOptions().setContentFormat(MediaTypeRegistry.APPLICATION_JSON);
 		req.getOptions().setAccept(MediaTypeRegistry.APPLICATION_JSON);
 		CoapResponse responseBody = client.advanced(req);
-		//System.out.println(responseBody.getResponseText());
 
-		//client.setTimeout(0);
 		String response = new String(responseBody.getPayload());
-		//System.out.println(response);
 		JSONObject content = new JSONObject(response);
 		String path = content.getString("m2m:uril");
 		return path;

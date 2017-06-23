@@ -41,16 +41,14 @@ public class ValueManager {
 	
 	public synchronized void addValue(JSONObject value) {
 		values_db.put(value);
-		
-		// prova
-		// SetValue(0);
 	}
 	
 	public synchronized void printValues() {
 		System.out.println(values_db);
 	}
 	
-	
+	//Manager for the incoming message with id = 3
+	//Return a message with all the value collected until the request
 	public synchronized JSONObject getAllValues() {
 		JSONObject resp = new JSONObject();
 		
@@ -64,6 +62,9 @@ public class ValueManager {
 		return resp;
 	}
 	
+	//Manager for the incoming message with id = 4
+	//Delete the data collection of the resource
+	//Return a message to notify if a delete operation goes well
 	public synchronized JSONObject deleteValues() {
 		JSONObject resp = new JSONObject();
 
@@ -87,6 +88,9 @@ public class ValueManager {
 		return resp;
 	}
 	
+	//Manager for the incoming message with id = 5
+	//Create a new contentInstance on th IN
+	//Return a message to notify the correct setting of a value
 	public synchronized JSONObject setValue(int val) {
 		JSONObject resp = new JSONObject();
 		
@@ -102,6 +106,9 @@ public class ValueManager {
 		return resp;
 	}
 	
+	//Manager for the incoming message with id = 6
+	//Set the automatic mode to the resource
+	//Return a message to notify the correct setting of the automatic mode
 	public synchronized JSONObject setAutomaticMode() {
 		JSONObject resp = new JSONObject();
 		
@@ -117,10 +124,13 @@ public class ValueManager {
 		return resp;
 	}
 	
+	//Get the last value of the resource
 	public synchronized JSONObject simpleGetLastValue() {
 		return (JSONObject) values_db.get(values_db.length()-1);
 	}
 	
+	//Manager for the incoming message with id = 7
+	//Return a message with the last value of the desired resource
 	public synchronized JSONObject getLastValue() {
 		JSONObject resp = new JSONObject();
 		
