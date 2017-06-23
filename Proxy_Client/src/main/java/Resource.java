@@ -155,6 +155,10 @@ if (ProxyClient.debug)
 		return current_value;
 	}
 	
+	public boolean isAutomaticMode() {
+		return automatic_mode;
+	}
+	
 	public void cancel(){
 		relation.proactiveCancel();
 	}

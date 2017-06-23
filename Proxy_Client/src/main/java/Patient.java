@@ -87,7 +87,10 @@ public class Patient extends Thread {
 				int t_temp = Temp.getValue();
 if (ProxyClient.debug)
 	System.out.println("thread patient " + seqNumber);
-				// look for errors
+
+	// Worxk Only in Automatic mode
+	if (OxyS.isAutomaticMode())
+	{
 				if ((t_HRS < ProxyClient.treshold_HRS_low) || (t_HRS > ProxyClient.treshold_HRS_low) ||
 						(t_OxyS < ProxyClient.treshold_OxyS_low) || (t_OxyS > ProxyClient.treshold_OxyS_high) ||
 						(t_temp < ProxyClient.treshold_temp_pat_low) || (t_temp > ProxyClient.treshold_temp_pat_high))
@@ -110,6 +113,7 @@ if (ProxyClient.debug)
 				OxyValve.setValue(u);
 				
 			}
+	}
 			
 			try {
 				currentThread();

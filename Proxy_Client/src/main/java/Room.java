@@ -73,6 +73,8 @@ if (ProxyClient.debug)
 if (ProxyClient.debug)	
 	System.out.println("thread started " + seqNumber);
 				
+	if (TempR.isAutomaticMode())
+	{
 				// Adjust Temperature (PI)
 				e_Temp = ProxyClient.temp_room_optimal - t_temp;
 				e_Temp_int += e_Temp;
@@ -102,7 +104,7 @@ if (ProxyClient.debug)
 					DiVi_ADN.general_alarm.reset(seqNumber);
 				}
 			}
-			
+	}	
 			if (DiVi_ADN.general_alarm.getStatus())
 				FireAl.setValue(1);
 			

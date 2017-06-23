@@ -13,12 +13,12 @@ public class ProxyClient {
 	
 	public static final String MN_address = "coap://127.0.0.1:5684/~/DiViProject-mn-cse";
 	
-	public static final int treshold_HRS_low = 60;
-	public static final int treshold_HRS_high = 100;
+	public static final int treshold_HRS_low = 600;
+	public static final int treshold_HRS_high = 1000;
 	public static final int treshold_OxyS_low = 800;
 	public static final int treshold_OxyS_high = 1200;
-	public static final int treshold_temp_pat_low = 35;
-	public static final int treshold_temp_pat_high = 39;
+	public static final int treshold_temp_pat_low = 340;
+	public static final int treshold_temp_pat_high = 390;
 	
 	public static final int treshold_temp_room_low = 100;
 	public static final int treshold_temp_room_high = 500;
