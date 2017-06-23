@@ -9,6 +9,7 @@ var N_RES_PAT = 5;
 var N_RES_ROOM = 3;
 
 var chart;
+var ledON = false;
 
 /*
 * I pazienti e le stanze presenti nell'ospedale vengono memorizzati
@@ -217,11 +218,11 @@ ws.onmessage = function (evt) {
       break;
     }
     case 5:{ //todo
-      alert("Message: " + evt.data);
+      //alert("Message: " + evt.data);
       break;
     }
     case 6:{ //todo
-      alert("Message: " + evt.data);
+      //alert("Message: " + evt.data);
       break;
     }
     case 7:{ //todo
@@ -269,6 +270,9 @@ ws.onmessage = function (evt) {
             patArray[i].oxyValv.setValue(resp.OxyValv.e, resp.OxyValv.t);
             patArray[i].oxyS.setValue(resp.OxyS.e, resp.OxyS.t);
             patArray[i].ledA.setValue(resp.LedA.e, resp.LedA.t);
+            if(ledA.value != 0)
+              ledON = true;
+            else ledON = false;
             document.getElementById("Patient").style.display="block";
             updateTab(i,resp.type);
           }
@@ -292,7 +296,7 @@ ws.onmessage = function (evt) {
 
 ws.onclose = function() {
   var el = document.getElementById("title");
-  el.innerHTML += " Disconnected";
+  el.innerHTML = "Disconnected";
 };
 
 ws.onerror = function(err) {
@@ -435,8 +439,24 @@ function updateTab(index, type){
     document.getElementById("h3"+patArray[index].hrs.name+patArray[index].id).innerHTML = patArray[index].hrs.value + " " + patArray[index].hrs.unity;
     document.getElementById("h3"+patArray[index].oxyS.name+patArray[index].id).innerHTML = patArray[index].oxyS.value + " " + patArray[index].oxyS.unity;
     document.getElementById("h3"+patArray[index].temp.name+patArray[index].id).innerHTML = patArray[index].temp.value + " " + patArray[index].temp.unity;
-    document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = patArray[index].ledA.value;
     document.getElementById("h3"+patArray[index].oxyValv.name+patArray[index].id).innerHTML = patArray[index].oxyValv.value + " " + patArray[index].oxyValv.unity;
+    if(ledON){
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = "On";
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.color = "#ff0000";
+      for(var i = 0; i < 4; i++){
+        setTimeout(function(){
+          if(document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.display == "block")
+            document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.display = "none";
+          else {
+            document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.display = "block";
+          }
+        }, 250);
+      }
+    }
+    else{
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = "Off";
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.color = "#000000";
+    }
     setTimeout(function() {
       var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + patArray[index].id + ", 'res_name':'all'}";
       ws.send(last_value);
