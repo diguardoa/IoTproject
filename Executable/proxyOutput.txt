@@ -1,27 +1,32 @@
 http://[aaaa::212:7401:1:101]
-coap://[aaaa::212:7419:19:1919]:5683
-coap://[aaaa::212:7417:17:1717]:5683
-coap://[aaaa::212:740c:c:c0c]:5683
-coap://[aaaa::212:740d:d:d0d]:5683
-coap://[aaaa::212:740e:e:e0e]:5683
-coap://[aaaa::212:7415:15:1515]:5683
-coap://[aaaa::212:740f:f:f0f]:5683
-coap://[aaaa::212:7410:10:1010]:5683
+coap://[aaaa::212:7409:9:909]:5683
+coap://[aaaa::212:7411:11:1111]:5683
 coap://[aaaa::212:7403:3:303]:5683
 coap://[aaaa::212:7407:7:707]:5683
+coap://[aaaa::212:740d:d:d0d]:5683
+coap://[aaaa::212:740c:c:c0c]:5683
+coap://[aaaa::212:7415:15:1515]:5683
+coap://[aaaa::212:740e:e:e0e]:5683
 coap://[aaaa::212:7412:12:1212]:5683
-coap://[aaaa::212:7405:5:505]:5683
-coap://[aaaa::212:7418:18:1818]:5683
-coap://[aaaa::212:740a:a:a0a]:5683
-coap://[aaaa::212:7409:9:909]:5683
+coap://[aaaa::212:740f:f:f0f]:5683
+coap://[aaaa::212:7410:10:1010]:5683
+coap://[aaaa::212:7417:17:1717]:5683
 coap://[aaaa::212:7416:16:1616]:5683
 coap://[aaaa::212:7414:14:1414]:5683
 coap://[aaaa::212:7413:13:1313]:5683
-coap://[aaaa::212:7411:11:1111]:5683
+coap://[aaaa::212:740a:a:a0a]:5683
+coap://[aaaa::212:7405:5:505]:5683
+coap://[aaaa::212:7419:19:1919]:5683
+coap://[aaaa::212:7418:18:1818]:5683
+/LedAlarm
 created
 the resource is observable
 created
 the resource is observable
+/temp
+created
+the resource is observable
+/oxygen
 created
 the resource is observable
 created
@@ -33,26 +38,13 @@ created
 the resource is observable
 created
 the resource is observable
-created
-the resource is observable
 /temp
 created
 the resource is observable
-/oxygen
-created
-the resource is observable
-/temp
-created
-the resource is observable
-/heart_rate
 created
 the resource is observable
 created
 the resource is observable
-/OxigenValve
-created
-the resource is observable
-/LedAlarm
 created
 the resource is observable
 /OxigenValve
@@ -64,24 +56,32 @@ the resource is observable
 /heart_rate
 created
 the resource is observable
+/OxigenValve
 created
 the resource is observable
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/HRS
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/LedA
+/heart_rate
+created
+the resource is observable
+created
+the resource is observable
+created
+the resource is observable
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/OxyValv
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room1/AirCon
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/LedA
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room1/FireAl
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/OxyValv
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/HRS
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/Temp
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room3/FireAl
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/OxyS
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient1/OxyS
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room3/TempR
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/HRS
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/Temp
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/OxyValv
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room1/TempR
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room2/FireAl
-observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room2/TempR
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/OxyS
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/LedA
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/HRS
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room2/AirCon
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Patients/Patient2/Temp
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room2/FireAl
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room1/AirCon
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room3/FireAl
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room1/FireAl
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room3/TempR
+observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room2/TempR
 observing coap://127.0.0.1:5684/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization/Rooms/Room3/AirCon

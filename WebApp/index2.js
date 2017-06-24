@@ -13,9 +13,22 @@ var chart;
 var fireON = new Array();
 
 var sendp1;
-var sendp2;
+
 var sendr1;
-var sendr2;
+
+var step = 0;
+var step2 = 0;
+
+var errorCode = 0;
+var errorId = 0;
+
+var resetName;
+var resetId;
+var resetType;
+var resetStep = 0;
+
+var functionStep;
+
 
 /*
 * I pazienti e le stanze presenti nell'ospedale vengono memorizzati
@@ -225,6 +238,12 @@ ws.onmessage = function (evt) {
     }
     case 5:{ //nothing todo
       //alert("Message: " + evt.data);
+      if(functionStep == "error1" || functionStep == "error2"){
+        error(errorCode, errorId);
+      }
+      if(functionStep == "sendSetValue"){
+        sendSetValue(resetType, resetId, resetName);
+      }
       break;
     }
     case 6:{ //nothing todo
@@ -324,9 +343,9 @@ function sendAutomaticMode(type, id){
   var auto = "{'id':9, 'type':'"+ type +"', 'id_ent':" + id + ", 'res_name':'all'}";
   ws.send(auto);
 
-  setTimeout(function(){
-    ;
-  }, 100);
+  //setTimeout(function(){
+    //;
+  //}, 100);
 };
 
 /*
@@ -341,17 +360,19 @@ function sendCreateTab(type){
       for(var i = 0; i < P_NUM; i++){
         var last_value = "{'id':8, 'type':'p', 'id_ent':" + patArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
-        setTimeout(function() {
-          ;
-        }, 300);
+        //setTimeout(function(){
+          //ws.send(last_value);
+          //;
+        //}, 1000);
       }
   } else{
       for(var i = 0; i < R_NUM; i++){
         var last_value = "{'id':8, 'type':'r', 'id_ent':" + roomArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
-        setTimeout(function() {
-          ;
-        }, 300);
+        //setTimeout(function() {
+          //ws.send(last_value);
+          //;
+        //}, 1000);
       }
   }
 };
@@ -431,40 +452,80 @@ function sendSetValue(type, id, name){
     }
 
     if(name == "LedA"){
-      var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':0}";
-      ws.send(setValue);
-      setTimeout(function() {
-        setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'HRS', 'value':800}";
+      functionStep = "sendSetValue";
+      resetName = "LedA";
+      resetId = id;
+      resetType = type;
+      if(resetStep == 0){
+        var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'Temp', 'value':360}";
+        resetStep++;
         ws.send(setValue);
-        setTimeout(function() {
-          setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'Temp', 'value':360}";
-          ws.send(setValue);
-        }, 20);
-      }, 100);
+        //setTimeout(function(){
+          //ws.send(setValue);
+        //}, 100);
+      }
+      if(resetStep == 1){
+        var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'HRS', 'value':800}";
+        resetStep++;
+        ws.send(setValue);
+        //setTimeout(function(){
+          //ws.send(setValue);
+        //}, 100);
+      }
+      if(resetStep == 2){
+        var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':0}";
+        resetStep = 0;
+        functionStep = "";
+        ws.send(setValue);
+        //setTimeout(function(){
+          //ws.send(setValue);
+        //}, 100);
+      }
     }
 };
 
 function error(error, id){
+  errorCode = error;
+  errorId = id;
   if(error == 1){
-    var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'Temp', 'value':420}";
-    ws.send(setValue);
-    setTimeout(function() {
-      setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+    functionStep = "error1";
+    if(step == 0){
+      var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'Temp', 'value':420}";
+      step++;
       ws.send(setValue);
-      setTimeout(function() {
+      setTimeout(function(){
         ;
-      }, 50);
-    }, 100);
-  } else if(error == 2){
-      var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'HRS', 'value':1180}";
+      }, 100)
+    }
+    if(step == 1){
+      var setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+      step = 0;
+      functionStep = "";
       ws.send(setValue);
-      setTimeout(function() {
-        setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+      //setTimeout(function(){
+        //;
+      //}, 100)
+    }
+
+  } else if(error == 2){
+    functionStep = "error2";
+      if(step2 == 0){
+        var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'HRS', 'value':1180}";
+        step2++;
         ws.send(setValue);
-        setTimeout(function() {
+        setTimeout(function(){
           ;
-        }, 50);
-      }, 100);
+        }, 100)
+      }
+      if(step2 == 1){
+        var setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+        step2=0;
+        functionStep = "";
+        ws.send(setValue);
+        //setTimeout(function(){
+          //;
+        //}, 100)
+      }
   }
 }
 
@@ -487,6 +548,7 @@ function containsONEs(array){
 function updateTab(index, type){
   if(type == "p"){
     clearInterval(sendr1);
+    //clearInterval(sendp1);
     sendp1 = setInterval(function(){
       document.getElementById("h3"+patArray[index].hrs.name+patArray[index].id).innerHTML = patArray[index].hrs.value + " " + patArray[index].hrs.unity;
       document.getElementById("h3"+patArray[index].oxyS.name+patArray[index].id).innerHTML = patArray[index].oxyS.value + " " + patArray[index].oxyS.unity;
@@ -503,13 +565,10 @@ function updateTab(index, type){
 
       var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + patArray[index].id + ", 'res_name':'all'}";
       ws.send(last_value);
-    }, 500+(500*P_NUM));
-
-    /*setTimeout(function() {
-      ;
-    }, 1000+(500*P_NUM-1));*/
+    }, (2000*P_NUM));
   } else {
     clearInterval(sendp1);
+    //clearInterval(sendr1);
     sendr1 = setInterval(function(){
       document.getElementById("h3"+roomArray[index].tempR.name+roomArray[index].id).innerHTML = roomArray[index].tempR.value + " " + roomArray[index].tempR.unity;
       document.getElementById("h3"+roomArray[index].airCon.name+roomArray[index].id).innerHTML = roomArray[index].airCon.value + " " + roomArray[index].airCon.unity;
@@ -526,10 +585,7 @@ function updateTab(index, type){
 
       var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + roomArray[index].id + ", 'res_name':'all'}";
       ws.send(last_value);
-    }, 500+(500*R_NUM));
-    /*setTimeout(function() {
-      ;
-    }, 1000+(500*R_NUM-1));*/
+    }, (2000*R_NUM));
   }
 };
 
@@ -803,6 +859,7 @@ function createTab(type){
         a.setAttribute("role", "tab");
         a.setAttribute("data-toggle", "tab");
         a.innerHTML = "Patient " + id;
+        //a.onclick = function(){buildInterface(i, id, "P")};
 
         if(i == 0){
           li.setAttribute("class", "active");
