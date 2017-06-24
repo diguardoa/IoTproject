@@ -12,7 +12,8 @@ public class Patient {
 	private Resource TEMP;
 	private Resource OXYS;
 	
-	
+	//Class Contructor
+	//Create a container for each Patient on the IN 
 	public Patient(int i, WebLink hrs, WebLink la, WebLink oxyvalv, WebLink temp, WebLink oxys, String parents_ct){
 		id = i;
 		DiVi_ADN_IN.createContainer(parents_ct, new String("Patient" + id));
@@ -55,6 +56,8 @@ public class Patient {
 		return request;
 	}
 
+	//Manager for incoming message with id = 9
+	//Set the automatic mode to each resource
 	public JSONObject SetAutomaticModeAll() {
 		JSONObject resp = new JSONObject();
 		
@@ -71,6 +74,8 @@ public class Patient {
 		return resp;
 	}
 	
+	//Manager for incoming message with id = 8
+	//return the actual value of each resource
 	public JSONObject getStatus() {
 		JSONObject resp = new JSONObject();
 		

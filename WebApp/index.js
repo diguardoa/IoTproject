@@ -10,6 +10,13 @@ var N_RES_ROOM = 3;
 
 var chart;
 
+var fireON = new Array();
+
+var sendp1;
+var sendp2;
+var sendr1;
+var sendr2;
+
 /*
 * I pazienti e le stanze presenti nell'ospedale vengono memorizzati
 * dinamicamente in due array separati dopo aver inviato una richiesta al Web
@@ -29,12 +36,11 @@ class Resource{
     this.unity = unity;
     this.time = time;
     this.history = [];
+    this.ledON = 0;
   }
 
   setValue(value, time){
-    //alert("Old Value: " + this.value);
     this.value = value/10;
-    //alert("New Value: " + this.value);
     this.time = time;
   }
 
@@ -46,7 +52,6 @@ class Resource{
       var s = parseInt(payload[loc].t.slice(4,6));
       var time = (h*3600 + m*60 +s)*1000;
       time = new Date(time);
-      //hist.push({x: parseInt(payload[loc].t), y: parseInt(payload[loc].e)});
       hist.push({x: time, y: parseInt(payload[loc].e)/10});
     }
     this.history = hist;
@@ -119,6 +124,7 @@ ws.onmessage = function (evt) {
     case 2:{ //DONE
       for (var loc in resp.payload){
         roomArray[R_NUM] = new Room(resp.payload[loc].e);
+        fireON[R_NUM] = 0;
         R_NUM++;
       }
       createTab("r");
@@ -216,12 +222,12 @@ ws.onmessage = function (evt) {
       }
       break;
     }
-    case 5:{ //todo
-      alert("Message: " + evt.data);
+    case 5:{ //nothing todo
+      //alert("Message: " + evt.data);
       break;
     }
-    case 6:{ //todo
-      alert("Message: " + evt.data);
+    case 6:{ //nothing todo
+      //alert("Message: " + evt.data);
       break;
     }
     case 7:{ //todo
@@ -269,7 +275,11 @@ ws.onmessage = function (evt) {
             patArray[i].oxyValv.setValue(resp.OxyValv.e, resp.OxyValv.t);
             patArray[i].oxyS.setValue(resp.OxyS.e, resp.OxyS.t);
             patArray[i].ledA.setValue(resp.LedA.e, resp.LedA.t);
+            if(patArray[i].ledA.value != 0)
+              patArray[i].ledON = 1;
+            else patArray[i].ledON = 0;
             document.getElementById("Patient").style.display="block";
+            //document.getElementById("Room").style.display = "none";
             updateTab(i,resp.type);
           }
         }
@@ -279,7 +289,12 @@ ws.onmessage = function (evt) {
             roomArray[i].fireAl.setValue(resp.FireAl.e, resp.FireAl.t);
             roomArray[i].tempR.setValue(resp.TempR.e, resp.TempR.t);
             roomArray[i].airCon.setValue(resp.AirCon.e, resp.AirCon.t);
+            if(roomArray[i].fireAl.value != 0)
+              fireON[i] = 1;
+            else
+              fireON[i] = 0;
             document.getElementById("Room").style.display="block";
+            //document.getElementById("Patient").style.display = "none";
             updateTab(i, resp.type);
           }
         }
@@ -292,7 +307,7 @@ ws.onmessage = function (evt) {
 
 ws.onclose = function() {
   var el = document.getElementById("title");
-  el.innerHTML += " Disconnected";
+  el.innerHTML = "Disconnected";
 };
 
 ws.onerror = function(err) {
@@ -322,19 +337,21 @@ function sendAutomaticMode(type, id){
 */
 function sendCreateTab(type){
   if(type == "P"){
-    setTimeout(function() {
       for(var i = 0; i < P_NUM; i++){
         var last_value = "{'id':8, 'type':'p', 'id_ent':" + patArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
+        setTimeout(function() {
+          ;
+        }, 300);
       }
-    }, 100);
   } else{
-    setTimeout(function() {
       for(var i = 0; i < R_NUM; i++){
         var last_value = "{'id':8, 'type':'r', 'id_ent':" + roomArray[i].id + ", 'res_name':'all'}";
         ws.send(last_value);
+        setTimeout(function() {
+          ;
+        }, 300);
       }
-    }, 100);
   }
 };
 
@@ -384,7 +401,7 @@ function sendDeleteHistory(type, id, name){
 */
 function sendSetValue(type, id, name){
     if(name == "AirCon"){
-      var value = document.getElementById("NewValueAirCon").value*10;
+      var value = document.getElementById("NewValueAirCon"+id).value*10;
       var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
       ws.send(setValue);
       setTimeout(function() {
@@ -394,7 +411,7 @@ function sendSetValue(type, id, name){
     }
 
     if(name == "OxyValv"){
-      var value = document.getElementById("NewValueOxyValv").value*10;
+      var value = document.getElementById("NewValueOxyValv"+id).value*10;
       var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':" + value + "}";
       ws.send(setValue);
       setTimeout(function() {
@@ -405,10 +422,11 @@ function sendSetValue(type, id, name){
 
     if(name == "FireAl"){
       var setValue = "{'id':5, 'type':'" + type.toLowerCase() + "', 'id_ent':" + id + ", 'res_name':'" + name + "', 'value':0}";
+      fireON[id] = 0;
       ws.send(setValue);
       setTimeout(function() {
         ;
-      }, 100);
+      }, 300);
     }
 
     if(name == "LedA"){
@@ -425,6 +443,41 @@ function sendSetValue(type, id, name){
     }
 };
 
+function error(error, id){
+  if(error == 1){
+    var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'Temp', 'value':420}";
+    ws.send(setValue);
+    setTimeout(function() {
+      setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+      ws.send(setValue);
+      setTimeout(function() {
+        ;
+      }, 50);
+    }, 100);
+  } else if(error == 2){
+      var setValue = "{'id':5, 'type':'p', 'id_ent':" + id + ", 'res_name':'HRS', 'value':1180}";
+      ws.send(setValue);
+      setTimeout(function() {
+        setValue = "{'id':9, 'type':'p', 'id_ent':" + id + ", 'res_name':'all'}";
+        ws.send(setValue);
+        setTimeout(function() {
+          ;
+        }, 50);
+      }, 100);
+  }
+}
+
+function containsONEs(array){
+  var found = 0;
+  for(var i = 0; i < R_NUM; i++)
+    if(fireON[i] == 1)
+      found++;
+  if(found > 0)
+    return found;
+  else
+    return 0;
+}
+
 /*
 * Funzione invocata dopo aver ricevuto un messaggio di riposta al messaggio con
 * id = 8. Serve per aggiornare i valori visualizzati per ogni risorsa sia nel
@@ -435,20 +488,40 @@ function updateTab(index, type){
     document.getElementById("h3"+patArray[index].hrs.name+patArray[index].id).innerHTML = patArray[index].hrs.value + " " + patArray[index].hrs.unity;
     document.getElementById("h3"+patArray[index].oxyS.name+patArray[index].id).innerHTML = patArray[index].oxyS.value + " " + patArray[index].oxyS.unity;
     document.getElementById("h3"+patArray[index].temp.name+patArray[index].id).innerHTML = patArray[index].temp.value + " " + patArray[index].temp.unity;
-    document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = patArray[index].ledA.value;
     document.getElementById("h3"+patArray[index].oxyValv.name+patArray[index].id).innerHTML = patArray[index].oxyValv.value + " " + patArray[index].oxyValv.unity;
+    if(patArray[index].ledON == 1){
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = "On";
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.color = "#ff0000";
+    }
+    else{
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).innerHTML = "Off";
+      document.getElementById("h3"+patArray[index].ledA.name+patArray[index].id).style.color = "#000000";
+    }
+
+    var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + patArray[index].id + ", 'res_name':'all'}";
+    ws.send(last_value);
     setTimeout(function() {
-      var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + patArray[index].id + ", 'res_name':'all'}";
-      ws.send(last_value);
-    }, 1000);
+      ;
+    }, 1000+(500*P_NUM-1));
   } else {
     document.getElementById("h3"+roomArray[index].tempR.name+roomArray[index].id).innerHTML = roomArray[index].tempR.value + " " + roomArray[index].tempR.unity;
     document.getElementById("h3"+roomArray[index].airCon.name+roomArray[index].id).innerHTML = roomArray[index].airCon.value + " " + roomArray[index].airCon.unity;
-    document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = roomArray[index].fireAl.value;
+    //document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = roomArray[index].fireAl.value;
+    //if(containsONEs(fireON) == R_NUM)
+      //document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).style.color = "#ff0000";
+    //else
+      //document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).style.color = "#000000";
+
+    if(document.getElementById("h3"+roomArray[index].fireAl.value == 0.1))
+      document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = "On";
+    else
+      document.getElementById("h3"+roomArray[index].fireAl.name+roomArray[index].id).innerHTML = "Off";
+
+    var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + roomArray[index].id + ", 'res_name':'all'}";
+    ws.send(last_value);
     setTimeout(function() {
-      var last_value = "{'id':8, 'type':'"+type+"', 'id_ent':" + roomArray[index].id + ", 'res_name':'all'}";
-      ws.send(last_value);
-    }, 1000);
+      ;
+    }, 1000+(500*R_NUM-1));
   }
 };
 
@@ -520,12 +593,12 @@ function createResourceIcon(stringId, index, id, resource, type, el, row) {
     var dform = document.createElement("div");
     dform.setAttribute("class", "form-group");
     var label = document.createElement("label");
-    label.setAttribute("for", "NewValue"+resource.name);
+    label.setAttribute("for", "NewValue"+resource.name+id);
     label.innerHTML = "Insert the new value";
 
     var input = document.createElement("input");
     input.setAttribute("class", "form-control");
-    input.setAttribute("id", "NewValue"+resource.name);
+    input.setAttribute("id", "NewValue"+resource.name+id);
     input.setAttribute("placeholder", "Insert a value");
 
     var p = document.createElement("p");
@@ -585,7 +658,7 @@ function createIconSimulation(type, id, el, row){
   button = document.createElement("button");
   button.setAttribute("type", "button");
   button.setAttribute("class", "btn btn-primary");
-  button.onclick = function(){error(1);};
+  button.onclick = function(){error(1, id);};
 
   button.innerHTML = "Generate Error 1";
   p.appendChild(button);
@@ -595,7 +668,7 @@ function createIconSimulation(type, id, el, row){
   button = document.createElement("button");
   button.setAttribute("type", "button");
   button.setAttribute("class", "btn btn-primary");
-  button.onclick = function(){error(2);};
+  button.onclick = function(){error(2, id);};
 
   button.innerHTML = "Generate Error 2";
   p1.appendChild(button);

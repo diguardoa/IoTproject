@@ -23,7 +23,8 @@ public class WebServer {
 
 	public static LinkedList<Patient> patients;
 	public static LinkedList<Room> rooms;
-		
+	
+	//SERVER COAP PORT - INITIAL VALUE
 	public static int server_coap_port = 5800;
 	
 	private static LinkedList<Room> createRoom(LinkedList<String> room_container){
@@ -109,6 +110,7 @@ public class WebServer {
 				if(s.endsWith("/Patient"+ id + "/OxyS")) oxys = link;
 			}
 			
+			//Creation of new Patient, if the patient is not in the Patient list is added
 			Patient p = new Patient(id, hrs, la, oxyval, temp, oxys, parents_ct);
 			if(!pt_list.contains(p))
 				pt_list.add(p);
@@ -117,6 +119,7 @@ public class WebServer {
 		return pt_list;
 	}
 	
+	//Manager for incoming message with id = 1
 	static JSONObject whatPatients() {
 		JSONObject resp = new JSONObject();
 		JSONArray payload_array = new JSONArray();
@@ -135,6 +138,7 @@ public class WebServer {
 		return resp;
 	}
 	
+	//Manager for incoming with id = 2
 	static JSONObject whatRooms() {
 		JSONObject resp = new JSONObject();
 		JSONArray payload_array = new JSONArray();
@@ -153,6 +157,7 @@ public class WebServer {
 		return resp;
 	}
 	
+	//Get the patient with id equals the "id" within the incoming message
 	static Patient getPatient(int id) {
 		List<Patient> look_for_patient = patients.stream()
 				.filter(a -> Objects.equals(a.id, id))
@@ -161,6 +166,7 @@ public class WebServer {
 		return look_for_patient.get(0);
 	}
 	
+	//Get the room with id equals the "id" within the incoming message
 	static Room getRoom(int id) {
 		List<Room> look_for_room = rooms.stream()
 				.filter(a -> Objects.equals(a.id, id))
@@ -169,21 +175,20 @@ public class WebServer {
 		return look_for_room.get(0);
 	}
 	
+	//Create an ADN with AE SmartHospitalization
+	//Populate the AE with the value obtained by the get on the MN
+	//Open a webSocketPort to talk with the WebApp
 	public static void main(String[] args) throws Exception {
 		
-
-
 		System.out.println("Start Web Server!");
 		
 		DiVi_ADN_IN adn = new DiVi_ADN_IN();
+		//Search for containers and parse the string obtained as response
 		LinkedList<String> containers = adn.findContainer();
 		String string_ae = containers.getFirst().substring(1);
 		containers.removeFirst();
 		containers.set(0, containers.getFirst().substring(1));
 		LinkedList<String> pat_container = adn.findPatientRoom(containers, string_ae +"/Patients");
-		
-		//for(String s: pat_container)
-			//System.out.println(s);
 		
 		if(!pat_container.isEmpty())
 			DiVi_ADN_IN.createContainer("coap://127.0.0.1:5683/~/DiViProject-in-cse/DiViProject-in-name/SmartHospitalization", 
