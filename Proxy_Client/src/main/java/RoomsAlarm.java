@@ -1,7 +1,11 @@
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/*
+ * This class manages the centralized fire alarm 
+ * (it is sufficient that one room recognize the problem that all
+ * fire alarms are set.)
+ */
 public class RoomsAlarm {
 	
 	private Set<Integer> rooms_on_fire;

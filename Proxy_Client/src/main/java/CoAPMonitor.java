@@ -12,6 +12,10 @@ import org.eclipse.californium.core.network.EndpointManager;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+/*
+ * This class create and manage a monitor that waits for oM2M notifications
+ */
+
 public class CoAPMonitor extends CoapServer
 {
   private int coap_port;
@@ -19,6 +23,7 @@ public class CoAPMonitor extends CoapServer
   protected String contentStr;
   protected boolean working;
   
+  // Needed to extends CoapServer
   void addEndpoints()
   {
     for (InetAddress addr : EndpointManager.getEndpointManager().getNetworkInterfaces()) {
@@ -30,6 +35,9 @@ public class CoAPMonitor extends CoapServer
     }
   }
   
+  /*
+   * The constructor create a Server with resource 'rn' on local address on port 'port'
+   */
   public CoAPMonitor(String rn, int port) throws SocketException
   {
 	  coap_port = port;
@@ -46,6 +54,10 @@ public class CoAPMonitor extends CoapServer
   protected synchronized void setContentStr(String str) {
 	  contentStr = str;
   }
+  
+  /*
+   * create a new server CoAP resource
+   */
   class Monitor extends CoapResource
   {
     public Monitor(String rn)
@@ -58,7 +70,6 @@ public class CoAPMonitor extends CoapServer
     public void handlePOST(CoapExchange exchange)
     {
     	exchange.respond(ResponseCode.CREATED);
-    	//byte[] content = exchange.getRequestText();
     	if (working)
     		setContentStr(exchange.getRequestText());
     	working = true;

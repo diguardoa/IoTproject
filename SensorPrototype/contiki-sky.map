@@ -2189,60 +2189,60 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a
  *fill*         0x0000f627        0x1 00
                 0x0000f628                _etext = .
 
-.data           0x00001100      0x140 load address 0x0000f628
+.data           0x00001100      0x13c load address 0x0000f628
                 0x00001100                . = ALIGN (0x2)
                 0x00001100                PROVIDE (__data_start, .)
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x00001100       0x4c sens-temp.co
+ .data          0x00001100       0x48 sens-temp.co
                 0x00001100                temperature_process
                 0x0000110a                Id
                 0x0000111c                temp_sens
                 0x0000112e                periodic_temp_sens
- .data          0x0000114c        0xa contiki-sky.a(er-coap-engine.)
-                0x0000114c                coap_engine
- .data          0x00001156        0x8 contiki-sky.a(er-coap-transac)
- .data          0x0000115e        0x8 contiki-sky.a(er-coap-observe)
- .data          0x00001166       0x12 contiki-sky.a(er-coap-res-wel)
-                0x00001166                res_well_known_core
- .data          0x00001178        0xa contiki-sky.a(rest-engine.o)
-                0x00001178                rest_engine_process
- .data          0x00001182        0x4 contiki-sky.a(contiki-sky-pla)
-                0x00001182                sensors
- .data          0x00001186        0xa contiki-sky.a(sensors.o)
-                0x00001186                sensors_process
- .data          0x00001190        0xa contiki-sky.a(cc2420.o)
-                0x00001190                cc2420_process
- .data          0x0000119a        0x2 contiki-sky.a(msp430.o)
- .data          0x0000119c        0xa contiki-sky.a(ctimer.o)
-                0x0000119c                ctimer_process
- .data          0x000011a6        0xa contiki-sky.a(etimer.o)
-                0x000011a6                etimer_process
- .data          0x000011b0        0xa contiki-sky.a(uip-ds6-nbr.o)
-                0x000011b0                ds6_neighbors
- .data          0x000011ba       0x20 contiki-sky.a(uip-ds6-route.o)
- .data          0x000011da        0xc contiki-sky.a(uip-icmp6.o)
- .data          0x000011e6        0xa contiki-sky.a(tcpip.o)
-                0x000011e6                tcpip_process
- .data          0x000011f0        0xa contiki-sky.a(rpl-dag.o)
-                0x000011f0                rpl_parents
- .data          0x000011fa       0x1a contiki-sky.a(rpl-icmp6.o)
- .data          0x00001214        0xe contiki-sky.a(rpl-mrhof.o)
-                0x00001214                rpl_mrhof
- .data          0x00001222        0x8 contiki-sky.a(nbr-table.o)
- .data          0x0000122a       0x10 contiki-sky.a(queuebuf.o)
- .data          0x0000123a        0x2 contiki-sky.a(er-coap.o)
-                0x0000123a                coap_error_message
- .data          0x0000123c        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
-                0x00001240                . = ALIGN (0x2)
-                0x00001240                _edata = .
+ .data          0x00001148        0xa contiki-sky.a(er-coap-engine.)
+                0x00001148                coap_engine
+ .data          0x00001152        0x8 contiki-sky.a(er-coap-transac)
+ .data          0x0000115a        0x8 contiki-sky.a(er-coap-observe)
+ .data          0x00001162       0x12 contiki-sky.a(er-coap-res-wel)
+                0x00001162                res_well_known_core
+ .data          0x00001174        0xa contiki-sky.a(rest-engine.o)
+                0x00001174                rest_engine_process
+ .data          0x0000117e        0x4 contiki-sky.a(contiki-sky-pla)
+                0x0000117e                sensors
+ .data          0x00001182        0xa contiki-sky.a(sensors.o)
+                0x00001182                sensors_process
+ .data          0x0000118c        0xa contiki-sky.a(cc2420.o)
+                0x0000118c                cc2420_process
+ .data          0x00001196        0x2 contiki-sky.a(msp430.o)
+ .data          0x00001198        0xa contiki-sky.a(ctimer.o)
+                0x00001198                ctimer_process
+ .data          0x000011a2        0xa contiki-sky.a(etimer.o)
+                0x000011a2                etimer_process
+ .data          0x000011ac        0xa contiki-sky.a(uip-ds6-nbr.o)
+                0x000011ac                ds6_neighbors
+ .data          0x000011b6       0x20 contiki-sky.a(uip-ds6-route.o)
+ .data          0x000011d6        0xc contiki-sky.a(uip-icmp6.o)
+ .data          0x000011e2        0xa contiki-sky.a(tcpip.o)
+                0x000011e2                tcpip_process
+ .data          0x000011ec        0xa contiki-sky.a(rpl-dag.o)
+                0x000011ec                rpl_parents
+ .data          0x000011f6       0x1a contiki-sky.a(rpl-icmp6.o)
+ .data          0x00001210        0xe contiki-sky.a(rpl-mrhof.o)
+                0x00001210                rpl_mrhof
+ .data          0x0000121e        0x8 contiki-sky.a(nbr-table.o)
+ .data          0x00001226       0x10 contiki-sky.a(queuebuf.o)
+ .data          0x00001236        0x2 contiki-sky.a(er-coap.o)
+                0x00001236                coap_error_message
+ .data          0x00001238        0x4 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+                0x0000123c                . = ALIGN (0x2)
+                0x0000123c                _edata = .
                 0x0000f628                PROVIDE (__data_load_start, LOADADDR (.data))
-                0x00000140                PROVIDE (__data_size, SIZEOF (.data))
+                0x0000013c                PROVIDE (__data_size, SIZEOF (.data))
 
-.bss            0x00001240     0x1c4e load address 0x0000f768
-                0x00001240                PROVIDE (__bss_start, .)
+.bss            0x0000123c     0x1c52 load address 0x0000f764
+                0x0000123c                PROVIDE (__bss_start, .)
  *(.bss .bss.*)
- .bss           0x00001240        0x2 sens-temp.co
-                0x00001240                room_id
+ .bss           0x0000123c        0x6 sens-temp.co
+                0x0000123c                room_id
  .bss           0x00001242        0xc obj_sky/contiki-sky-main.o
  .bss           0x0000124e      0x10c contiki-sky.a(er-coap-engine.)
  .bss           0x0000135a      0x2f0 contiki-sky.a(er-coap-transac)
@@ -2345,9 +2345,9 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a
                 0x00002e70                packetbuf_attrs
                 0x00002e8e                . = ALIGN (0x2)
                 0x00002e8e                PROVIDE (__bss_end, .)
-                0x00001c4e                PROVIDE (__bss_size, SIZEOF (.bss))
+                0x00001c52                PROVIDE (__bss_size, SIZEOF (.bss))
 
-.noinit         0x00002e8e        0x2 load address 0x0000f768
+.noinit         0x00002e8e        0x2 load address 0x0000f764
                 0x00002e8e                PROVIDE (__noinit_start, .)
  *(.noinit .noinit.*)
  .noinit.crt0   0x00002e8e        0x2 /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a(__watchdog_support.o)
@@ -2768,5 +2768,5 @@ LOAD /usr/lib/gcc/msp430/4.6.3/mmpy-16/libcrt0.a
  .debug_ranges  0x00000000       0x18 /usr/lib/gcc/msp430/4.6.3/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
                 0x00003900                PROVIDE (__stack, (ORIGIN (ram) + 0x2800))
                 0x0000f628                PROVIDE (__data_start_rom, _etext)
-                0x0000f768                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
+                0x0000f764                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
 OUTPUT(sens-temp.sky elf32-msp430)

@@ -3,7 +3,7 @@
 #include "rest-engine.h"
 #include "net/rpl/rpl.h"
 
-#define STARTING_TEMP 100
+#define STARTING_TEMP 0
 static int current_temp = STARTING_TEMP;
 static int next_temp = STARTING_TEMP;
 int room_id = 0;

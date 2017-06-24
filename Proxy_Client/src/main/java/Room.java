@@ -1,28 +1,33 @@
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.eclipse.californium.core.WebLink;
-
+/*
+ * Room Class manages resources that belongs to a particular room instance
+ */
 public class Room extends Thread{
 	public int seqNumber;
 	
-	private int e_Temp;
-	private int e_Temp_int;
+	private double e_Temp;
+	private double e_Temp_int;
+	private int last_value;
 	
 	private int resNumber;
 	// Sensors
 	private Resource TempR;
-	// Actuators (true ones)
+	// Actuators 
 	private Resource FireAl;
 	private Resource AirCon;
 	
 	private String my_container_long_name;
 	
+	/*
+	 * The constructor create a room instance with the dived ID. They cannot
+	 * exist two different rooms with the same ID
+	 */
+	
 	public Room(int id) {
 		seqNumber = id;
 		resNumber = 0;
+		last_value = 0;
 		// Create a patient$seqNumber container into /Patients conteiner
 		
 		String parent_container = ProxyClient.MN_address + "/DiViProject-mn-name/"
@@ -35,12 +40,16 @@ public class Room extends Thread{
 				
 	}
 	
+	/*
+	 * This function add a resource to the room
+	 */
 	public void addResource(WebLink link, String res_uri) {
 if (ProxyClient.debug)	
 	System.out.println(link.getURI());
 		
 		String res_title = link.getAttributes().getTitle();
-				
+		
+		// resource is classified depending on its title attribute. 
 		switch (res_title) {
 		case "TempR":
 			TempR = new Resource(link,my_container_long_name,res_uri);
@@ -64,38 +73,45 @@ if (ProxyClient.debug)
 
 			
 	}
-
+	
+	/*
+	 * This pseudo periodic function perform the control of
+	 * resources according with requisites
+	 */
 	public void run() {
 		while (true) {
 			
 			if (resNumber == 3) {
 				int t_temp = TempR.getValue();
+				
 if (ProxyClient.debug)	
 	System.out.println("thread started " + seqNumber);
+
 				
-	if (TempR.isAutomaticMode())
-	{
-				// Adjust Temperature (PI)
-				e_Temp = ProxyClient.temp_room_optimal - t_temp;
-				e_Temp_int += e_Temp;
-				int u = ProxyClient.Kp_temp * e_Temp + (int) (ProxyClient.Ki_temp*e_Temp_int);
-				
-				// PID saturation
-				if (u < ProxyClient.temp_room_min)
+				if (TempR.isAutomaticMode())
 				{
-					u = ProxyClient.temp_room_min;
-					e_Temp_int -= e_Temp;
-				}
-				if (u > ProxyClient.temp_room_max)
+							// Adjust Temperature (PI with saturation and some rubbish to limit awful behaviors)
+							e_Temp = ProxyClient.temp_room_optimal - t_temp;
+							e_Temp_int += e_Temp;
+							int u = (int) (ProxyClient.Kp_temp * e_Temp) + (int) (ProxyClient.Ki_temp*e_Temp_int)+last_value;
+							
+							// PI saturation
+							if (u < ProxyClient.temp_room_min)
+								u = ProxyClient.temp_room_min;
+							if (u > ProxyClient.temp_room_max)
+								u = ProxyClient.temp_room_max;
+							
+							TempR.setValue(u);
+							AirCon.setValue(u);				
+							
+							
+							
+				} else
 				{
-					u = ProxyClient.temp_room_max;
-					e_Temp_int -= e_Temp;
+					e_Temp_int = 0;
+					last_value = t_temp;
 				}
-				
-				TempR.setValue(u);
-				AirCon.setValue(u);				
-				
-				
+				// Manage alarm
 				if ((t_temp > ProxyClient.treshold_temp_room_high) || 
 						(t_temp < ProxyClient.treshold_temp_room_low))
 				{
@@ -104,7 +120,8 @@ if (ProxyClient.debug)
 					DiVi_ADN.general_alarm.reset(seqNumber);
 				}
 			}
-	}	
+			
+			// Set the fire alarm whether any room had been temperature problem
 			if (DiVi_ADN.general_alarm.getStatus())
 				FireAl.setValue(1);
 			

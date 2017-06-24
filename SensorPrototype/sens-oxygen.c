@@ -7,7 +7,7 @@
 #include "net/rpl/rpl.h"
 
 
-#define STARTING_OXY 800
+#define STARTING_OXY 0
 
 // First order variable
 static int u_k_1 = STARTING_OXY;

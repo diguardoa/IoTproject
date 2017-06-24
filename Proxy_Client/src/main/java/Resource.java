@@ -6,6 +6,10 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.json.JSONObject;
 
+/*
+ * Resource class perform the proxy functionalities of ADN. There are many
+ * resource as the number of motes on 6LowPAN network.
+ */
 public class Resource extends Thread {
 	public String resource_name;
 	
@@ -25,6 +29,15 @@ public class Resource extends Thread {
 	private CoapClient observable;
 	private CoapObserveRelation relation;
 	
+	/*
+	 * The constructor creates a new resource with
+	 * 	link: WebLink resulting from a CoAP/Discovery, it is used to get
+	 * 		resource attributes
+	 * 	parent_container: the container on the patient/room to which the resource belongs (on MN side)
+	 * 	uri_server: Address of CoAP resource on 6LowPAN network
+	 * 
+	 */
+	
 	public Resource(WebLink link, String parent_container,String uri_server) {
 		
 		uri_mote = uri_server;
@@ -43,13 +56,20 @@ public class Resource extends Thread {
 		if (link.getAttributes().containsAttribute("obs")) {
 			System.out.println("the resource is observable");
 			
-			ready_to_publish = false;
+			ready_to_publish = false;		
+			observable = new CoapClient(uri_mote);	
 			
-			observable = new CoapClient(uri_mote);
+			/*
+			 * Create a CoAP/Observe relation
+			 */
 			relation = observable.observe(new CoapHandler() {
 				@Override
 				public void onLoad(final CoapResponse curr_response) 
 				{
+					/*
+					 * Whether a notification arrives from 6LowPAN mote, it set a flag and put the message
+					 * on a buffer. Resource.run() will proxying the message
+					 */
 					if (curr_response != null) {
 						to_publish = curr_response;
 						ready_to_publish = true;
@@ -63,6 +83,7 @@ public class Resource extends Thread {
 				}
 				
 			});
+			
 		} else {
 			System.out.println("the resource is non observable");
 		}
@@ -71,7 +92,10 @@ public class Resource extends Thread {
 		
 	}
 	
-	public void observingStep() {
+	/*
+	 * Proxy Step. Notification from 6LowPAN are published ad ContentInstance on MN 
+	 */
+	public void observingStep(){
 
 		if (ready_to_publish==true) {
 			try {
@@ -79,12 +103,10 @@ public class Resource extends Thread {
 				JSONObject jsonOBJ = new JSONObject(to_publish.getResponseText());
 				String value = jsonOBJ.get("e").toString();
 				int temp_value = Integer.parseInt(value);
-				//if (current_value != temp_value)
-				//{
-					setCurrentValue(temp_value);			
-					String mes_unity = jsonOBJ.get("u").toString();
-					DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
-				//}
+
+				setCurrentValue(temp_value);			
+				String mes_unity = jsonOBJ.get("u").toString();
+				DiVi_ADN.createContentInstance(resource_mn_path, mes_unity, value);
 			
 			} catch (Exception e) {
 				System.out.println("error in observing step");
@@ -94,24 +116,39 @@ public class Resource extends Thread {
 		}
 	}
 	
+	/*
+	 * The periodic thread 
+	 * 	- subscribe to the controller counterpart on IN (once)
+	 *  - perform observing step
+	 *  - acquire CI from IN controller (if they are present) and performe
+	 *  	6LowPAN resource status change according with requirements
+	 */
+	
 	public void run() {
-		// Fai partire l'oggetto server coap che fa la subscription su IN
+		
+		// Assign a different server coap port for each resource
 		server_coap_port = ++ProxyClient.COAP_PORT;	
 
-		controller_IN = new ServerSubscriber(resource_name + "_pat", 
+		// Subscribe to IN controller
+		controller_IN = new ServerSubscriber(resource_name, 
 				server_coap_port,resource_mn_path.replaceAll("mn", "in"));
 		
+		// Start observing IN controller 
 		controller_IN.start();
-		
 		
 		try {
 			Thread.sleep(ProxyClient.delay_subscription_IN);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		
+		// Periodic activities
 		while(true) {
+			
+			// proxy step
 			observingStep();
+			
 			// look if the resource is in automatic mode
 			automatic_mode = controller_IN.isAutomaticMode();
 			
@@ -131,6 +168,10 @@ if (ProxyClient.debug)
 		}
 		
 	}
+	
+	/*
+	 * Synchronized methods that manages interaction with 6LowPAN phisical resource
+	 */
 	
 	public synchronized void setValue(int value) {
 		if (automatic_mode)
@@ -159,6 +200,10 @@ if (ProxyClient.debug)
 		return automatic_mode;
 	}
 	
+	
+	/*
+	 * methods related with CoAP Observing
+	 */
 	public void cancel(){
 		relation.proactiveCancel();
 	}
