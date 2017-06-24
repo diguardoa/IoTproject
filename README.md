@@ -1,4 +1,22 @@
 # IoTproject
+
+--------------------------------------------------------------
+Content:
+ActuatorsPrototype - it contains contiki files related to actuators
+Configuration - it contains Java Code to configure Motes /id
+Executable - it contains executable
+oM2M - it contains oM2M MN and IN executable
+Proxy_Client - it contains proxy Java Code
+rpl-border-router - it contains Border Router contiki code
+SensorPrototype - it contains contiki files related to sensors
+Simulations - it contains Cooja simulations
+WebApp - it contains WebApp Javascript application
+WebServer - it contains WebServer Java code
+
+CommandList.txt - it contains debug information of developed message protocol
+
+
+--------------------------------------------------------------
 Start Cooja Simulation
 It is necessary dispose of Contiki 3.0 preconfigured virtual machine. One way to open Cooja execute following commands:
 
@@ -42,3 +60,8 @@ Open User Interface
 Double click on WebApp/SmartHosp.html to access the user interface using a browser.
 
 
+---------------------------------------------------------------
+Di Guardo Antonio - Vincentini Andrea 
+IoT DiViProject2017
+antonio.diguardo@santannapisa.it
+andrea.vincentini@santannapisa.it
